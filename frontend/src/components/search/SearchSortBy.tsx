@@ -9,14 +9,14 @@ type SortOption = {
 const SORT_OPTIONS: SortOption[] = [
   { label: "Posted Date (newest)", value: "postedDateDesc" },
   { label: "Posted Date (oldest)", value: "postedDateAsc" },
-  { label: "Opportunity Number (newest)", value: "opportunityNumberDesc" },
-  { label: "Opportunity Number (oldest)", value: "opportunityNumberAsc" },
+  { label: "Close Date (descending)", value: "closeDateDesc" },
+  { label: "Close Date (ascending)", value: "closeDateAsc" },
   { label: "Opportunity Title (A to Z)", value: "opportunityTitleAsc" },
   { label: "Opportunity Title (Z to A)", value: "opportunityTitleDesc" },
   { label: "Agency (A to Z)", value: "agencyAsc" },
   { label: "Agency (Z to A)", value: "agencyDesc" },
-  { label: "Close Date (descending)", value: "closeDateDesc" },
-  { label: "Close Date (ascending)", value: "closeDateAsc" },
+  { label: "Opportunity Number (newest)", value: "opportunityNumberDesc" },
+  { label: "Opportunity Number (oldest)", value: "opportunityNumberAsc" },
 ];
 
 interface SearchSortByProps {

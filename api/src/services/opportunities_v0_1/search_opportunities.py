@@ -214,11 +214,10 @@ def opensearch_approach(search_params: SearchOpportunityParams) -> Tuple[Sequenc
 
     if search_params.query:
         must_filters.append({
-                "multi_match": {
+                "simple_query_string": {
                     "query": search_params.query,
-                    "fields": ["agency^16", "opportunity_title^2", "opportunity_number^12", "summary.summary_description", "opportunity_assistance_listings.assistance_listing_number^10", "opportunity_assistance_listings.program_title^4"],
-                    "type": "best_fields",
-                    "tie_breaker": 0.3
+                    "default_operator": "AND",
+                    "fields": ["agency.keyword^16", "opportunity_title^2", "opportunity_number^12", "summary.summary_description", "opportunity_assistance_listings.assistance_listing_number^10", "opportunity_assistance_listings.program_title^4"],
                 }
             }
         )
@@ -254,8 +253,8 @@ def opensearch_approach(search_params: SearchOpportunityParams) -> Tuple[Sequenc
     if non_scoring_filters:
         body["query"]["bool"]["filter"] = non_scoring_filters
 
+    print(body)
     result = client.search(body=body, index="test-opportunity-index")
-    print(result)
 
     raw_opps = [opp for opp in result["hits"]["hits"]]
 

@@ -46,7 +46,6 @@ def insert(opensearch_client: OpenSearch, db_session: db.Session) -> None:
             continue
 
         body = OpportunitySchema().dump(opp)
-        print(body)
 
         # TODO - use the bulk endpoint instead
         # however that requires making raw JSON text - which I'll do later

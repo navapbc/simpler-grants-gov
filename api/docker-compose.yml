@@ -35,8 +35,6 @@ services:
     ports:
       - 9200:9200 # REST API
       - 9600:9600 # Performance Analyzer
-    networks:
-      - opensearch-net # All of the containers will join the same Docker bridge network
 
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:latest
@@ -48,8 +46,6 @@ services:
     environment:
       - 'OPENSEARCH_HOSTS=["http://opensearch-node:9200"]'
       - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true # disables security dashboards plugin in OpenSearch Dashboards
-    networks:
-      - opensearch-net
 
   grants-api:
     build:
@@ -68,12 +64,7 @@ services:
     depends_on:
       - grants-db
       - opensearch-node
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
 volumes:
   grantsdbdata:
   opensearch-data:
-
-networks:
-  opensearch-net:

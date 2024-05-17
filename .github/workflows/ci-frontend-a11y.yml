@@ -38,7 +38,7 @@ jobs:
         run: mkdir -p screenshots-output
 
       - name: Start server
-        run: npm run start &
+        run: npm run dev &
 
       - name: Wait for server to be ready
         run: npx wait-on http://localhost:3000

@@ -1,10 +1,3 @@
-import uuid
-
-import opensearchpy
-import pytest
-
-from src.adapters.opensearch.opensearch_client import get_opensearch_client
-
 ########################################
 # This is a placeholder set of tests,
 # we'll evolve / change the structure
@@ -16,28 +9,10 @@ from src.adapters.opensearch.opensearch_client import get_opensearch_client
 ########################################
 
 
-@pytest.fixture(scope="session")
-def search_client() -> opensearchpy.OpenSearch:
-    # TODO - move this to conftest
-    return get_opensearch_client()
-
-
-@pytest.fixture(scope="session")
-def opportunity_index(search_client):
-    # TODO - will adjust this in the future to use utils we'll build
-    # for setting up / aliasing indexes. For now, keep it simple
-
-    index_name = f"test_{uuid.uuid4().int}_opportunity"
-
-    search_client.indices.create(index_name, body={})
-
-    try:
-        yield index_name
-    finally:
-        search_client.indices.delete(index_name)
-
-
 def test_index_is_running(search_client, opportunity_index):
+    # Very simple test, will rewrite / remove later once we have something
+    # more meaningful to test.
+
     existing_indexes = search_client.cat.indices(format="json")
 
     found_opportunity_index = False

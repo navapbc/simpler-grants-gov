@@ -43,7 +43,7 @@ jobs:
       - name: Wait for server to be ready
         run: |
           # Ensure the server wait script is executable
-          chmod +x ./wait-for-server.sh
+          chmod +x ./wait-for-frontend.sh
           ./wait-for-frontend.sh
         shell: bash
 

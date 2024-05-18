@@ -11,6 +11,7 @@ NO_COLOR='\033[0m'
 MAX_WAIT_TIME=800 # seconds, adjust as necessary
 WAIT_TIME=0
 
+
 echo "Waiting for server to become ready..."
 
 # Use curl to check the server health endpoint

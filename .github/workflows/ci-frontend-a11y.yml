@@ -44,7 +44,7 @@ jobs:
         run: |
           # Ensure the server wait script is executable
           chmod +x ./wait-for-server.sh
-          ./wait-for-server.sh
+          ./wait-for-frontend.sh
         shell: bash
 
       - name: Run pa11y-ci

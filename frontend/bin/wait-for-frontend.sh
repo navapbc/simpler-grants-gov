@@ -1,4 +1,4 @@
-# wait-for-server.sh
+# wait-for-frontend.sh
 
 #!/bin/bash
 set -e

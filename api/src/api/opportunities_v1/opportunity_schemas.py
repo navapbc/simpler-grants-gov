@@ -245,27 +245,27 @@ class OpportunityV1Schema(Schema):
 
 class OpportunitySearchFilterV1Schema(Schema):
     funding_instrument = fields.Nested(
-        StrSearchSchemaBuilder("FundingInstrumentFilterSchema")
+        StrSearchSchemaBuilder("FundingInstrumentFilterV1Schema")
         .with_one_of(allowed_values=FundingInstrument)
         .build()
     )
     funding_category = fields.Nested(
-        StrSearchSchemaBuilder("FundingCategoryFilterSchema")
+        StrSearchSchemaBuilder("FundingCategoryFilterV1Schema")
         .with_one_of(allowed_values=FundingCategory)
         .build()
     )
     applicant_type = fields.Nested(
-        StrSearchSchemaBuilder("ApplicantTypeFilterSchema")
+        StrSearchSchemaBuilder("ApplicantTypeFilterV1Schema")
         .with_one_of(allowed_values=ApplicantType)
         .build()
     )
     opportunity_status = fields.Nested(
-        StrSearchSchemaBuilder("OpportunityStatusFilterSchema")
+        StrSearchSchemaBuilder("OpportunityStatusFilterV1Schema")
         .with_one_of(allowed_values=OpportunityStatus)
         .build()
     )
     agency = fields.Nested(
-        StrSearchSchemaBuilder("AgencyFilterSchema")
+        StrSearchSchemaBuilder("AgencyFilterV1Schema")
         .with_one_of(example="US-ABC", minimum_length=2)
         .build()
     )

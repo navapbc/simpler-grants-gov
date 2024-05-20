@@ -991,7 +991,7 @@ components:
           type: string
           format: date-time
           readOnly: true
-    FundingInstrumentFilter:
+    FundingInstrumentFilterV1:
       type: object
       properties:
         one_of:
@@ -1005,7 +1005,7 @@ components:
             - other
             type:
             - string
-    FundingCategoryFilter:
+    FundingCategoryFilterV1:
       type: object
       properties:
         one_of:
@@ -1041,7 +1041,7 @@ components:
             - other
             type:
             - string
-    ApplicantTypeFilter:
+    ApplicantTypeFilterV1:
       type: object
       properties:
         one_of:
@@ -1068,7 +1068,7 @@ components:
             - unrestricted
             type:
             - string
-    OpportunityStatusFilter:
+    OpportunityStatusFilterV1:
       type: object
       properties:
         one_of:
@@ -1082,7 +1082,7 @@ components:
             - archived
             type:
             - string
-    AgencyFilter:
+    AgencyFilterV1:
       type: object
       properties:
         one_of:
@@ -1099,27 +1099,27 @@ components:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/FundingInstrumentFilter'
+          - $ref: '#/components/schemas/FundingInstrumentFilterV1'
         funding_category:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/FundingCategoryFilter'
+          - $ref: '#/components/schemas/FundingCategoryFilterV1'
         applicant_type:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/ApplicantTypeFilter'
+          - $ref: '#/components/schemas/ApplicantTypeFilterV1'
         opportunity_status:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/OpportunityStatusFilter'
+          - $ref: '#/components/schemas/OpportunityStatusFilterV1'
         agency:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/AgencyFilter'
+          - $ref: '#/components/schemas/AgencyFilterV1'
     OpportunityPagination:
       type: object
       properties:
@@ -1440,7 +1440,7 @@ components:
           type: string
           format: date-time
           readOnly: true
-    FundingInstrumentFilter1:
+    FundingInstrumentFilterV01:
       type: object
       properties:
         one_of:
@@ -1454,7 +1454,7 @@ components:
             - other
             type:
             - string
-    FundingCategoryFilter1:
+    FundingCategoryFilterV01:
       type: object
       properties:
         one_of:
@@ -1490,7 +1490,7 @@ components:
             - other
             type:
             - string
-    ApplicantTypeFilter1:
+    ApplicantTypeFilterV01:
       type: object
       properties:
         one_of:
@@ -1517,7 +1517,7 @@ components:
             - unrestricted
             type:
             - string
-    OpportunityStatusFilter1:
+    OpportunityStatusFilterV01:
       type: object
       properties:
         one_of:
@@ -1531,7 +1531,7 @@ components:
             - archived
             type:
             - string
-    AgencyFilter1:
+    AgencyFilterV01:
       type: object
       properties:
         one_of:
@@ -1548,27 +1548,27 @@ components:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/FundingInstrumentFilter1'
+          - $ref: '#/components/schemas/FundingInstrumentFilterV01'
         funding_category:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/FundingCategoryFilter1'
+          - $ref: '#/components/schemas/FundingCategoryFilterV01'
         applicant_type:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/ApplicantTypeFilter1'
+          - $ref: '#/components/schemas/ApplicantTypeFilterV01'
         opportunity_status:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/OpportunityStatusFilter1'
+          - $ref: '#/components/schemas/OpportunityStatusFilterV01'
         agency:
           type:
           - object
           allOf:
-          - $ref: '#/components/schemas/AgencyFilter1'
+          - $ref: '#/components/schemas/AgencyFilterV01'
     OpportunityPagination1:
       type: object
       properties:

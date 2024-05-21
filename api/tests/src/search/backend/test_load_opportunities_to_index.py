@@ -29,8 +29,12 @@ class TestLoadOpportunitiesToIndex(BaseTestClass):
         opportunities.extend(OpportunityFactory.create_batch(size=6, is_posted_summary=True))
         opportunities.extend(OpportunityFactory.create_batch(size=3, is_forecasted_summary=True))
         opportunities.extend(OpportunityFactory.create_batch(size=2, is_closed_summary=True))
-        opportunities.extend(OpportunityFactory.create_batch(size=8, is_archived_non_forecast_summary=True))
-        opportunities.extend(OpportunityFactory.create_batch(size=6, is_archived_forecast_summary=True))
+        opportunities.extend(
+            OpportunityFactory.create_batch(size=8, is_archived_non_forecast_summary=True)
+        )
+        opportunities.extend(
+            OpportunityFactory.create_batch(size=6, is_archived_forecast_summary=True)
+        )
 
         # Create some opportunities that won't get fetched / loaded into search
         OpportunityFactory.create_batch(size=3, is_draft=True)

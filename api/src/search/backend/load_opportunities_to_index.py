@@ -82,7 +82,6 @@ class LoadOpportunitiesToIndex(Task):
             self.db_session.execute(
                 select(Opportunity)
                 .join(CurrentOpportunitySummary)
-                # TODO - the join might be enough for the query?
                 .where(
                     Opportunity.is_draft.is_(False),
                     CurrentOpportunitySummary.opportunity_status.isnot(None),

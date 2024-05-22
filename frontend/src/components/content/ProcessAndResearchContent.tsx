@@ -1,11 +1,12 @@
-import { useTranslation } from "next-i18next";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { Button, Grid, Icon } from "@trussworks/react-uswds";
+import { Button, Grid } from "@trussworks/react-uswds";
+import { USWDSIcon } from "src/components/USWDSIcon";
 
 import ContentLayout from "src/components/ContentLayout";
 
 const ProcessAndResearchContent = () => {
-  const { t } = useTranslation("common", { keyPrefix: "Index" });
+  const t = useTranslations("Index");
 
   return (
     <ContentLayout
@@ -24,9 +25,9 @@ const ProcessAndResearchContent = () => {
             <span className="margin-right-5">
               {t("process_and_research.cta_1")}
             </span>
-            <Icon.ArrowForward
-              className="text-middle margin-left-neg-4"
-              size={4}
+            <USWDSIcon
+              name="arrow_forward"
+              className="usa-icon usa-icon--size-4 text-middle margin-left-neg-4"
               aria-label="arrow-forward"
             />
           </Button>
@@ -44,9 +45,9 @@ const ProcessAndResearchContent = () => {
             <span className="margin-right-5">
               {t("process_and_research.cta_2")}
             </span>
-            <Icon.ArrowForward
-              className="text-middle margin-left-neg-4"
-              size={4}
+            <USWDSIcon
+              name="arrow_forward"
+              className="usa-icon usa-icon--size-4 text-middle margin-left-neg-4"
               aria-label="arrow-forward"
             />
           </Button>

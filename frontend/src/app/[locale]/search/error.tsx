@@ -8,7 +8,7 @@ import {
 import PageSEO from "src/components/PageSEO";
 import { QueryParamData } from "src/services/search/searchfetcher/SearchFetcher";
 import SearchCallToAction from "src/components/search/SearchCallToAction";
-import { SearchForm } from "src/app/search/SearchForm";
+import { SearchForm } from "src/app/[locale]/search/SearchForm";
 import { useEffect } from "react";
 
 interface ErrorProps {

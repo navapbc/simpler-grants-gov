@@ -1,9 +1,9 @@
 // All exports in this file are server actions
 "use server";
 
-import { FormDataService } from "../../services/search/FormDataService";
-import { SearchAPIResponse } from "../../types/search/searchResponseTypes";
-import { getSearchFetcher } from "../../services/search/searchfetcher/SearchFetcherUtil";
+import { FormDataService } from "../../../services/search/FormDataService";
+import { SearchAPIResponse } from "../../../types/search/searchResponseTypes";
+import { getSearchFetcher } from "../../../services/search/searchfetcher/SearchFetcherUtil";
 
 // Gets MockSearchFetcher or APISearchFetcher based on environment variable
 const searchFetcher = getSearchFetcher();

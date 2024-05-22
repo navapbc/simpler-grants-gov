@@ -1,18 +1,18 @@
 import {
   ServerSideRouteParams,
   ServerSideSearchParams,
-} from "../../types/searchRequestURLTypes";
+} from "../../../types/searchRequestURLTypes";
 
-import BetaAlert from "../../components/AppBetaAlert";
+import BetaAlert from "src/components/BetaAlert";
 import { Metadata } from "next";
 import React from "react";
-import SearchCallToAction from "../../components/search/SearchCallToAction";
+import SearchCallToAction from "../../../components/search/SearchCallToAction";
 import { SearchForm } from "./SearchForm";
-import { convertSearchParamsToProperTypes } from "../../utils/search/convertSearchParamsToProperTypes";
+import { convertSearchParamsToProperTypes } from "../../../utils/search/convertSearchParamsToProperTypes";
 import { generateAgencyNameLookup } from "src/utils/search/generateAgencyNameLookup";
-import { getSearchFetcher } from "../../services/search/searchfetcher/SearchFetcherUtil";
+import { getSearchFetcher } from "../../../services/search/searchfetcher/SearchFetcherUtil";
 import { getTranslations } from "next-intl/server";
-import withFeatureFlag from "../../hoc/search/withFeatureFlag";
+import withFeatureFlag from "../../../hoc/search/withFeatureFlag";
 
 const searchFetcher = getSearchFetcher();
 
@@ -25,10 +25,11 @@ export async function generateMetadata() {
   const t = await getTranslations({ locale: "en" });
   const meta: Metadata = {
     title: t("Search.title"),
+    description: t("Index.meta_description"),
   };
-
   return meta;
 }
+
 async function Search({ searchParams }: ServerPageProps) {
   const convertedSearchParams = convertSearchParamsToProperTypes(searchParams);
   const initialSearchResults = await searchFetcher.fetchOpportunities(

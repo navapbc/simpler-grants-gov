@@ -2,20 +2,20 @@
 
 import SearchPagination, {
   PaginationPosition,
-} from "../../components/search/SearchPagination";
+} from "../../../components/search/SearchPagination";
 
 import { AgencyNamyLookup } from "src/utils/search/generateAgencyNameLookup";
-import { QueryParamData } from "../../services/search/searchfetcher/SearchFetcher";
-import { SearchAPIResponse } from "../../types/search/searchResponseTypes";
-import SearchBar from "../../components/search/SearchBar";
+import { QueryParamData } from "../../../services/search/searchfetcher/SearchFetcher";
+import { SearchAPIResponse } from "../../../types/search/searchResponseTypes";
+import SearchBar from "../../../components/search/SearchBar";
 import SearchFilterAgency from "src/components/search/SearchFilterAgency";
-import SearchFilterCategory from "../../components/search/SearchFilterCategory";
-import SearchFilterEligibility from "../../components/search/SearchFilterEligibility";
-import SearchFilterFundingInstrument from "../../components/search/SearchFilterFundingInstrument";
-import SearchOpportunityStatus from "../../components/search/SearchOpportunityStatus";
-import SearchResultsHeader from "../../components/search/SearchResultsHeader";
-import SearchResultsList from "../../components/search/SearchResultsList";
-import { useSearchFormState } from "../../hooks/useSearchFormState";
+import SearchFilterCategory from "../../../components/search/SearchFilterCategory";
+import SearchFilterEligibility from "../../../components/search/SearchFilterEligibility";
+import SearchFilterFundingInstrument from "../../../components/search/SearchFilterFundingInstrument";
+import SearchOpportunityStatus from "../../../components/search/SearchOpportunityStatus";
+import SearchResultsHeader from "../../../components/search/SearchResultsHeader";
+import SearchResultsList from "../../../components/search/SearchResultsList";
+import { useSearchFormState } from "../../../hooks/useSearchFormState";
 
 interface SearchFormProps {
   initialSearchResults: SearchAPIResponse;

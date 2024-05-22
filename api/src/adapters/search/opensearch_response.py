@@ -1,19 +1,19 @@
-import typing
 import dataclasses
+import typing
+
 
 @dataclasses.dataclass
 class SearchResponse:
-
     total_records: int
 
     records: list[dict[str, typing.Any]]
 
     aggregations: dict[str, dict[str, int]]
 
-
-
     @classmethod
-    def from_opensearch_response(cls, raw_json: dict[str, typing.Any], include_scores: bool = True) -> typing.Self:
+    def from_opensearch_response(
+        cls, raw_json: dict[str, typing.Any], include_scores: bool = True
+    ) -> typing.Self:
         """
         Convert a raw search response into something a bit more manageable
         by un-nesting and restructuring a few of they key fields.
@@ -44,7 +44,6 @@ class SearchResponse:
         hits_total = hits.get("total", {})
         total_records = hits_total.get("value", 0)
 
-
         raw_records: list[dict[str, typing.Any]] = hits.get("hits", [])
 
         records = []
@@ -57,17 +56,15 @@ class SearchResponse:
 
             records.append(record)
 
-
-
         raw_aggs: dict[str, dict[str, typing.Any]] = raw_json.get("aggregations", {})
         aggregations = _parse_aggregations(raw_aggs)
-
-
 
         return cls(total_records, records, aggregations)
 
 
-def _parse_aggregations(raw_aggs: dict[str, dict[str, typing.Any]] | None) -> dict[str, dict[str, int]]:
+def _parse_aggregations(
+    raw_aggs: dict[str, dict[str, typing.Any]] | None
+) -> dict[str, dict[str, int]]:
     # Note that this is assuming the response from a terms aggregation
     # https://opensearch.org/docs/latest/aggregations/bucket/terms/
 

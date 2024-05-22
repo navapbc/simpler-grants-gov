@@ -1,9 +1,9 @@
 import typing
 
-SORT_DIRECTION = typing.Literal["asc", "desc"] # TODO - use an enum?
+SORT_DIRECTION = typing.Literal["asc", "desc"]  # TODO - use an enum?
+
 
 class SearchQueryBuilder:
-
     def __init__(self) -> None:
         self.page_size = 25
         self.page_number = 1
@@ -43,13 +43,7 @@ class SearchQueryBuilder:
         See: https://opensearch.org/docs/latest/query-dsl/full-text/simple-query-string/
         """
         self.must.append(
-            {
-                "simple_query_string": {
-                    "query": query,
-                    "default_operator": "AND",
-                    "fields": fields
-                }
-            }
+            {"simple_query_string": {"query": query, "default_operator": "AND", "fields": fields}}
         )
 
         return self
@@ -58,37 +52,25 @@ class SearchQueryBuilder:
         self.filters.append({"terms": {field: terms}})
         return self
 
-    def aggregation_terms(self, aggregation_name: str, field_name: str, size: int = 25) -> typing.Self:
-        self.aggregations.append({
-            aggregation_name: {
-                "terms": {
-                    "field": field_name,
-                    "size": size
-                }
-            }
-        })
+    def aggregation_terms(
+        self, aggregation_name: str, field_name: str, size: int = 25
+    ) -> typing.Self:
+        self.aggregations.append({aggregation_name: {"terms": {"field": field_name, "size": size}}})
         return self
 
     def build(self) -> dict:
         page_offset = self.page_size * (self.page_number - 1)
-
 
         request = {
             "size": self.page_size,
             "from": page_offset,
             # Always include the scores in the response objects
             # even if we're sorting by non-relevancy
-            "track_scores": True
+            "track_scores": True,
         }
 
         if self.sort_by != "relevancy_score":
-            request["sort"] = [
-                {
-                    self.sort_by: {
-                        "order": self.sort_direction
-                    }
-                }
-            ]
+            request["sort"] = [{self.sort_by: {"order": self.sort_direction}}]
 
         bool_query = {}
 

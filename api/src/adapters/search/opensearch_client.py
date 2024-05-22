@@ -111,9 +111,12 @@ class SearchClient:
         # object into something easier to parse.
         return self._client.search(index=index_name, body=search_query)
 
-    def search(self, index_name: str, search_query: dict, include_scores: bool = True) -> SearchResponse:
+    def search(
+        self, index_name: str, search_query: dict, include_scores: bool = True
+    ) -> SearchResponse:
         response = self._client.search(index=index_name, body=search_query)
         return SearchResponse.from_opensearch_response(response, include_scores)
+
 
 def _get_connection_parameters(opensearch_config: OpensearchConfig) -> dict[str, Any]:
     # TODO - we'll want to add the AWS connection params here when we set that up

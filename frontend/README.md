@@ -134,6 +134,7 @@ npm run test-watch -- pages
 E2E test filenames end with `.spec.ts` and are found in the `tests/e2e` directory.
 
 To run E2E tests via CLI:
+
 - `cd ../api && make init db-seed-local start` (prerequisite to start the API)
 - `npx playwright install --with-deps` — Downloads playwright browsers required to run tests
 - `npm run test:e2e` — Runs all E2E tests using the playwright config found at `tests/playwright.config.ts`

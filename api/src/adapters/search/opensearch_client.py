@@ -4,6 +4,7 @@ from typing import Any, Sequence
 import opensearchpy
 
 from src.adapters.search.opensearch_config import OpensearchConfig, get_opensearch_config
+from src.adapters.search.opensearch_response import SearchResponse
 
 logger = logging.getLogger(__name__)
 
@@ -104,12 +105,15 @@ class SearchClient:
             for index in existing_indexes:
                 self.delete_index(index)
 
-    def search(self, index_name: str, search_query: dict) -> dict:
+    def search_raw(self, index_name: str, search_query: dict) -> dict:
         # TODO - add more when we build out the request/response parsing logic
         # we use something like Pydantic to help reorganize the response
         # object into something easier to parse.
         return self._client.search(index=index_name, body=search_query)
 
+    def search(self, index_name: str, search_query: dict, include_scores: bool = True) -> SearchResponse:
+        response = self._client.search(index=index_name, body=search_query)
+        return SearchResponse.from_opensearch_response(response, include_scores)
 
 def _get_connection_parameters(opensearch_config: OpensearchConfig) -> dict[str, Any]:
     # TODO - we'll want to add the AWS connection params here when we set that up

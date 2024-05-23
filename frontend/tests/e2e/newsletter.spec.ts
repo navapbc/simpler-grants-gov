@@ -1,5 +1,5 @@
 /* eslint-disable testing-library/prefer-screen-queries */
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/newsletter");
@@ -39,7 +39,7 @@ test("successful signup", async ({ page }) => {
 
   await expect(
     page.getByRole("heading", { name: /you’re subscribed/i }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 1000 });
 });
 
 test("error during signup", async ({ page }) => {

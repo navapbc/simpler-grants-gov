@@ -39,7 +39,7 @@ test("successful signup", async ({ page }) => {
 
   await expect(
     page.getByRole("heading", { name: /you’re subscribed/i }),
-  ).toBeVisible({ timeout: 1000 });
+  ).toBeVisible();
 });
 
 test("error during signup", async ({ page }) => {

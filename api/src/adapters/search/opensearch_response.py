@@ -48,7 +48,7 @@ class SearchResponse:
 
         records = []
         for raw_record in raw_records:
-            record = raw_record.get("_source")
+            record = raw_record.get("_source", {})
 
             if include_scores:
                 score: int | None = raw_record.get("_score", None)
@@ -113,7 +113,10 @@ def _parse_aggregations(
         field_aggregation: dict[str, int] = {}
         for bucket in buckets:
             key = bucket.get("key")
-            count = bucket.get("doc_count")
+            count = bucket.get("doc_count", 0)
+
+            if key is None:
+                raise ValueError("Unable to parse aggregation, null key for %s" % field)
 
             field_aggregation[key] = count
 

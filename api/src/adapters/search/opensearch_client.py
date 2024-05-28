@@ -142,9 +142,8 @@ class SearchClient:
                 self.delete_index(index)
 
     def search_raw(self, index_name: str, search_query: dict) -> dict:
-        # TODO - add more when we build out the request/response parsing logic
-        # we use something like Pydantic to help reorganize the response
-        # object into something easier to parse.
+        # Simple wrapper around search if you don't want the request or response
+        # object handled in any special way.
         return self._client.search(index=index_name, body=search_query)
 
     def search(

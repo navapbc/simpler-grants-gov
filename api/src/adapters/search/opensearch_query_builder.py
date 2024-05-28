@@ -4,6 +4,81 @@ from src.pagination.pagination_models import SortDirection
 
 
 class SearchQueryBuilder:
+    """
+    Utility to help build queries to OpenSearch
+
+    This helps with making sure everything we want in a search query goes
+    to the right spot in the large JSON object we're building. Note that
+    it still requires some understanding of OpenSearch (eg. when to add ".keyword" to a field name)
+
+    For example, if you wanted to build a query against a search index containing
+    books with the following:
+        * Page size of 5, page number 1
+        * Sorted by relevancy score descending
+        * Scored on titles containing "king"
+        * Where the author is one of Brandon Sanderson or J R.R. Tolkien
+        * Returning aggregate counts of books by those authors in the full results
+
+    This query could either be built manually and look like:
+
+    {
+      "size": 5,
+      "from": 0,
+      "track_scores": true,
+      "sort": [
+        {
+          "_score": {
+            "order": "desc"
+          }
+        }
+      ],
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "simple_query_string": {
+                "query": "king",
+                "fields": [
+                  "title.keyword"
+                ],
+                "default_operator": "AND"
+              }
+            }
+          ],
+          "filter": [
+            {
+              "terms": {
+                "author.keyword": [
+                  "Brandon Sanderson",
+                  "J R.R. Tolkien"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "aggs": {
+        "author": {
+          "terms": {
+            "field": "author.keyword",
+            "size": 25,
+            "min_doc_count": 0
+          }
+        }
+      }
+    }
+
+    Or you could use the builder and produce the same result:
+
+    search_query = SearchQueryBuilder()
+                .pagination(page_size=5, page_number=1)
+                .sort_by([("relevancy", SortDirection.DESCENDING)])
+                .simple_query("king", fields=["title.keyword"])
+                .filter_terms("author.keyword", terms=["Brandon Sanderson", "J R.R. Tolkien"])
+                .aggregation_terms(aggregation_name="author", field_name="author.keyword", minimum_count=0)
+                .build()
+    """
+
     def __init__(self) -> None:
         self.page_size = 25
         self.page_number = 1

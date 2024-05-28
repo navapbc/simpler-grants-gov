@@ -13,10 +13,12 @@ import src.logging.flask_logger as flask_logger
 from src.api.healthcheck import healthcheck_blueprint
 from src.api.opportunities_v0 import opportunity_blueprint as opportunities_v0_blueprint
 from src.api.opportunities_v0_1 import opportunity_blueprint as opportunities_v0_1_blueprint
+from src.api.opportunities_v1 import opportunity_blueprint as opportunities_v1_blueprint
 from src.api.response import restructure_error_response
 from src.api.schemas import response_schema
 from src.auth.api_key_auth import get_app_security_scheme
 from src.data_migration.data_migration_blueprint import data_migration_blueprint
+from src.search.backend.load_search_data_blueprint import load_search_data_blueprint
 from src.task import task_blueprint
 
 logger = logging.getLogger(__name__)
@@ -101,8 +103,12 @@ def register_blueprints(app: APIFlask) -> None:
     app.register_blueprint(healthcheck_blueprint)
     app.register_blueprint(opportunities_v0_blueprint)
     app.register_blueprint(opportunities_v0_1_blueprint)
+    app.register_blueprint(opportunities_v1_blueprint)
+
+    # Non-api blueprints
     app.register_blueprint(data_migration_blueprint)
     app.register_blueprint(task_blueprint)
+    app.register_blueprint(load_search_data_blueprint)
 
 
 def get_project_root_dir() -> str:

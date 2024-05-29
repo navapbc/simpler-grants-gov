@@ -20,7 +20,7 @@ interface SearchPaginationProps {
 }
 
 const MAX_SLOTS = 7;
-const DEBOUNCE_TIME = 500;
+const DEBOUNCE_TIME = 300;
 
 export default function SearchPagination({
   showHiddenInput,

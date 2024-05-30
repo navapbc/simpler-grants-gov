@@ -21,7 +21,21 @@ T = TypeVar("T")
 
 
 def with_search_client() -> Callable[[Callable[Concatenate[SearchClient, P], T]], Callable[P, T]]:
-    # TODO docs
+    """
+    Decorator for functions that need a search client.
+
+    This decorator will return the shared search client object which
+    has an internal connection pool that is shared.
+
+    Usage:
+        @with_search_client()
+        def foo(search_client: search.SearchClient):
+            ...
+
+        @with_search_client()
+        def bar(search_client: search.SearchClient, x: int, y: int):
+            ...
+    """
 
     def decorator(f: Callable[Concatenate[SearchClient, P], T]) -> Callable[P, T]:
         @wraps(f)

@@ -121,9 +121,12 @@ def search_opportunities(
 
     search_request = _get_search_request(search_params)
 
-    response = search_client.search(
-        get_search_config().opportunity_search_index_alias, search_request
+    index_alias = get_search_config().opportunity_search_index_alias
+    logger.info(
+        "Querying search index alias %s", index_alias, extra={"search_index_alias": index_alias}
     )
+
+    response = search_client.search(index_alias, search_request)
 
     pagination_info = PaginationInfo(
         page_offset=search_params.pagination.page_offset,

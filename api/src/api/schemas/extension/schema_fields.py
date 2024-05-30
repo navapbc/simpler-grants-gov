@@ -39,19 +39,7 @@ class MixinField(original_fields.Field):
     }
 
     def __init__(self, **kwargs: typing.Any) -> None:
-        # By default, make it so if a field is required, null isn't allowed
-        # otherwise null is allowed. You can modify this behavior (ie. required, and none allowed)
-        # by explicitly setting the allow_none field.
-        is_required = kwargs.get("required", None)
-        allow_none = kwargs.pop("allow_none", None)
-
-        if allow_none is None:
-            if is_required:
-                allow_none = False
-            else:
-                allow_none = True
-
-        super().__init__(allow_none=allow_none, **kwargs)
+        super().__init__(**kwargs)
 
         # The actual error mapping used for a specific instance
         self._error_mapping: dict[str, MarshmallowErrorContainer] = {}

@@ -7,7 +7,7 @@ from src.constants.lookup_constants import (
     OpportunityCategory,
     OpportunityStatus,
 )
-from src.pagination.pagination_schema import generate_pagination_schema
+from src.pagination.pagination_schema import PaginationInfoSchema, generate_pagination_schema
 
 
 class OpportunitySummaryV1Schema(Schema):
@@ -195,7 +195,6 @@ class OpportunityAssistanceListingV1Schema(Schema):
 
 class OpportunityV1Schema(Schema):
     opportunity_id = fields.Integer(
-        dump_only=True,
         metadata={"description": "The internal ID of the opportunity", "example": 12345},
     )
 
@@ -266,8 +265,70 @@ class OpportunitySearchFilterV1Schema(Schema):
     )
     agency = fields.Nested(
         StrSearchSchemaBuilder("AgencyFilterV1Schema")
-        .with_one_of(example="US-ABC", minimum_length=2)
+        .with_one_of(example="USAID", minimum_length=2)
         .build()
+    )
+
+
+class OpportunityFacetV1Schema(Schema):
+    opportunity_status = fields.Dict(
+        keys=fields.String(),
+        values=fields.Integer(),
+        metadata={
+            "description": "The counts of opportunity_status values in the full response",
+            "example": {"posted": 1, "forecasted": 2},
+        },
+    )
+    applicant_type = fields.Dict(
+        keys=fields.String(),
+        values=fields.Integer(),
+        metadata={
+            "description": "The counts of applicant_type values in the full response",
+            "example": {
+                "state_governments": 3,
+                "county_governments": 2,
+                "city_or_township_governments": 1,
+            },
+        },
+    )
+    funding_instrument = fields.Dict(
+        keys=fields.String(),
+        values=fields.Integer(),
+        metadata={
+            "description": "The counts of funding_instrument values in the full response",
+            "example": {"cooperative_agreement": 4, "grant": 3},
+        },
+    )
+    funding_category = fields.Dict(
+        keys=fields.String(),
+        values=fields.Integer(),
+        metadata={
+            "description": "The counts of funding_category values in the full response",
+            "example": {"recovery_act": 2, "arts": 3, "agriculture": 5},
+        },
+    )
+    agency = fields.Dict(
+        keys=fields.String(),
+        values=fields.Integer(),
+        metadata={
+            "description": "The counts of agency values in the full response",
+            "example": {"USAID": 4, "ARPAH": 3},
+        },
+    )
+
+
+class OpportunitySearchResponseV1Schema(Schema):
+    opportunities = fields.List(
+        fields.Nested(OpportunityV1Schema()), metadata={"description": "The opportunity records"}
+    )
+    facet_counts = fields.Nested(
+        OpportunityFacetV1Schema(),
+        metadata={"description": "Counts of filter/facet values in the full response"},
+    )
+
+    pagination_info = fields.Nested(
+        PaginationInfoSchema(),
+        metadata={"description": "The pagination information for the search response"},
     )
 
 
@@ -284,8 +345,9 @@ class OpportunitySearchRequestV1Schema(Schema):
 
     pagination = fields.Nested(
         generate_pagination_schema(
-            "OpportunityPaginationSchema",
+            "OpportunityPaginationV1Schema",
             [
+                "relevancy",
                 "opportunity_id",
                 "opportunity_number",
                 "opportunity_title",

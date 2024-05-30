@@ -13,9 +13,9 @@ from src.db.models.opportunity_models import (
 
 def get_search_request(
     page_offset: int = 1,
-    page_size: int = 5,
+    page_size: int = 25,
     order_by: str = "opportunity_id",
-    sort_direction: str = "descending",
+    sort_direction: str = "ascending",
     query: str | None = None,
     funding_instrument_one_of: list[FundingInstrument] | None = None,
     funding_category_one_of: list[FundingCategory] | None = None,

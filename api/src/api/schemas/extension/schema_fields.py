@@ -39,7 +39,19 @@ class MixinField(original_fields.Field):
     }
 
     def __init__(self, **kwargs: typing.Any) -> None:
-        super().__init__(**kwargs)
+        # By default, make it so if a field is required, null isn't allowed
+        # otherwise null is allowed. You can modify this behavior (ie. required, and none allowed)
+        # by explicitly setting the allow_none field.
+        is_required = kwargs.get("required", None)
+        allow_none = kwargs.pop("allow_none", None)
+
+        if allow_none is None:
+            if is_required:
+                allow_none = False
+            else:
+                allow_none = True
+
+        super().__init__(allow_none=allow_none, **kwargs)
 
         # The actual error mapping used for a specific instance
         self._error_mapping: dict[str, MarshmallowErrorContainer] = {}
@@ -183,6 +195,12 @@ class Raw(original_fields.Raw, MixinField):
     pass
 
 
+class Dict(original_fields.Dict, MixinField):
+    error_mapping: dict[str, MarshmallowErrorContainer] = {
+        "invalid": MarshmallowErrorContainer(ValidationErrorType.INVALID, "Not a valid dict."),
+    }
+
+
 class Enum(MixinField):
     """
     Custom field class for handling unioning together multiple Python enums into
@@ -230,7 +248,7 @@ class Enum(MixinField):
         if value is None:
             return None
 
-        val = value.value
+        val = value
         return self.field._serialize(val, attr, obj, **kwargs)
 
     def _deserialize(

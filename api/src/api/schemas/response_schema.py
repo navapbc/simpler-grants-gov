@@ -19,6 +19,8 @@ class ErrorResponseSchema(BaseResponseSchema):
 
 
 class ResponseSchema(BaseResponseSchema):
+    # TODO - once we've worked with the frontend folks, this should be removed from the top-level
+    # schema entirely as we should only return it when the endpoint has pagination.
     pagination_info = fields.Nested(
         PaginationInfoSchema(),
         metadata={"description": "The pagination information for paginated endpoints"},

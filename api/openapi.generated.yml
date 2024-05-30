@@ -37,36 +37,26 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/Healthcheck'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: &id001
                     - object
-                    - 'null'
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: &id002
                       - object
-                      - 'null'
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Successful response
         '503':
           content:
@@ -75,32 +65,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id001
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id002
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Service Unavailable
       tags:
       - Health
@@ -112,9 +94,7 @@ paths:
         name: FF-Enable-Opportunity-Log-Msg
         description: Whether to log a message in the opportunity endpoint
         schema:
-          type:
-          - boolean
-          - 'null'
+          type: boolean
         required: false
       responses:
         '200':
@@ -124,38 +104,28 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     type: array
                     items:
                       $ref: '#/components/schemas/OpportunityV0'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: &id003
                     - object
-                    - 'null'
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: &id004
                       - object
-                      - 'null'
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Successful response
         '422':
           content:
@@ -164,32 +134,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id003
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id004
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Validation error
         '401':
           content:
@@ -198,32 +160,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id003
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id004
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Authentication error
       tags:
       - Opportunity v0
@@ -262,36 +216,26 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/OpportunitySearchResponseV1'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: &id005
                     - object
-                    - 'null'
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: &id006
                       - object
-                      - 'null'
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Successful response
         '422':
           content:
@@ -300,32 +244,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id005
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id006
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Validation error
         '401':
           content:
@@ -334,32 +270,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id005
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id006
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Authentication error
       tags:
       - Opportunity v1
@@ -453,38 +381,28 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     type: array
                     items:
                       $ref: '#/components/schemas/OpportunityV01'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: &id007
                     - object
-                    - 'null'
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: &id008
                       - object
-                      - 'null'
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Successful response
         '422':
           content:
@@ -493,32 +411,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id007
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id008
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Validation error
         '401':
           content:
@@ -527,32 +437,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id007
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id008
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Authentication error
       tags:
       - Opportunity v0.1
@@ -637,36 +539,26 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/OpportunityV0'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: &id009
                     - object
-                    - 'null'
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: &id010
                       - object
-                      - 'null'
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Successful response
         '401':
           content:
@@ -675,32 +567,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id009
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id010
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Authentication error
         '404':
           content:
@@ -709,32 +593,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id009
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id010
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Not found
       tags:
       - Opportunity v0
@@ -773,36 +649,26 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/OpportunityV1'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: &id011
                     - object
-                    - 'null'
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: &id012
                       - object
-                      - 'null'
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Successful response
         '401':
           content:
@@ -811,32 +677,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id011
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id012
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Authentication error
         '404':
           content:
@@ -845,32 +703,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id011
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id012
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Not found
       tags:
       - Opportunity v1
@@ -909,36 +759,26 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/OpportunityV01'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: &id013
                     - object
-                    - 'null'
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: &id014
                       - object
-                      - 'null'
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Successful response
         '401':
           content:
@@ -947,32 +787,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id013
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id014
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Authentication error
         '404':
           content:
@@ -981,32 +813,24 @@ paths:
                 type: object
                 properties:
                   message:
-                    type:
-                    - string
-                    - 'null'
+                    type: string
                     description: The message to return
                   data:
                     $ref: '#/components/schemas/ErrorResponse'
                   status_code:
-                    type:
-                    - integer
-                    - 'null'
+                    type: integer
                     description: The HTTP status code
                   pagination_info:
                     description: The pagination information for paginated endpoints
                     type: *id013
-                    anyOf:
+                    allOf:
                     - $ref: '#/components/schemas/PaginationInfo'
-                    - type: 'null'
                   warnings:
-                    type:
-                    - array
-                    - 'null'
+                    type: array
                     items:
                       type: *id014
-                      anyOf:
+                      allOf:
                       - $ref: '#/components/schemas/ValidationIssue'
-                      - type: 'null'
           description: Not found
       tags:
       - Opportunity v0.1
@@ -1036,33 +860,23 @@ components:
       type: object
       properties:
         page_offset:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The page number that was fetched
           example: 1
         page_size:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The size of the page fetched
           example: 25
         total_records:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The total number of records fetchable
           example: 42
         total_pages:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The total number of pages that can be fetched
           example: 2
         order_by:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The field that the records were sorted by
           example: id
         sort_direction:
@@ -1072,61 +886,41 @@ components:
           - descending
           type:
           - string
-          - 'null'
-          - 'null'
     ValidationIssue:
       type: object
       properties:
         type:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The type of error
         message:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The message to return
         field:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The field that failed
     Healthcheck:
       type: object
       properties:
         message:
-          type:
-          - string
-          - 'null'
+          type: string
     ErrorResponse:
       type: object
       properties:
         message:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The message to return
         data:
           description: The REST resource object
-          type:
-          - 'null'
         status_code:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The HTTP status code
         errors:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             type:
             - object
-            - 'null'
-            anyOf:
+            allOf:
             - $ref: '#/components/schemas/ValidationIssue'
-            - type: 'null'
     OpportunitySorting:
       type: object
       properties:
@@ -1169,9 +963,7 @@ components:
       type: object
       properties:
         opportunity_title:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The title of the opportunity to search for
           example: research
         category:
@@ -1186,8 +978,6 @@ components:
           - O
           type:
           - string
-          - 'null'
-          - 'null'
         sorting:
           type:
           - object
@@ -1205,28 +995,20 @@ components:
       type: object
       properties:
         opportunity_id:
-          type:
-          - integer
-          - 'null'
+          type: integer
           readOnly: true
           description: The internal ID of the opportunity
           example: 12345
         opportunity_number:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The funding opportunity number
           example: ABC-123-XYZ-001
         opportunity_title:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The title of the opportunity
           example: Research into conservation techniques
         agency:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The agency who created the opportunity
           example: US-ABC
         category:
@@ -1241,46 +1023,32 @@ components:
           - O
           type:
           - string
-          - 'null'
-          - 'null'
         category_explanation:
-          type:
-          - string
-          - 'null'
+          type: string
           description: Explanation of the category when the category is 'O' (other)
           example: null
         revision_number:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The current revision number of the opportunity, counting starts
             at 0
           example: 0
         modified_comments:
-          type:
-          - string
-          - 'null'
+          type: string
           description: Details regarding what modification was last made
           example: null
         created_at:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date-time
           readOnly: true
         updated_at:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date-time
           readOnly: true
     FundingInstrumentFilterV1:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
             enum:
@@ -1290,15 +1058,11 @@ components:
             - other
             type:
             - string
-            - 'null'
-            - 'null'
     FundingCategoryFilterV1:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
             enum:
@@ -1330,15 +1094,11 @@ components:
             - other
             type:
             - string
-            - 'null'
-            - 'null'
     ApplicantTypeFilterV1:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
             enum:
@@ -1361,15 +1121,11 @@ components:
             - unrestricted
             type:
             - string
-            - 'null'
-            - 'null'
     OpportunityStatusFilterV1:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
             enum:
@@ -1379,20 +1135,14 @@ components:
             - archived
             type:
             - string
-            - 'null'
-            - 'null'
     AgencyFilterV1:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
-            type:
-            - string
-            - 'null'
+            type: string
             minLength: 2
             example: USAID
     OpportunitySearchFilterV1:
@@ -1401,38 +1151,28 @@ components:
         funding_instrument:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/FundingInstrumentFilterV1'
-          - type: 'null'
         funding_category:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/FundingCategoryFilterV1'
-          - type: 'null'
         applicant_type:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/ApplicantTypeFilterV1'
-          - type: 'null'
         opportunity_status:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/OpportunityStatusFilterV1'
-          - type: 'null'
         agency:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/AgencyFilterV1'
-          - type: 'null'
     OpportunityPaginationV1:
       type: object
       properties:
@@ -1473,9 +1213,7 @@ components:
       type: object
       properties:
         query:
-          type:
-          - string
-          - 'null'
+          type: string
           minLength: 1
           maxLength: 100
           description: Query string which searches against several text fields
@@ -1483,10 +1221,8 @@ components:
         filters:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/OpportunitySearchFilterV1'
-          - type: 'null'
         pagination:
           type:
           - object
@@ -1527,9 +1263,7 @@ components:
           description: Whether or not the opportunity has a cost sharing/matching
             requirement
         is_forecast:
-          type:
-          - boolean
-          - 'null'
+          type: boolean
           description: Whether the opportunity is forecasted, that is, the information
             is only an estimate and not yet official
           example: false
@@ -1685,9 +1419,7 @@ components:
           description: The text for the link to the agency email address
           example: Click me to email the agency
         funding_instruments:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             enum:
             - cooperative_agreement
@@ -1696,12 +1428,8 @@ components:
             - other
             type:
             - string
-            - 'null'
-            - 'null'
         funding_categories:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             enum:
             - recovery_act
@@ -1732,12 +1460,8 @@ components:
             - other
             type:
             - string
-            - 'null'
-            - 'null'
         applicant_types:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             enum:
             - state_governments
@@ -1759,15 +1483,11 @@ components:
             - unrestricted
             type:
             - string
-            - 'null'
-            - 'null'
     OpportunityV1:
       type: object
       properties:
         opportunity_id:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The internal ID of the opportunity
           example: 12345
         opportunity_number:
@@ -1809,23 +1529,17 @@ components:
           description: Explanation of the category when the category is 'O' (other)
           example: null
         opportunity_assistance_listings:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             type:
             - object
-            - 'null'
-            anyOf:
+            allOf:
             - $ref: '#/components/schemas/OpportunityAssistanceListingV1'
-            - type: 'null'
         summary:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/OpportunitySummaryV1'
-          - type: 'null'
         opportunity_status:
           description: The current status of the opportunity
           example: !!python/object/apply:src.constants.lookup_constants.OpportunityStatus
@@ -1837,123 +1551,87 @@ components:
           - archived
           type:
           - string
-          - 'null'
-          - 'null'
         created_at:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date-time
           readOnly: true
         updated_at:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date-time
           readOnly: true
     OpportunityFacetV1:
       type: object
       properties:
         opportunity_status:
-          type:
-          - object
-          - 'null'
+          type: object
           description: The counts of opportunity_status values in the full response
           example:
             posted: 1
             forecasted: 2
           additionalProperties:
-            type:
-            - integer
-            - 'null'
+            type: integer
         applicant_type:
-          type:
-          - object
-          - 'null'
+          type: object
           description: The counts of applicant_type values in the full response
           example:
             state_governments: 3
             county_governments: 2
             city_or_township_governments: 1
           additionalProperties:
-            type:
-            - integer
-            - 'null'
+            type: integer
         funding_instrument:
-          type:
-          - object
-          - 'null'
+          type: object
           description: The counts of funding_instrument values in the full response
           example:
             cooperative_agreement: 4
             grant: 3
           additionalProperties:
-            type:
-            - integer
-            - 'null'
+            type: integer
         funding_category:
-          type:
-          - object
-          - 'null'
+          type: object
           description: The counts of funding_category values in the full response
           example:
             recovery_act: 2
             arts: 3
             agriculture: 5
           additionalProperties:
-            type:
-            - integer
-            - 'null'
+            type: integer
         agency:
-          type:
-          - object
-          - 'null'
+          type: object
           description: The counts of agency values in the full response
           example:
             USAID: 4
             ARPAH: 3
           additionalProperties:
-            type:
-            - integer
-            - 'null'
+            type: integer
     OpportunitySearchResponseV1:
       type: object
       properties:
         opportunities:
-          type:
-          - array
-          - 'null'
+          type: array
           description: The opportunity records
           items:
             type:
             - object
-            - 'null'
-            anyOf:
+            allOf:
             - $ref: '#/components/schemas/OpportunityV1'
-            - type: 'null'
         facet_counts:
           description: Counts of filter/facet values in the full response
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/OpportunityFacetV1'
-          - type: 'null'
         pagination_info:
           description: The pagination information for the search response
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/PaginationInfo'
-          - type: 'null'
     FundingInstrumentFilterV01:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
             enum:
@@ -1963,15 +1641,11 @@ components:
             - other
             type:
             - string
-            - 'null'
-            - 'null'
     FundingCategoryFilterV01:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
             enum:
@@ -2003,15 +1677,11 @@ components:
             - other
             type:
             - string
-            - 'null'
-            - 'null'
     ApplicantTypeFilterV01:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
             enum:
@@ -2034,15 +1704,11 @@ components:
             - unrestricted
             type:
             - string
-            - 'null'
-            - 'null'
     OpportunityStatusFilterV01:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
             enum:
@@ -2052,20 +1718,14 @@ components:
             - archived
             type:
             - string
-            - 'null'
-            - 'null'
     AgencyFilterV01:
       type: object
       properties:
         one_of:
-          type:
-          - array
-          - 'null'
+          type: array
           minItems: 1
           items:
-            type:
-            - string
-            - 'null'
+            type: string
             minLength: 2
             example: US-ABC
     OpportunitySearchFilterV01:
@@ -2074,38 +1734,28 @@ components:
         funding_instrument:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/FundingInstrumentFilterV01'
-          - type: 'null'
         funding_category:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/FundingCategoryFilterV01'
-          - type: 'null'
         applicant_type:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/ApplicantTypeFilterV01'
-          - type: 'null'
         opportunity_status:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/OpportunityStatusFilterV01'
-          - type: 'null'
         agency:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/AgencyFilterV01'
-          - type: 'null'
     OpportunityPagination:
       type: object
       properties:
@@ -2145,9 +1795,7 @@ components:
       type: object
       properties:
         query:
-          type:
-          - string
-          - 'null'
+          type: string
           minLength: 1
           maxLength: 100
           description: Query string which searches against several text fields
@@ -2155,10 +1803,8 @@ components:
         filters:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/OpportunitySearchFilterV01'
-          - type: 'null'
         pagination:
           type:
           - object
@@ -2170,16 +1816,12 @@ components:
       type: object
       properties:
         program_title:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The name of the program, see https://sam.gov/content/assistance-listings
             for more detail
           example: Space Technology
         assistance_listing_number:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The assistance listing number, see https://sam.gov/content/assistance-listings
             for more detail
           example: '43.012'
@@ -2187,179 +1829,123 @@ components:
       type: object
       properties:
         summary_description:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The summary of the opportunity
           example: This opportunity aims to unravel the mysteries of the universe.
         is_cost_sharing:
-          type:
-          - boolean
-          - 'null'
+          type: boolean
           description: Whether or not the opportunity has a cost sharing/matching
             requirement
         is_forecast:
-          type:
-          - boolean
-          - 'null'
+          type: boolean
           description: Whether the opportunity is forecasted, that is, the information
             is only an estimate and not yet official
           example: false
         close_date:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date
           description: The date that the opportunity will close - only set if is_forecast=False
         close_date_description:
-          type:
-          - string
-          - 'null'
+          type: string
           description: Optional details regarding the close date
           example: Proposals are due earlier than usual.
         post_date:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date
           description: The date the opportunity was posted
         archive_date:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date
           description: When the opportunity will be archived
         expected_number_of_awards:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The number of awards the opportunity is expected to award
           example: 10
         estimated_total_program_funding:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The total program funding of the opportunity in US Dollars
           example: 10000000
         award_floor:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The minimum amount an opportunity would award
           example: 10000
         award_ceiling:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: The maximum amount an opportunity would award
           example: 100000
         additional_info_url:
-          type:
-          - string
-          - 'null'
+          type: string
           description: A URL to a website that can provide additional information
             about the opportunity
           example: grants.gov
         additional_info_url_description:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The text to display for the additional_info_url link
           example: Click me for more info
         forecasted_post_date:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date
           description: Forecasted opportunity only. The date the opportunity is expected
             to be posted, and transition out of being a forecast
         forecasted_close_date:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date
           description: Forecasted opportunity only. The date the opportunity is expected
             to be close once posted.
         forecasted_close_date_description:
-          type:
-          - string
-          - 'null'
+          type: string
           description: Forecasted opportunity only. Optional details regarding the
             forecasted closed date.
           example: Proposals will probably be due on this date
         forecasted_award_date:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date
           description: Forecasted opportunity only. The date the grantor plans to
             award the opportunity.
         forecasted_project_start_date:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date
           description: Forecasted opportunity only. The date the grantor expects the
             award recipient should start their project
         fiscal_year:
-          type:
-          - integer
-          - 'null'
+          type: integer
           description: Forecasted opportunity only. The fiscal year the project is
             expected to be funded and launched
         funding_category_description:
-          type:
-          - string
-          - 'null'
+          type: string
           description: Additional information about the funding category
           example: Economic Support
         applicant_eligibility_description:
-          type:
-          - string
-          - 'null'
+          type: string
           description: Additional information about the types of applicants that are
             eligible
           example: All types of domestic applicants are eligible to apply
         agency_code:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The agency who owns the opportunity
           example: US-ABC
         agency_name:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The name of the agency who owns the opportunity
           example: US Alphabetical Basic Corp
         agency_phone_number:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The phone number of the agency who owns the opportunity
           example: 123-456-7890
         agency_contact_description:
-          type:
-          - string
-          - 'null'
+          type: string
           description: Information regarding contacting the agency who owns the opportunity
           example: For more information, reach out to Jane Smith at agency US-ABC
         agency_email_address:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The contact email of the agency who owns the opportunity
           example: fake_email@grants.gov
         agency_email_address_description:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The text for the link to the agency email address
           example: Click me to email the agency
         funding_instruments:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             enum:
             - cooperative_agreement
@@ -2368,12 +1954,8 @@ components:
             - other
             type:
             - string
-            - 'null'
-            - 'null'
         funding_categories:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             enum:
             - recovery_act
@@ -2404,12 +1986,8 @@ components:
             - other
             type:
             - string
-            - 'null'
-            - 'null'
         applicant_types:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             enum:
             - state_governments
@@ -2431,34 +2009,24 @@ components:
             - unrestricted
             type:
             - string
-            - 'null'
-            - 'null'
     OpportunityV01:
       type: object
       properties:
         opportunity_id:
-          type:
-          - integer
-          - 'null'
+          type: integer
           readOnly: true
           description: The internal ID of the opportunity
           example: 12345
         opportunity_number:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The funding opportunity number
           example: ABC-123-XYZ-001
         opportunity_title:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The title of the opportunity
           example: Research into conservation techniques
         agency:
-          type:
-          - string
-          - 'null'
+          type: string
           description: The agency who created the opportunity
           example: US-ABC
         category:
@@ -2473,32 +2041,22 @@ components:
           - other
           type:
           - string
-          - 'null'
-          - 'null'
         category_explanation:
-          type:
-          - string
-          - 'null'
+          type: string
           description: Explanation of the category when the category is 'O' (other)
           example: null
         opportunity_assistance_listings:
-          type:
-          - array
-          - 'null'
+          type: array
           items:
             type:
             - object
-            - 'null'
-            anyOf:
+            allOf:
             - $ref: '#/components/schemas/OpportunityAssistanceListingV01'
-            - type: 'null'
         summary:
           type:
           - object
-          - 'null'
-          anyOf:
+          allOf:
           - $ref: '#/components/schemas/OpportunitySummaryV01'
-          - type: 'null'
         opportunity_status:
           description: The current status of the opportunity
           example: !!python/object/apply:src.constants.lookup_constants.OpportunityStatus
@@ -2510,18 +2068,12 @@ components:
           - archived
           type:
           - string
-          - 'null'
-          - 'null'
         created_at:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date-time
           readOnly: true
         updated_at:
-          type:
-          - string
-          - 'null'
+          type: string
           format: date-time
           readOnly: true
   securitySchemes:

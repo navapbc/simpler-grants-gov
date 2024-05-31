@@ -146,6 +146,9 @@ export async function clickPaginationPageNumber(
     `button[data-testid="pagination-page-number"][aria-label="Page ${pageNumber}"]`,
   );
   await paginationButton.first().click();
+
+  // Delay for pagination debounce
+  await page.waitForTimeout(400);
 }
 
 export async function clickLastPaginationPage(page: Page) {

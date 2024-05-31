@@ -159,6 +159,8 @@ export async function clickLastPaginationPage(page: Page) {
   if (count > 2) {
     await paginationButtons.nth(count - 2).click();
   }
+  // Delay for pagination debounce
+  await page.waitForTimeout(400);
 }
 
 export async function getFirstSearchResultTitle(page: Page) {

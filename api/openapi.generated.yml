@@ -34,55 +34,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/Healthcheck'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: &id001
-                    - object
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: &id002
-                      - object
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/Healthcheck'
           description: Successful response
         '503':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id001
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id002
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Service Unavailable
       tags:
       - Health
@@ -101,83 +59,21 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/OpportunityV0'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: &id003
-                    - object
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: &id004
-                      - object
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                type: array
+                items:
+                  $ref: '#/components/schemas/OpportunityV0'
           description: Successful response
         '422':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id003
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id004
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Validation error
         '401':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id003
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id004
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Authentication error
       tags:
       - Opportunity v0
@@ -213,83 +109,21 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/OpportunityV1'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: &id005
-                    - object
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: &id006
-                      - object
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                type: array
+                items:
+                  $ref: '#/components/schemas/OpportunityV1'
           description: Successful response
         '422':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id005
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id006
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Validation error
         '401':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id005
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id006
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Authentication error
       tags:
       - Opportunity v1
@@ -325,83 +159,21 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/OpportunityV01'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: &id007
-                    - object
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: &id008
-                      - object
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                type: array
+                items:
+                  $ref: '#/components/schemas/OpportunityV01'
           description: Successful response
         '422':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id007
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id008
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Validation error
         '401':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id007
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id008
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Authentication error
       tags:
       - Opportunity v0.1
@@ -483,81 +255,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/OpportunityV0'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: &id009
-                    - object
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: &id010
-                      - object
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/OpportunityV0'
           description: Successful response
         '401':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id009
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id010
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Authentication error
         '404':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id009
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id010
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not found
       tags:
       - Opportunity v0
@@ -593,81 +303,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/OpportunityV1'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: &id011
-                    - object
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: &id012
-                      - object
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/OpportunityGetResponseV1'
           description: Successful response
         '401':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id011
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id012
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Authentication error
         '404':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id011
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id012
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not found
       tags:
       - Opportunity v1
@@ -703,81 +351,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/OpportunityV01'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: &id013
-                    - object
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: &id014
-                      - object
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/OpportunityV01'
           description: Successful response
         '401':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id013
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id014
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Authentication error
         '404':
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: The message to return
-                  data:
-                    $ref: '#/components/schemas/ErrorResponse'
-                  status_code:
-                    type: integer
-                    description: The HTTP status code
-                  pagination_info:
-                    description: The pagination information for paginated endpoints
-                    type: *id013
-                    allOf:
-                    - $ref: '#/components/schemas/PaginationInfo'
-                  warnings:
-                    type: array
-                    items:
-                      type: *id014
-                      allOf:
-                      - $ref: '#/components/schemas/ValidationIssue'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Not found
       tags:
       - Opportunity v0.1
@@ -800,39 +386,42 @@ paths:
         '
       security:
       - ApiKeyAuth: []
+  /v1/opportunities/{opportunity_id}/attachment/{attachment_id}:
+    get:
+      parameters:
+      - in: path
+        name: opportunity_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: attachment_id
+        schema:
+          type: integer
+        required: true
+      responses:
+        '302':
+          content:
+            application/json:
+              schema: {}
+          description: Successful response
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+      tags:
+      - Opportunity v1
+      summary: Get Opportunity File
 openapi: 3.1.0
 components:
   schemas:
-    PaginationInfo:
+    Healthcheck:
       type: object
       properties:
-        page_offset:
-          type: integer
-          description: The page number that was fetched
-          example: 1
-        page_size:
-          type: integer
-          description: The size of the page fetched
-          example: 25
-        total_records:
-          type: integer
-          description: The total number of records fetchable
-          example: 42
-        total_pages:
-          type: integer
-          description: The total number of pages that can be fetched
-          example: 2
-        order_by:
+        message:
           type: string
-          description: The field that the records were sorted by
-          example: id
-        sort_direction:
-          description: The direction the records are sorted
-          enum:
-          - ascending
-          - descending
-          type:
-          - string
     ValidationIssue:
       type: object
       properties:
@@ -845,22 +434,9 @@ components:
         field:
           type: string
           description: The field that failed
-    Healthcheck:
-      type: object
-      properties:
-        message:
-          type: string
     ErrorResponse:
       type: object
       properties:
-        message:
-          type: string
-          description: The message to return
-        data:
-          description: The REST resource object
-        status_code:
-          type: integer
-          description: The HTTP status code
         errors:
           type: array
           items:
@@ -868,6 +444,10 @@ components:
             - object
             allOf:
             - $ref: '#/components/schemas/ValidationIssue'
+        status_code:
+          type: integer
+          description: The HTTP status code
+          example: 404
     OpportunitySorting:
       type: object
       properties:
@@ -1889,6 +1469,20 @@ components:
           type: string
           format: date-time
           readOnly: true
+    OpportunityGetResponseV1:
+      type: object
+      properties:
+        message:
+          type: string
+          description: The message to return
+        data:
+          type:
+          - object
+          allOf:
+          - $ref: '#/components/schemas/OpportunityV1'
+        status_code:
+          type: integer
+          description: The HTTP status code
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

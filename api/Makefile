@@ -129,6 +129,10 @@ start-db:
 ## Destroy current DB, setup new one
 db-recreate: clean-volumes init-db
 
+# TODO
+start-localstack:
+	docker-compose up --detach localstack
+
 #########################
 # DB Migrations
 #########################

@@ -1,7 +1,7 @@
 import dataclasses
 import logging
 from typing import Any, Optional, Tuple
-
+import flask
 import apiflask
 
 from src.api.schemas.extension import MarshmallowErrorContainer
@@ -45,6 +45,12 @@ class ApiResponse:
     status_code: int = 200
 
     pagination_info: PaginationInfo | None = None
+
+
+def api_file_response(contents: Any, filename: str, content_type: str = "application/octet-stream"):
+    # TODO - probably some sort of logic here for contents to handle large files? Probably should take in a file pointer
+    # rather than the raw bytes.
+    return flask.Response(contents, content_type=content_type, headers={"Content-Disposition": f"attachment; filename={filename}"})
 
 
 def process_marshmallow_issues(marshmallow_issues: dict) -> list[ValidationErrorDetail]:

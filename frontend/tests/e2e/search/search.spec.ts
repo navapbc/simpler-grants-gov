@@ -197,7 +197,9 @@ test.describe("Search page tests", () => {
     await clickPaginationPageNumber(page, 2);
 
     // Verify that page 1 is highlighted
-    let currentPageButton = page.locator(".usa-pagination__button.usa-current").first();
+    let currentPageButton = page
+      .locator(".usa-pagination__button.usa-current")
+      .first();
     await expect(currentPageButton).toHaveAttribute("aria-label", "Page 2");
 
     // Select the 'Closed' checkbox under 'Opportunity status'
@@ -216,7 +218,6 @@ test.describe("Search page tests", () => {
     // It should not have a page query param set
     expectURLContainsQueryParam(page, "page", "1", false);
   });
-
 
   test("last result becomes first result when flipping sort order", async ({
     page,

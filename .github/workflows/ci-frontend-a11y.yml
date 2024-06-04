@@ -38,8 +38,11 @@ jobs:
       - name: Create screenshots directory
         run: mkdir -p screenshots-output
 
+      - name: Build project
+        run: npm run build
+
       - name: Start server
-        run: npm run dev &
+        run: npm run start &
 
       - name: Wait for server to be ready
         run: |
@@ -47,10 +50,7 @@ jobs:
           chmod +x ./bin/wait-for-frontend.sh
           ./bin/wait-for-frontend.sh
         shell: bash
-
-      - name: Wait for server to be ready part 2
-        run: sleep 10
-
+        
       - name: Check server health
         run: curl -I http://localhost:3000
 

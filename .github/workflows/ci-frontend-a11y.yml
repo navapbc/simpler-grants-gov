@@ -54,17 +54,6 @@ jobs:
       - name: Run pa11y-ci
         run: npm run test:pa11y
 
-      - name: Comment on pull request
-        uses: thollander/actions-comment-pull-request@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          message: |
-            <details><summary>Pa11y testing results</summary>
-            ```
-            ${{ steps.run_pa11y_ci.outputs.content }}
-            ```
-            </details>
-
-      - name: Check for pa11y failures
+      - name: Capture pa11y-ci failure logs
         if: failure()
         run: echo "::error::The site is failing accessibility tests. Please review the Pa11y results above."

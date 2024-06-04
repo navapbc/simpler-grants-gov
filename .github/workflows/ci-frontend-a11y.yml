@@ -48,6 +48,9 @@ jobs:
           ./bin/wait-for-frontend.sh
         shell: bash
 
+      - name: Wait for server to be ready part 2
+        run: sleep 10
+
       - name: Check server health
         run: curl -I http://localhost:3000
 

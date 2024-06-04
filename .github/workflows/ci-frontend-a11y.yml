@@ -52,24 +52,7 @@ jobs:
         run: curl -I http://localhost:3000
 
       - name: Run pa11y-ci
-        run: npm run test:pa11y 2>&1 | tee pa11y_output.txt
-
-      - name: Verify pa11y_output.txt existence
-        run: |
-          if [ ! -f ./pa11y_output.txt ]; then
-            echo "pa11y_output.txt not found"
-            exit 1
-          fi
-
-      - name: Capture pa11y-ci failure logs
-        if: failure()
-        run: cat pa11y_output.txt || echo "pa11y_output.txt not found"
-
-      - name: Read pa11y_output file
-        id: pa11y_output
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./pa11y_output.txt
+        run: npm run test:pa11y
 
       - name: Comment on pull request
         uses: thollander/actions-comment-pull-request@v1
@@ -78,12 +61,10 @@ jobs:
           message: |
             <details><summary>Pa11y testing results</summary>
             ```
-            ${{ steps.pa11y_output.outputs.content }}
+            ${{ steps.run_pa11y_ci.outputs.content }}
             ```
             </details>
 
       - name: Check for pa11y failures
-        if: contains(steps.pa11y_output.outputs.content, 'errno 2')
-        run: |
-          echo "::error::The site is failing accessibility tests. Please review the comment in the pull request or the pa11y-ci step in the workflow for details."
-          exit 1
+        if: failure()
+        run: echo "::error::The site is failing accessibility tests. Please review the Pa11y results above."

@@ -14,6 +14,7 @@ env:
   NODE_VERSION: 18
   LOCKFILE_PATH: ./frontend/package-lock.json
   PACKAGE_MANAGER: npm
+  DEBUG: 'pa11y*'  # Enable pa11y debug logs
 
 jobs:
   build:
@@ -53,7 +54,7 @@ jobs:
       - name: Run pa11y-ci
         run: npm run test:pa11y 2>&1 | tee pa11y_output.txt
 
-      - name: Debug pa11y-ci failure
+      - name: Capture pa11y-ci failure logs
         if: failure()
         run: cat pa11y_output.txt || echo "pa11y_output.txt not found"
 

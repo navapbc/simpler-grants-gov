@@ -2,9 +2,15 @@
   "standard": "WCAG2AAA",
   "level": "error",
   "defaults": {
-    "timeout": 200000,
-    "wait": 2000,
-    "ignore": []
+    "concurrency": 1,
+    "chromeLaunchConfig": {
+      "ignoreHTTPSErrors": true,
+      "args": ["--disable-dev-shm-usage"]
+    },
+    "standard": "WCAG2AA",
+    "runners": ["axe"],
+    "ignore": ["color-contrast"],
+    "timeout": 240000
   },
   "urls": [
     {

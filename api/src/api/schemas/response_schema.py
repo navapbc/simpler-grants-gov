@@ -8,7 +8,7 @@ class ValidationIssueSchema(Schema):
         metadata={"description": "The message to return", "example": "Not a valid string."}
     )
     field = fields.String(
-        metadata={"description": "The field that failed", "example": "summary.first_name"}
+        metadata={"description": "The field that failed", "example": "summary.summary_description"}
     )
 
 
@@ -38,8 +38,17 @@ class PaginationMixinSchema(Schema):
 
 
 class ErrorResponseSchema(Schema):
-    message = fields.String(metadata={"description": "General description of the error"})
-    status_code = fields.Integer(
-        metadata={"description": "The HTTP status code of the error", "example": 404}
+    data = fields.MixinField(
+        metadata={
+            "description": "Additional data that might be useful in resolving an error (see specific endpoints for details, this is used infrequently)",
+            "example": {},
+        },
+        dump_default={},
     )
-    errors = fields.List(fields.Nested(ValidationIssueSchema()), dump_default=[])
+    message = fields.String(
+        metadata={"description": "General description of the error", "example": "Error"}
+    )
+    status_code = fields.Integer(metadata={"description": "The HTTP status code of the error"})
+    errors = fields.List(
+        fields.Nested(ValidationIssueSchema()), metadata={"example": []}, dump_default=[]
+    )

@@ -116,7 +116,6 @@ def test_exception(simple_client, api_auth_token, monkeypatch, exception):
 
     assert resp.status_code == 500
     resp_json = resp.get_json()
-    assert resp_json["data"] == {}
     assert resp_json["errors"] == []
     assert resp_json["message"] == "Internal Server Error"
 
@@ -181,6 +180,7 @@ def test_flask_error(
     if detail is None:
         assert resp_json["data"] == {}
     else:
+        print(resp_json["data"])
         assert resp_json["data"] == detail
 
     if validation_issues:

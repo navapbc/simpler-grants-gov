@@ -18,7 +18,7 @@ env:
 
 jobs:
   build:
-    name: Building site and running pa11y-ci tests
+    name: Pa11y-ci tests
     runs-on: ubuntu-latest
 
     steps:

@@ -180,7 +180,6 @@ def test_flask_error(
     if detail is None:
         assert resp_json["data"] == {}
     else:
-        print(resp_json["data"])
         assert resp_json["data"] == detail
 
     if validation_issues:

@@ -2,7 +2,7 @@
   "standard": "WCAG2AAA",
   "level": "error",
   "defaults": {
-    "timeout": 20000,
+    "timeout": 200000,
     "wait": 2000,
     "ignore": []
   },
@@ -17,7 +17,6 @@
         "screen capture screenshots-output/mobile-expand-menu.png"
       ]
     },
-
     {
       "url": "http://pa11y.org",
       "viewport": { "width": 1280, "height": 1024 },

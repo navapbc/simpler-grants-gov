@@ -1,4 +1,5 @@
 from src.api.schemas.extension import Schema, fields, validators
+from src.api.schemas.response_schema import AbstractResponseSchema, AbstractPaginationResponseSchema
 from src.api.schemas.search_schema import StrSearchSchemaBuilder
 from src.constants.lookup_constants import (
     ApplicantType,
@@ -296,3 +297,15 @@ class OpportunitySearchRequestV1Schema(Schema):
         ),
         required=True,
     )
+
+class OutputFileSchema(Schema):
+
+    type = fields.String()
+    format = fields.String()
+
+
+class OpportunityGetResponseV1Schema(AbstractResponseSchema):
+    data = fields.Nested(OpportunityV1Schema())
+
+class OpportunityListResponseV1Schema(AbstractPaginationResponseSchema):
+    data = fields.Nested(OpportunityV1Schema(many=True))

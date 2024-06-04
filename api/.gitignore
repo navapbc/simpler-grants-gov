@@ -29,3 +29,5 @@ coverage.*
 
 #e2e
 /test-results/
+
+/volume

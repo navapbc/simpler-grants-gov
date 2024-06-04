@@ -53,7 +53,7 @@ def opportunity_search(search_params: dict) -> response.ApiResponse:
 
 
 @opportunity_blueprint.get("/opportunities/<int:opportunity_id>")
-@opportunity_blueprint.output(opportunity_schemas.OpportunityV1Schema)
+@opportunity_blueprint.output(opportunity_schemas.OpportunityGetResponseV1Schema)
 @opportunity_blueprint.auth_required(api_key_auth)
 @opportunity_blueprint.doc(description=SHARED_ALPHA_DESCRIPTION)
 @flask_db.with_db_session()
@@ -63,4 +63,36 @@ def opportunity_get(db_session: db.Session, opportunity_id: int) -> response.Api
     with db_session.begin():
         opportunity = get_opportunity(db_session, opportunity_id)
 
+    print(opportunity)
+
     return response.ApiResponse(message="Success", data=opportunity)
+
+from flask import Response, stream_with_context, send_file, redirect
+import boto3
+
+@opportunity_blueprint.get("/opportunities/<int:opportunity_id>/attachment/<int:attachment_id>")
+@opportunity_blueprint.output({}, status_code=302)
+# no auth for the moment
+def get_opportunity_file(opportunity_id: int, attachment_id: int):
+    # TODO - In a real implementation, we'd use these IDs to:
+    # * Query the DB to get the path of the file (presumably S3 - I don't think we want these files in the DB)
+    # * Fetch/stream the file from S3
+
+
+    s3 = boto3.client("s3", endpoint_url="http://localstack:4566")
+
+    # First time need to run this
+    #s3.create_bucket(Bucket="myfunbucket")
+    #with open("myfile.txt", "rb") as myfile:
+    #    s3.upload_fileobj(myfile, "myfunbucket", "myfile.txt")
+
+
+    url = s3.generate_presigned_url("get_object", Params={"Bucket": "myfunbucket", "Key": "myfile.txt"})
+
+    print(url)
+    # TODO - because we're hitting localstack inside the docker container, the URL generated is for inside
+    # to make that work, we need to fix the path - I'm sure there is a better way to do this (changing the endpoint URL to the outside one?)
+    x = url.replace("localstack", "localhost")
+    print(x)
+
+    return redirect(x, 302)

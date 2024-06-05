@@ -63,6 +63,14 @@ jobs:
           DEBUG: 'pa11y*'
         shell: bash
 
+      - name: List files in working directory
+        run: ls -la
+        shell: bash
+
+      - name: List files in current directory
+        run: ls -la .
+        shell: bash
+
       - name: Force fail to test artifact upload
         run: exit 1
         if: always()

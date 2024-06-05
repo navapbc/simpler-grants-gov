@@ -39,8 +39,14 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Start server
-        run: npm run start &
+      - name: Start server and log output
+        run: |
+          npm run start > server.log 2>&1 &
+          echo "Server is starting..."
+          sleep 20
+          echo "Server logs:"
+          cat server.log
+        shell: bash
 
       - name: Wait for server to be ready
         run: |
@@ -55,9 +61,11 @@ jobs:
           sleep 10
           curl -I http://localhost:3000
 
-      - name: Run pa11y-ci
+      - name: Run pa11y-ci with additional logging
         run: |
+          echo "Running pa11y-ci tests..."
           npm run test:pa11y 2>&1 | tee pa11y-debug.log
+          echo "pa11y-ci tests finished."
         env:
           DEBUG: 'pa11y*'
         shell: bash
@@ -74,9 +82,11 @@ jobs:
         run: exit 1
         if: always()
 
-      - name: Upload Pa11y debug log
+      - name: Upload Pa11y debug log and server log
         if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: pa11y-debug-log
-          path: ./frontend/pa11y-debug.log
+          path: |
+            ./frontend/pa11y-debug.log
+            ./frontend/server.log

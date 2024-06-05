@@ -14,7 +14,6 @@ env:
   NODE_VERSION: 20
   LOCKFILE_PATH: ./frontend/package-lock.json
   PACKAGE_MANAGER: npm
-  DEBUG: 'pa11y*'  # Enable pa11y debug logs
 
 jobs:
   build:
@@ -57,14 +56,18 @@ jobs:
           sleep 10
           curl -I http://localhost:3000
 
-      - name: Run pa11y-ci with debug
+      - name: Run pa11y-ci
         run: |
           npm run test:pa11y 2>&1 | tee pa11y-debug.log
         env:
           DEBUG: 'pa11y*'
         shell: bash
 
-      - name: Capture pa11y-ci failure logs
+      - name: Force fail to test artifact upload
+        run: exit 1
+        if: always()
+
+      - name: Upload Pa11y debug log
         if: failure()
         uses: actions/upload-artifact@v3
         with:

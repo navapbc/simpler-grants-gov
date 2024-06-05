@@ -20,7 +20,9 @@ settings = Dynaconf(
     validators=[
         Validator("SLACK_BOT_TOKEN", must_exist=True),
         Validator("REPORTING_CHANNEL_ID", must_exist=True),
-    ],
+    ]
+    database_url="postgresql://user:password@location:port/dbname" # get vars from the api?
+    ,
 )
 
 # raises after all possible errors are evaluated

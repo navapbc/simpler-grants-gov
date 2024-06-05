@@ -1,27 +1,15 @@
 {
-  "standard": "WCAG2AAA",
-  "level": "error",
-  "defaults": {
-    "concurrency": 1,
-    "chromeLaunchConfig": {
-      "ignoreHTTPSErrors": true,
-      "args": ["--disable-dev-shm-usage"]
+    "defaults": {
+      "chromeLaunchConfig": {
+        "executablePath": "/usr/bin/google-chrome"
+      },
+      "timeout": 60000,
+      "viewport": {
+        "width": 1280,
+        "height": 1024
+      }
     },
-    "standard": "WCAG2AA",
-    "runners": ["axe"],
-    "ignore": ["color-contrast"],
-    "timeout": 240000
-  },
-  "urls": [
-    {
-      "url": "http://localhost:3000/",
-      "viewport": { "width": 320, "height": 480 },
-      "actions": [
-        "wait for element #main-content to be visible",
-        "screen capture screenshots-output/mobile-main-view.png",
-        "click element .usa-navbar button",
-        "screen capture screenshots-output/mobile-expand-menu.png"
-      ]
-    }
-  ]
-}
+    "urls": [
+      "http://localhost:3000/"
+    ]
+  }

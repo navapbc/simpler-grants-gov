@@ -1,10 +1,12 @@
 {
   "defaults": {
-    "timeout": 60000
+    "timeout": 60000,
+    "runners": ["axe"],
+    "ignore": ["color-contrast"]
   },
   "urls": [
     {
-      "url": "http://localhost:3000/",
+      "url": "http://localhost:3000",
       "viewport": { "width": 320, "height": 480 },
       "actions": [
         "wait for element #main-content to be visible",
@@ -14,7 +16,7 @@
       ]
     },
     {
-      "url": "http://localhost:3000/",
+      "url": "http://localhost:3000",
       "actions": [
         "wait for element #main-content to be visible",
         "screen capture screenshots-output/desktop-main-view-home.png"

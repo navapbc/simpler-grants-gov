@@ -80,4 +80,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pa11y-debug-log
-          path: pa11y-debug.log
+          path: ./frontend/pa11y-debug.log

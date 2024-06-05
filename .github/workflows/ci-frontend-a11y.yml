@@ -6,19 +6,18 @@ on:
       - frontend/**
       - .github/workflows/ci-frontend-a11y.yml
 
-defaults:
-  run:
-    working-directory: ./frontend
-
-env:
-  NODE_VERSION: 20
-  LOCKFILE_PATH: ./frontend/package-lock.json
-  PACKAGE_MANAGER: npm
-
 jobs:
   build:
     name: Pa11y-ci tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    env:
+      NODE_VERSION: 20
+      LOCKFILE_PATH: ./frontend/package-lock.json
+      PACKAGE_MANAGER: npm
 
     steps:
       - name: Checkout source
@@ -80,4 +79,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pa11y-debug-log
-          path: frontend/pa11y-debug.log
+          path: ./frontend/pa11y-debug.log

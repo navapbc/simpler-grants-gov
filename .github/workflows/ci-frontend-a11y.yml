@@ -50,12 +50,15 @@ jobs:
           chmod +x ./bin/wait-for-frontend.sh
           ./bin/wait-for-frontend.sh
         shell: bash
-        
-      - name: Check server health
-        run: curl -I http://localhost:3000
 
-      - name: Run pa11y-ci
-        run: npm run test:pa11y
+      - name: Check server health
+        run: |
+          echo "Waiting for server to be ready..."
+          sleep 10
+          curl -I http://localhost:3000
+
+      - name: Run pa11y-ci with debug
+        run: DEBUG=pa11y* npm run test:pa11y
 
       - name: Capture pa11y-ci failure logs
         if: failure()

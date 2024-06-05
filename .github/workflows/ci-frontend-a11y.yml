@@ -58,8 +58,13 @@ jobs:
           curl -I http://localhost:3000
 
       - name: Run pa11y-ci with debug
-        run: DEBUG=pa11y* npm run test:pa11y
+        run: |
+          "DEBUG=pa11y*" npm run test:pa11y 2>&1 | tee pa11y-debug.log
+        shell: bash
 
       - name: Capture pa11y-ci failure logs
         if: failure()
-        run: echo "::error::The site is failing accessibility tests. Please review the Pa11y results above."
+        uses: actions/upload-artifact@v3
+        with:
+          name: pa11y-debug-log
+          path: pa11y-debug.log

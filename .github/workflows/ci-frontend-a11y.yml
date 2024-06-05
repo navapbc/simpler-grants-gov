@@ -21,10 +21,10 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache-dependency-path: ${{ env.LOCKFILE_PATH }}
@@ -33,60 +33,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Create screenshots directory
-        run: mkdir -p screenshots-output
-
       - name: Build project
         run: npm run build
 
       - name: Start server and log output
-        run: |
-          npm run start > server.log 2>&1 &
-          echo "Server is starting..."
-          sleep 20
-          echo "Server logs:"
-          cat server.log
-        shell: bash
+        run: npm run start &
 
       - name: Wait for server to be ready
         run: |
           # Ensure the server wait script is executable
           chmod +x ./bin/wait-for-frontend.sh
           ./bin/wait-for-frontend.sh
-        shell: bash
-
-      - name: Check server health
-        run: |
-          echo "Waiting for server to be ready..."
-          sleep 10
-          curl -I http://localhost:3000
 
       - name: Run pa11y-ci with additional logging
         run: |
-          echo "Running pa11y-ci tests..."
-          npm run test:pa11y 2>&1 | tee pa11y-debug.log
-          echo "pa11y-ci tests finished."
-        env:
-          DEBUG: 'pa11y*'
-        shell: bash
-
-      - name: List files in working directory
-        run: ls -la
-        shell: bash
-
-      - name: List files in current directory
-        run: ls -la .
-        shell: bash
-
-      - name: Force fail to test artifact upload
-        run: exit 1
-        if: always()
-
-      - name: Upload Pa11y debug log and server log
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: pa11y-debug-log
-          path: |
-            ./frontend/pa11y-debug.log
-            ./frontend/server.log
+            npm run test:pa11y
+            echo "pa11y-ci tests finished."

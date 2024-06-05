@@ -1,15 +1,24 @@
 {
-    "defaults": {
-      "chromeLaunchConfig": {
-        "executablePath": "/usr/bin/google-chrome"
-      },
-      "timeout": 60000,
-      "viewport": {
-        "width": 1280,
-        "height": 1024
-      }
+  "defaults": {
+    "chromeLaunchConfig": {
+      "executablePath": "/usr/bin/google-chrome"
     },
-    "urls": [
-      "http://localhost:3000/"
-    ]
-  }
+    "timeout": 60000,
+    "viewport": {
+      "width": 1280,
+      "height": 1024
+    }
+  },
+  "urls": [
+    {
+      "url": "http://localhost:3000/",
+      "viewport": { "width": 320, "height": 480 },
+      "actions": [
+        "wait for element #main-content to be visible",
+        "screen capture screenshots-output/mobile-main-view.png",
+        "click element .usa-navbar button",
+        "screen capture screenshots-output/mobile-expand-menu.png"
+      ]
+    }
+  ]
+}

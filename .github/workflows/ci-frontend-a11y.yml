@@ -33,6 +33,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Create screenshots directory
+        run: mkdir -p screenshots-output
+
       - name: Build project
         run: npm run build
 
@@ -45,7 +48,7 @@ jobs:
           chmod +x ./bin/wait-for-frontend.sh
           ./bin/wait-for-frontend.sh
 
-      - name: Run pa11y-ci with additional logging
+      - name: Run pa11y-ci
         run: |
             npm run test:pa11y
             echo "pa11y-ci tests finished."

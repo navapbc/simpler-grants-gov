@@ -59,7 +59,9 @@ jobs:
 
       - name: Run pa11y-ci with debug
         run: |
-          "DEBUG=pa11y*" npm run test:pa11y 2>&1 | tee pa11y-debug.log
+          npm run test:pa11y 2>&1 | tee pa11y-debug.log
+        env:
+          DEBUG: 'pa11y*'
         shell: bash
 
       - name: Capture pa11y-ci failure logs

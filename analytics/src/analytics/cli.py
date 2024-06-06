@@ -8,11 +8,15 @@ from slack_sdk import WebClient
 
 from analytics.datasets.deliverable_tasks import DeliverableTasks
 from analytics.datasets.sprint_board import SprintBoard
-from analytics.integrations import github, slack
+from analytics.integrations import github, slack, db
 from analytics.metrics.base import BaseMetric, Unit
 from analytics.metrics.burndown import SprintBurndown
 from analytics.metrics.burnup import SprintBurnup
 from analytics.metrics.percent_complete import DeliverablePercentComplete
+
+import logging
+import sqlalchemy
+logger = logging.getLogger(__name__)
 
 # fmt: off
 # Instantiate typer options with help text for the commands below
@@ -120,6 +124,17 @@ def calculate_sprint_burnup(
         post_results=post_results,
         output_dir=output_dir,
     )
+
+@export_app.command(name="test_connection")
+def test_connection(
+) -> None:
+    """Test function that ensures the DB connection works."""
+    engine = db.get_db()
+    # connection method from sqlalchemy
+    engine.connect() 
+    logger.warning("Connected to postgres db")
+    print(engine)
+    print(engine.connect())
 
 
 @metrics_app.command(name="deliverable_percent_complete")

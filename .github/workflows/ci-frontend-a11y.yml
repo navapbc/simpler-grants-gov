@@ -53,11 +53,11 @@ jobs:
           set -e # Ensure the script fails if any command fails
           npm run test:pa11y
           echo "pa11y-ci tests finished."
-          ls -la screenshots-output # List the files in the screenshots-output directory to verify screenshots are created
+          ls -la ./screenshots-output # List the files in the screenshots-output directory to verify screenshots are created
 
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: screenshots
-          path: screenshots-output
+          path: ./frontend/screenshots-output

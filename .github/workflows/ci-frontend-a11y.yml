@@ -54,12 +54,13 @@ jobs:
           set -e # Ensure the script fails if any command fails
           npm run test:pa11y > pa11y-results.txt
           echo "pa11y-ci tests finished."
+          ls -la ./screenshots-output # List the files in the screenshots-output directory to verify screenshots are created
 
       - name: Parse and format Pa11y results
         id: parse-pa11y
         run: |
           # Extract and format the results
-          grep -oP 'Errors in .+?:\n(?:\s+• .+?\n)+' pa11y-results.txt | sed 's/^/| /; s/$/ |/; 1i | URL | Errors |' > pa11y-report.md
+          grep -oP 'Errors in .+?:\n(?:\s+• .+?\n)+' pa11y-results.txt | sed 's/^/| /; s/$/ |/; 1i | URL | Errors |' > ./frontend/pa11y-report.md
 
       - name: Upload screenshots
         if: always()
@@ -73,7 +74,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const pa11yReport = fs.readFileSync('pa11y-report.md', 'utf8');
+            const pa11yReport = fs.readFileSync('./frontend/pa11y-report.md', 'utf8');
             github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,

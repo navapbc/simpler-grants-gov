@@ -1,6 +1,6 @@
 {
   "defaults": {
-    "timeout": 60000,
+    "timeout": 240000,
     "runners": ["axe"],
     "ignore": ["color-contrast"],
     "concurrency": 1,

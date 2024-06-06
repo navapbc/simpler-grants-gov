@@ -59,8 +59,12 @@ jobs:
       - name: Parse and format Pa11y results
         id: parse-pa11y
         run: |
-          # Extract and format the results
-          grep -oP 'Errors in .+?:\n(?:\s+• .+?\n)+' pa11y-results.txt | sed 's/^/| /; s/$/ |/; 1i | URL | Errors |' > ./frontend/pa11y-report.md
+          mkdir -p ./frontend
+          if grep -q 'Errors in' pa11y-results.txt; then
+            grep -oP 'Errors in .+?:\n(?:\s+• .+?\n)+' pa11y-results.txt | sed 's/^/| /; s/$/ |/; 1i | URL | Errors |' > ./frontend/pa11y-report.md
+          else
+            echo "No accessibility errors found." > ./frontend/pa11y-report.md
+          fi
 
       - name: Upload screenshots
         if: always()

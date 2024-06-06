@@ -6,7 +6,7 @@
     "concurrency": 1,
     "chromeLaunchConfig": {
       "ignoreHTTPSErrors": true,
-      "args": ["--disable-dev-shm-usage"]
+      "args": ["--disable-dev-shm-usage", "--no-sandbox"]
     }
   },
   "urls": [

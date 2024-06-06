@@ -49,40 +49,14 @@ jobs:
           ./bin/wait-for-frontend.sh
 
       - name: Run pa11y-ci
-        id: run-pa11y
         run: |
           set -e # Ensure the script fails if any command fails
-          npm run test:pa11y > pa11y-results.txt
+          npm run test:pa11y
           echo "pa11y-ci tests finished."
-          ls -la ./screenshots-output # List the files in the screenshots-output directory to verify screenshots are created
-
-      - name: Parse and format Pa11y results
-        id: parse-pa11y
-        run: |
-          mkdir -p ./frontend
-          if grep -q 'Errors in' pa11y-results.txt; then
-            grep -oP 'Errors in .+?:\n(?:\s+• .+?\n)+' pa11y-results.txt | sed 's/^/| /; s/$/ |/; 1i | URL | Errors |' > ./frontend/pa11y-report.md
-          else
-            echo "No accessibility errors found." > ./frontend/pa11y-report.md
-          fi
-
-      - name: Upload screenshots
+          
+      - name: Upload screenshots to artifacts
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: screenshots
           path: ./frontend/screenshots-output
-
-      - name: Post Pa11y results as a PR comment
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const pa11yReport = fs.readFileSync('./frontend/pa11y-report.md', 'utf8');
-            github.rest.issues.createComment({
-              ...context.repo,
-              issue_number: context.issue.number,
-              body: `## Pa11y Accessibility Test Results\n${pa11yReport}`
-            });
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

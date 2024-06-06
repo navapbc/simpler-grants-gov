@@ -69,10 +69,15 @@ jobs:
           path: ./frontend/screenshots-output
 
       - name: Post Pa11y results as a PR comment
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: actions/github-script@v6
         with:
-          message: |
-            ## Pa11y Accessibility Test Results
-            $(cat pa11y-report.md)
+          script: |
+            const fs = require('fs');
+            const pa11yReport = fs.readFileSync('pa11y-report.md', 'utf8');
+            github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: `## Pa11y Accessibility Test Results\n${pa11yReport}`
+            });
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

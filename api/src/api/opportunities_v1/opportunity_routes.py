@@ -83,7 +83,6 @@ examples = {
     arg_name="search_params",
     examples=examples,
 )
-# many=True allows us to return a list of opportunity objects
 @opportunity_blueprint.output(opportunity_schemas.OpportunitySearchResponseV1Schema())
 @opportunity_blueprint.auth_required(api_key_auth)
 @opportunity_blueprint.doc(description=SHARED_ALPHA_DESCRIPTION)
@@ -108,17 +107,14 @@ def opportunity_search(
 
     return response.ApiResponse(
         message="Success",
-        data={
-            "opportunities": opportunities,
-            "facet_counts": aggregations,
-            "pagination_info": pagination_info,
-        },
+        data=opportunities,
+        facet_counts=aggregations,
         pagination_info=pagination_info,
     )
 
 
 @opportunity_blueprint.get("/opportunities/<int:opportunity_id>")
-@opportunity_blueprint.output(opportunity_schemas.OpportunityV1Schema())
+@opportunity_blueprint.output(opportunity_schemas.OpportunityGetResponseV1Schema())
 @opportunity_blueprint.auth_required(api_key_auth)
 @opportunity_blueprint.doc(description=SHARED_ALPHA_DESCRIPTION)
 @flask_db.with_db_session()

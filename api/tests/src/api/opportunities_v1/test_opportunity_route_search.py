@@ -28,9 +28,8 @@ def validate_search_response(
     assert search_response.status_code == expected_status_code
 
     response_json = search_response.get_json()
-    data = response_json["data"]
 
-    opportunities = data["opportunities"]
+    opportunities = response_json["data"]
 
     response_ids = [opp["opportunity_id"] for opp in opportunities]
     expected_ids = [exp.opportunity_id for exp in expected_results]

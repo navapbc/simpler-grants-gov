@@ -1,4 +1,5 @@
 from src.api.schemas.extension import Schema, fields, validators
+from src.api.schemas.response_schema import AbstractResponseSchema, PaginationMixinSchema
 from src.api.schemas.search_schema import StrSearchSchemaBuilder
 from src.constants.lookup_constants import (
     ApplicantType,
@@ -7,7 +8,7 @@ from src.constants.lookup_constants import (
     OpportunityCategory,
     OpportunityStatus,
 )
-from src.pagination.pagination_schema import PaginationInfoSchema, generate_pagination_schema
+from src.pagination.pagination_schema import generate_pagination_schema
 
 
 class OpportunitySummaryV1Schema(Schema):
@@ -350,21 +351,6 @@ class OpportunityFacetV1Schema(Schema):
     )
 
 
-class OpportunitySearchResponseV1Schema(Schema):
-    opportunities = fields.List(
-        fields.Nested(OpportunityV1Schema()), metadata={"description": "The opportunity records"}
-    )
-    facet_counts = fields.Nested(
-        OpportunityFacetV1Schema(),
-        metadata={"description": "Counts of filter/facet values in the full response"},
-    )
-
-    pagination_info = fields.Nested(
-        PaginationInfoSchema(),
-        metadata={"description": "The pagination information for the search response"},
-    )
-
-
 class OpportunitySearchRequestV1Schema(Schema):
     query = fields.String(
         metadata={
@@ -390,4 +376,17 @@ class OpportunitySearchRequestV1Schema(Schema):
             ],
         ),
         required=True,
+    )
+
+
+class OpportunityGetResponseV1Schema(AbstractResponseSchema):
+    data = fields.Nested(OpportunityV1Schema())
+
+
+class OpportunitySearchResponseV1Schema(AbstractResponseSchema, PaginationMixinSchema):
+    data = fields.Nested(OpportunityV1Schema(many=True))
+
+    facet_counts = fields.Nested(
+        OpportunityFacetV1Schema(),
+        metadata={"description": "Counts of filter/facet values in the full response"},
     )

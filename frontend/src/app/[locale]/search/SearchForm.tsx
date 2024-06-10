@@ -60,26 +60,28 @@ export function SearchForm({
         </div>
         <div className="grid-row grid-gap">
           <div className="tablet:grid-col-4">
-            <SearchOpportunityStatus
-              formRef={formRef}
-              initialQueryParams={statusQueryParams}
-            />
-            <SearchFilterFundingInstrument
-              formRef={formRef}
-              initialQueryParams={fundingInstrumentQueryParams}
-            />
-            <SearchFilterEligibility
-              formRef={formRef}
-              initialQueryParams={eligibilityQueryParams}
-            />
-            <SearchFilterAgency
-              formRef={formRef}
-              initialQueryParams={agencyQueryParams}
-            />
-            <SearchFilterCategory
-              formRef={formRef}
-              initialQueryParams={categoryQueryParams}
-            />
+            <div className="position-sticky top-0 maxh-viewport overflow-auto">
+              <SearchOpportunityStatus
+                formRef={formRef}
+                initialQueryParams={statusQueryParams}
+              />
+              <SearchFilterFundingInstrument
+                formRef={formRef}
+                initialQueryParams={fundingInstrumentQueryParams}
+              />
+              <SearchFilterEligibility
+                formRef={formRef}
+                initialQueryParams={eligibilityQueryParams}
+              />
+              <SearchFilterAgency
+                formRef={formRef}
+                initialQueryParams={agencyQueryParams}
+              />
+              <SearchFilterCategory
+                formRef={formRef}
+                initialQueryParams={categoryQueryParams}
+              />
+            </div>
           </div>
           <div className="tablet:grid-col-8">
             <SearchResultsHeader

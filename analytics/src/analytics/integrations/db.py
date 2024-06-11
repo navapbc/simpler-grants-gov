@@ -1,4 +1,4 @@
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name, line-too-long
 """Get a connection to the database using a SQLAlchemy engine object."""
 
 from sqlalchemy import Engine, create_engine

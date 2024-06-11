@@ -8,7 +8,7 @@ Dynaconf provides a few valuable features for configuration management:
 
 For more information visit: https://www.dynaconf.com/
 """
-import psycopg
+
 from dynaconf import Dynaconf, Validator, ValidationError
 
 settings = Dynaconf(

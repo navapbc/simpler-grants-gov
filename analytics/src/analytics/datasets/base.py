@@ -30,7 +30,8 @@ class BaseDataset:
         *,
         replace_table: bool = True,
     ) -> None:
-        """Writes the contents of a pandas DataFrame to a SQL table.
+        """
+        Write the contents of a pandas DataFrame to a SQL table.
 
         This function takes a pandas DataFrame (`self.df`), an output table name (`output_table`),
         and a SQLAlchemy Engine object (`engine`) as required arguments. It optionally accepts
@@ -71,21 +72,24 @@ class BaseDataset:
         source_table: str,
         engine: Engine,
     ) -> Self:
-        """Reads data from a SQL table into a pandas DataFrame and creates an instance of the current class.
-        This function takes a source table name (`source_table`) and a SQLAlchemy Engine object (`engine`) as required arguments. It utilizes pandas.read_sql to retrieve the data from the database and then creates a new instance of the current class (`cls`) initialized with the resulting DataFrame (`df`).
+        """
+        Read data from a SQL table into a pandas DataFrame and creates an instance of the current class.
+
+        This function takes a source table name (`source_table`) and a SQLAlchemy Engine object (`engine`) as required arguments.
+        It utilizes pandas.read_sql to retrieve the data from the database and then creates a new instance of the current class (`cls`) initialized with the resulting DataFrame (`df`).
 
         **Parameters:**
 
-        * cls (class, required): The class that will be instantiated with the data from the 
+        * cls (class, required): The class that will be instantiated with the data from the
         SQL table. This allows for creating objects of the same type as the function is called on.
-        * source_table (str, required): The name of the table in the database from which the 
+        * source_table (str, required): The name of the table in the database from which the
         data will be read.
         * engine (sqlalchemy.engine.Engine, required): A SQLAlchemy Engine object representing
         the connection to the database.
 
         **Returns:**
 
-        * Self: A new instance of the current class (`cls`) initialized with the DataFrame 
+        * Self: A new instance of the current class (`cls`) initialized with the DataFrame
         containing the data from the SQL table.
 
         **Raises:**

@@ -1,7 +1,4 @@
-# Default connection vars for the Database
-DB_USER
-DB_HOST
-DB_NAME
-DB_PASSWORD
-DB_PORT
-DB_URL
+NAME = "app"
+HOST = "0.0.0.0"
+USER = "app"
+PORT = 5432

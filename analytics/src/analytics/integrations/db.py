@@ -19,4 +19,4 @@ def get_db() -> Engine:
     A SQLAlchemy engine object representing the connection to the database.
     """
 
-    return create_engine(settings.database_url, pool_pre_ping=True)
+    return create_engine(settings.database_url, pool_pre_ping=True, hide_parameters=True)

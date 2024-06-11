@@ -15,7 +15,7 @@ from analytics.metrics.burnup import SprintBurnup
 from analytics.metrics.percent_complete import DeliverablePercentComplete
 
 import logging
-import sqlalchemy
+from sqlalchemy import text
 logger = logging.getLogger(__name__)
 
 # fmt: off
@@ -131,10 +131,18 @@ def test_connection(
     """Test function that ensures the DB connection works."""
     engine = db.get_db()
     # connection method from sqlalchemy
-    engine.connect() 
-    logger.warning("Connected to postgres db")
-    print(engine)
-    print(engine.connect())
+    connection = engine.connect()
+
+    # Test INSERT INTO action
+    result = connection.execute(text(
+        'INSERT INTO audit_log (topic,timestamp, end_timestamp, user_id, details) VALUES(\'test\', \' 2024-06-11 10:41:15+00\', \'2024-06-11 10:54:15+00\', 87654, \'test from command\');'))
+    # Test SELECT action
+    result = connection.execute(text('SELECT * FROM audit_log WHERE user_id=87654;'))
+    for row in result:
+        print(row)
+    # commits the transaction to the db
+    connection.commit()
+    result.close()
 
 
 @metrics_app.command(name="deliverable_percent_complete")

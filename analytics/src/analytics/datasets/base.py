@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Base class for all datasets which provides an interface for metrics."""
 from pathlib import Path
 from typing import Self

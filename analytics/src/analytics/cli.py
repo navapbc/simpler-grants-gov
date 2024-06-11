@@ -134,10 +134,10 @@ def test_connection() -> None:
     connection = engine.connect()
 
     # Test INSERT INTO action
-    #  splitting this to appease  E501 Line too long (184 > 100 characters will break the command
     result = connection.execute(
         text(
-            "INSERT INTO audit_log (topic,timestamp, end_timestamp, user_id, details) VALUES('test', ' 2024-06-11 10:41:15+00', '2024-06-11 10:54:15+00', 87654, 'test from command');",
+            "INSERT INTO audit_log (topic,timestamp, end_timestamp, user_id, details)"
+            "VALUES('test','2024-06-11 10:41:15','2024-06-11 10:54:15',87654,'test from command');",
         ),
     )
     # Test SELECT action

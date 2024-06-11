@@ -19,7 +19,7 @@ def get_db() -> Engine:
     A SQLAlchemy engine object representing the connection to the database.
     """
     return create_engine(
-        f"postgresql+psycopg://{settings.user}:{settings.password}@{settings.host}:{settings.port}",
+        f"postgresql+psycopg://{settings.postgres_user}:{settings.postgres_password}@{settings.postgres_host}:{settings.postgres_port}",
         pool_pre_ping=True,
         hide_parameters=True,
     )

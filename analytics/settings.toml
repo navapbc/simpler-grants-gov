@@ -1,4 +1,4 @@
-NAME = "app"
-HOST = "0.0.0.0"
-USER = "app"
-PORT = 5432
+POSTGRES_NAME = "app"
+POSTGRES_HOST = "0.0.0.0"
+POSTGRES_USER = "app"
+POSTGRES_PORT = 5432

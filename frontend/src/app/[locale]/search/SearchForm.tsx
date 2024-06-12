@@ -60,7 +60,7 @@ export function SearchForm({
         </div>
         <div className="grid-row grid-gap">
           <div className="tablet:grid-col-4">
-            <div className="position-sticky top-0 maxh-viewport overflow-auto">
+            <div className="search-filter">
               <SearchOpportunityStatus
                 formRef={formRef}
                 initialQueryParams={statusQueryParams}

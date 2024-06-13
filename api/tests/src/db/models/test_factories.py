@@ -5,7 +5,7 @@ import pytest
 import src.adapters.db as db
 from src.constants.lookup_constants import OpportunityCategory
 from src.db.models.opportunity_models import Opportunity
-from tests.src.db.models.factories import OpportunityFactory, OpportunitySummaryHistoryBuilder
+from tests.src.db.models.factories import OpportunityFactory
 
 opportunity_params = {
     "opportunity_number": 100123456,
@@ -82,27 +82,3 @@ def test_opportunity_factory_create(enable_factory_create, db_session: db.Sessio
     null_params = {"agency": None}
     opportunity = OpportunityFactory.create(**null_params)
     validate_opportunity_record(opportunity, null_params)
-
-
-def test_thing(enable_factory_create):
-    opp = (
-        OpportunitySummaryHistoryBuilder()
-        .add_forecast()
-        .add_forecast_history(summary_description="-1 forecast")
-        .add_forecast_history(summary_description="-2 forecast")
-        .add_forecast_history(summary_description="-3 forecast")
-        .add_forecast_history(summary_description="-4 forecast")
-        .add_non_forecast(is_current=True)
-        .add_non_forecast_history(summary_description="-1 value", is_deleted=True)
-        .add_non_forecast_history(summary_description="-2 value")
-        .add_non_forecast_history(summary_description="-3 value")
-        .build()
-    )
-
-    print("hello")
-
-    for x in opp.all_forecasts:
-        print(f"Forecast {x.version_number} [{x.revision_number}] | is_deleted={x.is_deleted}")
-
-    for x in opp.all_non_forecasts:
-        print(f"Synopsis {x.version_number} [{x.revision_number}] | is_deleted={x.is_deleted}")

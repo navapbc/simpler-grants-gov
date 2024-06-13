@@ -146,6 +146,16 @@ sprint-data-export:
 	--project $(SPRINT_PROJECT) \
 	--output-file $(SPRINT_FILE)
 
+# Import JSON data to database
+sprint-db-data-import:
+	@echo "=> Importing project data to the database"
+	@echo "====================================================="
+	$(POETRY) analytics export db_export \
+	--owner $(ORG) \
+	--project $(ROADMAP_PROJECT) \
+	--output-file $(ROADMAP_FILE)
+
+# Placeholder for command: issue-data-db-import
 roadmap-data-export:
 	@echo "=> Exporting project data from the product roadmap"
 	@echo "====================================================="

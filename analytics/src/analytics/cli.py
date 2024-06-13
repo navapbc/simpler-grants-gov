@@ -148,7 +148,15 @@ def test_connection() -> None:
     connection.commit()
     result.close()
 
+@export_app.command(name="db_export")
+def export_json_to_database() -> None:
+    # TODO: Write the rest of this function
 
+    # Get the database engine and establish a connection
+    engine = db.get_db()
+    connection = engine.connect()
+
+    
 @metrics_app.command(name="deliverable_percent_complete")
 def calculate_deliverable_percent_complete(
     sprint_file: Annotated[str, SPRINT_FILE_ARG],

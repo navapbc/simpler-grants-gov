@@ -11,7 +11,7 @@ from sqlalchemy import text
 from analytics.datasets.deliverable_tasks import DeliverableTasks
 from analytics.datasets.sprint_board import SprintBoard
 from analytics.integrations import db, github, slack
-from analytics.metrics.base import BaseMetric, Unit
+from analytics.metrics.base import BaseMetric, BaseDataset, Unit
 from analytics.metrics.burndown import SprintBurndown
 from analytics.metrics.burnup import SprintBurnup
 from analytics.metrics.percent_complete import DeliverablePercentComplete
@@ -149,14 +149,25 @@ def test_connection() -> None:
     result.close()
 
 @export_app.command(name="db_export")
-def export_json_to_database() -> None:
+def export_json_to_database(
+    dataset: BaseDataset,
+    output_table: str, # name of table where data gets inserted
+) -> None:
+    """Export JSON data to the database"""
     # TODO: Write the rest of this function
-
+    
     # Get the database engine and establish a connection
     engine = db.get_db()
     connection = engine.connect()
 
-    
+    # get data and convert to JSON
+    # use to_sql command
+    dataset.to_sql(output_table=output_table, engine=connection)
+
+
+    # insert data into database
+    # some sort of text cmd here?
+
 @metrics_app.command(name="deliverable_percent_complete")
 def calculate_deliverable_percent_complete(
     sprint_file: Annotated[str, SPRINT_FILE_ARG],

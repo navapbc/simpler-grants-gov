@@ -18,7 +18,6 @@ function listPaths(dir: string): string[] {
 
 // Function to get the Next.js routes
 export function getNextRoutes(src: string): string[] {
-
   // Get all paths from the `app` directory
   const appPaths = listPaths(src).filter((file) => file.endsWith("page.tsx"));
 

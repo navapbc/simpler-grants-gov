@@ -35,6 +35,6 @@ export function getNextRoutes(src: string): string[] {
       : "/";
     return route.replace(/\/\//g, "/");
   });
-  console.log("appRoutes => ", appRoutes);
+
   return appRoutes;
 }

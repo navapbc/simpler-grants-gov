@@ -12,6 +12,12 @@
       "width": 390,
       "height": 844,
       "mobile": true
-    }
+    },
+    "actions": [
+      "wait for element #main-content to be visible",
+      "screen capture screenshots-output/mobile-main-view.png",
+      "click element .usa-navbar button",
+      "screen capture screenshots-output/mobile-expand-menu.png"
+    ]
   }
 }

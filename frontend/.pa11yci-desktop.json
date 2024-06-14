@@ -7,6 +7,10 @@
     "chromeLaunchConfig": {
       "ignoreHTTPSErrors": true,
       "args": ["--disable-dev-shm-usage", "--no-sandbox"]
-    }
+    },
+    "actions": [
+      "wait for element #main-content to be visible",
+      "screen capture screenshots-output/desktop-main-view.png"
+    ]
   }
 }

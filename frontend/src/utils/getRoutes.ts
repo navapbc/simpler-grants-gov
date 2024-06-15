@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 // Helper function to list all paths recursively
-function listPaths(dir: string): string[] {
+export function listPaths(dir: string): string[] {
   let fileList: string[] = [];
   const files = fs.readdirSync(dir);
   files.forEach((file) => {

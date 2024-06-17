@@ -94,7 +94,7 @@ class CustomProvider(BaseProvider):
     AGENCY_CONTACT_DESC_FORMATS = [
         "{{name}}\n{{job}}\n555-###-####\n{{email}}",
         "{{relevant_url}} Contact Center\nHours of operation are 24 hours a day, 7 days a week.\n{{email}}",
-        "{{agency}} Webmaster\n{{email}}",
+        "Webmaster\n{{email}}",
     ]
 
     # Rather than generate any random URL in our data, use those
@@ -367,7 +367,7 @@ class OpportunitySummaryFactory(BaseFactory):
         no_declaration=None,
     )
 
-    agency_code = factory.Faker("agency")
+    agency_code = factory.LazyAttribute(lambda s: s.opportunity.agency)
     agency_name = factory.Faker("agency_name")
     agency_phone_number = Generators.PhoneNumber
     agency_contact_description = factory.Faker("agency_contact_description")
@@ -436,6 +436,11 @@ class OpportunitySummaryFactory(BaseFactory):
         length=random.randint(1, 3),
         elements=[a for a in ApplicantType],
         unique=True,
+    )
+
+    created_at = factory.Faker("date_time")
+    updated_at = factory.LazyAttribute(
+        lambda o: fake.date_time_between(start_date=o.created_at, end_date="now")
     )
 
     class Params:

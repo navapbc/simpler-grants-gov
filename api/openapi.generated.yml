@@ -1128,11 +1128,11 @@ components:
         created_at:
           type: string
           format: date-time
-          description: TODO
+          description: When the opportunity summary was created
         updated_at:
           type: string
           format: date-time
-          description: TODO
+          description: When the opportunity summary was last updated
     OpportunityV1:
       type: object
       properties:

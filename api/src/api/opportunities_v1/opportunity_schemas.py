@@ -211,8 +211,12 @@ class OpportunitySummaryV1Schema(Schema):
     funding_categories = fields.List(fields.Enum(FundingCategory))
     applicant_types = fields.List(fields.Enum(ApplicantType))
 
-    created_at = fields.DateTime(metadata={"description": "TODO"})
-    updated_at = fields.DateTime(metadata={"description": "TODO"})
+    created_at = fields.DateTime(
+        metadata={"description": "When the opportunity summary was created"}
+    )
+    updated_at = fields.DateTime(
+        metadata={"description": "When the opportunity summary was last updated"}
+    )
 
 
 class OpportunityAssistanceListingV1Schema(Schema):

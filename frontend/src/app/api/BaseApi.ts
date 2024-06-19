@@ -149,14 +149,14 @@ export function createRequestUrl(
   let url = [...cleanedPaths].join("/");
   if (method === "GET" && body && !(body instanceof FormData)) {
     // Append query string to URL
-    const bodyParams: { [key: string]: string } = {};
+    const body: { [key: string]: string } = {};
     Object.entries(body).forEach(([key, value]) => {
       const stringValue =
         typeof value === "string" ? value : JSON.stringify(value);
-      bodyParams[key] = stringValue;
+      body[key] = stringValue;
     });
 
-    const params = new URLSearchParams(bodyParams).toString();
+    const params = new URLSearchParams(body).toString();
     url = `${url}?${params}`;
   }
   return url;

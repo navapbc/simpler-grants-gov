@@ -245,9 +245,9 @@ const throwError = (
     default:
       throw new ApiRequestError(
         error,
-        searchInputs,
         "APIRequestError",
         status_code,
+        searchInputs,
       );
   }
 };

@@ -110,7 +110,6 @@ export default abstract class BaseApi {
     let response: Response;
     let responseBody: SearchAPIResponse;
     try {
-      console.log("url => ", url, " fethcOptions=>", fetchOptions);
       response = await fetch(url, fetchOptions);
       responseBody = (await response.json()) as SearchAPIResponse;
     } catch (error) {

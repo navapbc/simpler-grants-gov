@@ -1,7 +1,13 @@
+import {
+  ApiResponse,
+  Summary,
+} from "../../../../types/opportunity/opportunityResponseTypes";
+
 import { Metadata } from "next";
 import NotFound from "../../../not-found";
 import OpportunityListingAPI from "../../../api/OpportunityListingAPI";
 import { getTranslations } from "next-intl/server";
+import { isSummary } from "../../../../utils/opportunity/isSummary";
 
 export async function generateMetadata() {
   const t = await getTranslations({ locale: "en" });
@@ -25,7 +31,7 @@ export default async function OpportunityListing({
   }
 
   const api = new OpportunityListingAPI();
-  let opportunity;
+  let opportunity: ApiResponse;
   try {
     opportunity = await api.getOpportunityById(id);
   } catch (error) {
@@ -36,6 +42,19 @@ export default async function OpportunityListing({
   if (!opportunity.data) {
     return <NotFound />;
   }
+
+  const renderSummary = (summary: Summary) => {
+    return (
+      <>
+        {Object.entries(summary).map(([summaryKey, summaryValue]) => (
+          <tr key={summaryKey}>
+            <td className="word-wrap">{`summary.${summaryKey}`}</td>
+            <td className="word-wrap">{JSON.stringify(summaryValue)}</td>
+          </tr>
+        ))}
+      </>
+    );
+  };
 
   return (
     <div className="grid-container">
@@ -49,12 +68,18 @@ export default async function OpportunityListing({
               </tr>
             </thead>
             <tbody>
-              {Object.entries(opportunity.data).map(([key, value]) => (
-                <tr key={key}>
-                  <td className="word-wrap">{key}</td>
-                  <td className="word-wrap">{JSON.stringify(value)}</td>
-                </tr>
-              ))}
+              {Object.entries(opportunity.data).map(([key, value]) => {
+                if (key === "summary" && isSummary(value)) {
+                  return renderSummary(value);
+                } else {
+                  return (
+                    <tr key={key}>
+                      <td className="word-wrap">{key}</td>
+                      <td className="word-wrap">{JSON.stringify(value)}</td>
+                    </tr>
+                  );
+                }
+              })}
             </tbody>
           </table>
         </div>

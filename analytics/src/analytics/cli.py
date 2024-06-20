@@ -150,23 +150,23 @@ def test_connection() -> None:
 
 @export_app.command(name="db_export")
 def export_json_to_database(
-    dataset: BaseDataset,
-    output_table: str, # name of table where data gets inserted
+    # dataset: BaseDataset, # got RuntimeError: Type not yet supported with this defined here
+    sprint_file: Annotated[str, SPRINT_FILE_ARG],
+    issue_file: Annotated[str, ISSUE_FILE_ARG], 
 ) -> None:
     """Export JSON data to the database"""
-    # TODO: Write the rest of this function
     
     # Get the database engine and establish a connection
     engine = db.get_db()
     connection = engine.connect()
 
-    # get data and convert to JSON
-    # use to_sql command
-    dataset.to_sql(output_table=output_table, engine=connection)
-
-
-    # insert data into database
-    # some sort of text cmd here?
+    # get data and load from JSON
+    task_data = DeliverableTasks.load_from_json_files(
+        sprint_file=sprint_file,
+        issue_file=issue_file,
+    ) 
+    
+    BaseDataset.to_sql(output_table=task_data, engine=connection, replace_table=True) # replace_table=True is the default
 
 @metrics_app.command(name="deliverable_percent_complete")
 def calculate_deliverable_percent_complete(

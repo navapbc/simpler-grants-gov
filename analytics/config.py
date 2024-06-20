@@ -21,8 +21,8 @@ settings = Dynaconf(
     merge_enabled= True,
     # add validators for our required config vars
     validators=[
-        Validator("SLACK_BOT_TOKEN", must_exist=True),
-        Validator("REPORTING_CHANNEL_ID", must_exist=True),
+        Validator("SLACK_BOT_TOKEN", must_exist=False), #disabled for testing
+        Validator("REPORTING_CHANNEL_ID", must_exist=False), #disabled for testing
     ],
 )
 

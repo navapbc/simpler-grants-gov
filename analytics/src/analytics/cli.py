@@ -167,7 +167,9 @@ def export_json_to_database(
     )
 
     BaseDataset.to_sql(
-        output_table=task_data, engine=connection, replace_table=True,
+        output_table=task_data,
+        engine=connection,
+        replace_table=True,
     )  # replace_table=True is the default
 
 

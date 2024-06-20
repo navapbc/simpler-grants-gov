@@ -11,7 +11,7 @@ from sqlalchemy import text
 from analytics.datasets.deliverable_tasks import DeliverableTasks
 from analytics.datasets.sprint_board import SprintBoard
 from analytics.integrations import db, github, slack
-from analytics.metrics.base import BaseMetric, BaseDataset, Unit
+from analytics.metrics.base import BaseDataset, BaseMetric, Unit
 from analytics.metrics.burndown import SprintBurndown
 from analytics.metrics.burnup import SprintBurnup
 from analytics.metrics.percent_complete import DeliverablePercentComplete
@@ -148,14 +148,14 @@ def test_connection() -> None:
     connection.commit()
     result.close()
 
+
 @export_app.command(name="db_export")
 def export_json_to_database(
     # dataset: BaseDataset, # got RuntimeError: Type not yet supported with this defined here
     sprint_file: Annotated[str, SPRINT_FILE_ARG],
-    issue_file: Annotated[str, ISSUE_FILE_ARG], 
+    issue_file: Annotated[str, ISSUE_FILE_ARG],
 ) -> None:
-    """Export JSON data to the database"""
-    
+    """Export JSON data to the database."""
     # Get the database engine and establish a connection
     engine = db.get_db()
     connection = engine.connect()
@@ -164,9 +164,12 @@ def export_json_to_database(
     task_data = DeliverableTasks.load_from_json_files(
         sprint_file=sprint_file,
         issue_file=issue_file,
-    ) 
-    
-    BaseDataset.to_sql(output_table=task_data, engine=connection, replace_table=True) # replace_table=True is the default
+    )
+
+    BaseDataset.to_sql(
+        output_table=task_data, engine=connection, replace_table=True,
+    )  # replace_table=True is the default
+
 
 @metrics_app.command(name="deliverable_percent_complete")
 def calculate_deliverable_percent_complete(

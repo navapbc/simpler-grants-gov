@@ -11,7 +11,7 @@ from sqlalchemy import text
 from analytics.datasets.deliverable_tasks import DeliverableTasks
 from analytics.datasets.sprint_board import SprintBoard
 from analytics.integrations import db, github, slack
-from analytics.metrics.base import BaseDataset, BaseMetric, Unit
+from analytics.metrics.base import BaseMetric, Unit
 from analytics.metrics.burndown import SprintBurndown
 from analytics.metrics.burnup import SprintBurnup
 from analytics.metrics.percent_complete import DeliverablePercentComplete

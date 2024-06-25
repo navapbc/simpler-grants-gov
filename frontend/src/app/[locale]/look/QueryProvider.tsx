@@ -1,11 +1,14 @@
 "use client"
 
-import React, { use } from "react"
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from "next/navigation";
-import { set } from "lodash";
 
-export const QueryContext = createContext<any>({});
+interface QueryContextParams {
+  queryTerm: string | null | undefined;
+  updateQueryTerm: (term: string) => void;
+}
+
+export const QueryContext = createContext( {} as QueryContextParams );
 
 export default function QueryProvider({
     children,

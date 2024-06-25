@@ -4,14 +4,14 @@ import { Icon } from "@trussworks/react-uswds";
 import { sendGAEvent } from "@next/third-parties/google";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { QueryContext } from "./QueryProvider";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 interface SearchBarProps {
   query: string;
 }
 
 export default function SearchBar({ query }: SearchBarProps) {
-  let { queryTerm, updateQueryTerm } = useContext(QueryContext);
+  const { queryTerm, updateQueryTerm } = useContext(QueryContext);
 
   const searchParams = useSearchParams() || undefined;
   const pathname = usePathname() || "";

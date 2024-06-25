@@ -12,6 +12,7 @@ import { Suspense } from 'react';
 import Loading from "src/app/[locale]/search/loading";
 import SearchResultsList from "./SearchResultList";
 import QueryProvider from "./QueryProvider";
+import SearchOpportunityStatus from "./SearchOpportunityStatus";
 
 export async function generateMetadata() {
   const t = await getTranslations({ locale: "en" });
@@ -27,14 +28,17 @@ export default function Look({
 }: {
   searchParams: {
     query?: string;
+    status?: string
     page?: string;
   };
 }) {
   unstable_setRequestLocale("en");
   const t = useTranslations("Process");
   const query = searchParams?.query || '';
+  const statuses = searchParams?.status || '';
 
   console.log("rendering page");
+  console.log("statuses", statuses)
 
 
   return (
@@ -52,9 +56,9 @@ export default function Look({
         <div className="grid-row grid-gap">
           <div className="tablet:grid-col-4">
             <QueryProvider>
-              <div>
-                Term will be here 
-              </div>
+              <SearchOpportunityStatus
+                selectedStatuses={statuses}
+              />
             </QueryProvider>
           </div>
           <div className="tablet:grid-col-8">

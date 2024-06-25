@@ -3,32 +3,35 @@
 import { Icon } from "@trussworks/react-uswds";
 import { sendGAEvent } from "@next/third-parties/google";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { useState } from "react";
+import { QueryContext } from "./QueryProvider";
+import { useContext, useState } from "react";
 
 interface SearchBarProps {
   query: string;
 }
 
 export default function SearchBar({ query }: SearchBarProps) {
-  const[term, setTerm] = useState<string | null>(null) 
+  let { queryTerm, updateQueryTerm } = useContext(QueryContext);
 
   const searchParams = useSearchParams() || undefined;
   const pathname = usePathname() || "";
   const router = useRouter();
+  console.log("queryTerm:", queryTerm, "vs. query:", query);
 
   const handleSubmit = () => {
     const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set('query', term);
+    if (queryTerm) {
+      params.set('query', queryTerm);
     } else {
       params.delete('query');
     }
-    sendGAEvent("event", "search", { search_term: term });
+    sendGAEvent("event", "search", { search_term: queryTerm });
     router.replace(`${pathname}?${params.toString()}`);
   };
 
   return (
     <div className="margin-top-5 margin-bottom-2">
+      <h1>queryTerm: {queryTerm}</h1>
       <label
         htmlFor="query"
         className="font-sans-lg display-block margin-bottom-2"
@@ -45,7 +48,7 @@ export default function SearchBar({ query }: SearchBarProps) {
           type="search"
           name="query"
           defaultValue={query}
-          onChange={(e) => setTerm(e.target?.value)}
+          onChange={(e) => updateQueryTerm(e.target?.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               handleSubmit();

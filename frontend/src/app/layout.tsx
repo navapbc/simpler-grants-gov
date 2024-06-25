@@ -1,8 +1,8 @@
 import "src/styles/styles.scss";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { PUBLIC_ENV } from "../constants/environments";
+import { PUBLIC_ENV } from "src/constants/environments";
 
-import Layout from "src/components/AppLayout";
+import Layout from "src/components/Layout";
 import { unstable_setRequestLocale } from "next-intl/server";
 /**
  * Root layout component, wraps all pages.
@@ -29,6 +29,9 @@ export default function RootLayout({ children, params }: LayoutProps) {
 
   return (
     <html lang={locale}>
+      <head>
+        <GoogleAnalytics gaId={PUBLIC_ENV.GOOGLE_ANALYTICS_ID} />
+      </head>
       <body>
         {/* Separate layout component for the inner-body UI elements since Storybook
             and tests trip over the fact that this file renders an <html> tag */}
@@ -36,7 +39,6 @@ export default function RootLayout({ children, params }: LayoutProps) {
         {/* TODO: Add locale="english" prop when ready for i18n */}
         <Layout locale={locale}>{children}</Layout>
       </body>
-      <GoogleAnalytics gaId={PUBLIC_ENV.GOOGLE_ANALYTICS_ID} />
     </html>
   );
 }

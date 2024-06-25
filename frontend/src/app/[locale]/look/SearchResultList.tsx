@@ -15,10 +15,10 @@ export default async function SearchResultsList({ searchParams }: ServerPageProp
   const searchResults = await searchFetcher.fetchOpportunities(
     convertedSearchParams,
   );
-  const maxPaginationError = null;
-  const errors = null;
 
-  if (errors) {
+  const maxPaginationError = null;
+
+  if (searchResults.status_code !== 200) {
     return <SearchErrorAlert />;
   }
 
@@ -55,4 +55,4 @@ export default async function SearchResultsList({ searchParams }: ServerPageProp
       ))}
     </ul>
   );
-};
+}

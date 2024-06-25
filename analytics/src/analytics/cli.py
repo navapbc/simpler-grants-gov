@@ -151,24 +151,22 @@ def test_connection() -> None:
 
 @export_app.command(name="db_export")
 def export_json_to_database(
-    # dataset: BaseDataset, # got RuntimeError: Type not yet supported with this defined here
     sprint_file: Annotated[str, SPRINT_FILE_ARG],
     issue_file: Annotated[str, ISSUE_FILE_ARG],
 ) -> None:
     """Export JSON data to the database."""
     # Get the database engine and establish a connection
     engine = db.get_db()
-    connection = engine.connect()
 
     # get data and load from JSON
-    task_data = DeliverableTasks.load_from_json_files(
+    deliverable_data = DeliverableTasks.load_from_json_files(
         sprint_file=sprint_file,
         issue_file=issue_file,
     )
 
-    BaseDataset.to_sql(
-        output_table=task_data,
-        engine=connection,
+    deliverable_data.to_sql(
+        output_table="github_project_data",
+        engine=engine,
         replace_table=True,
     )  # replace_table=True is the default
 

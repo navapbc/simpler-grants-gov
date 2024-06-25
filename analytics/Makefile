@@ -152,8 +152,6 @@ sprint-db-data-import:
 	@echo "=> Importing project data to the database"
 	@echo "====================================================="
 	$(POETRY) analytics export db_export \
-	--owner $(ORG) \
-	--project $(SPRINT_PROJECT) \
 	--sprint-file $(SPRINT_FILE) \
 	--issue-file $(ISSUE_FILE)
 

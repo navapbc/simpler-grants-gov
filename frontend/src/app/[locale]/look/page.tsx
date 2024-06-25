@@ -11,6 +11,7 @@ import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { Suspense } from 'react';
 import Loading from "src/app/[locale]/search/loading";
 import SearchResultsList from "./SearchResultList";
+import QueryProvider from "./QueryProvider";
 
 export async function generateMetadata() {
   const t = await getTranslations({ locale: "en" });
@@ -33,6 +34,9 @@ export default function Look({
   const t = useTranslations("Process");
   const query = searchParams?.query || '';
 
+  console.log("rendering page");
+
+
   return (
     <>
       <PageSEO title={t("page_title")} description={t("meta_description")} />
@@ -41,10 +45,17 @@ export default function Look({
       <SearchCallToAction />
       <div className="grid-container">
         <div className="search-bar">
-          <SearchBar query={query}/>
+          <QueryProvider>
+            <SearchBar query={query}/>
+          </QueryProvider>
         </div>
         <div className="grid-row grid-gap">
           <div className="tablet:grid-col-4">
+            <QueryProvider>
+              <div>
+                Term will be here 
+              </div>
+            </QueryProvider>
           </div>
           <div className="tablet:grid-col-8">
             <Suspense key={query} fallback={<Loading />}>

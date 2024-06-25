@@ -16,7 +16,7 @@ interface StatusOption {
 }
 
 interface SearchOpportunityStatusProps {
-  selectedStatuses: Set<string>;
+  selectedStatuses: string;
 }
 
 const statusOptions: StatusOption[] = [
@@ -28,48 +28,34 @@ const statusOptions: StatusOption[] = [
 
 // Wait a half-second before updating query params
 // and submitting the form
-const SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME = 500;
+// const SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME = 500;
 
 const SearchOpportunityStatus: React.FC<SearchOpportunityStatusProps> = ({
   selectedStatuses,
 }) => {
-  let { queryTerm } = useContext(QueryContext);
-
-  const debouncedUpdate = useDebouncedCallback(
-    (selectedStatuses: Set<string>) => {
-      const key = "status";
-      updateQueryParams(selectedStatuses, key);
-      formRef?.current?.requestSubmit();
-    },
-    SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME,
-  );
+  const { queryTerm } = useContext(QueryContext);
 
   const searchParams = useSearchParams() || undefined;
   const pathname = usePathname() || "";
   const router = useRouter();
-  console.log("queryTerm:", queryTerm, "vs. query:", query);
+  console.log("queryTerm:", queryTerm, "vs. query:", queryTerm);
+  console.log("statuses", selectedStatuses)
 
-  const handleSubmit = (statusValue: string, isChecked: boolean) => {
+  const handleCheck = (statusValue: string, isChecked: boolean) => {
     const params = new URLSearchParams(searchParams);
+    console.log(isChecked)
+    if (statusValue) {
+      params.set('status', statusValue);
+    } else {
+      params.delete('status');
+    }
     if (queryTerm) {
       params.set('query', queryTerm);
     } else {
       params.delete('query');
     }
-    sendGAEvent("event", "search", { search_term: queryTerm });
+    sendGAEvent("event", "search", { status: statusValue });
     router.replace(`${pathname}?${params.toString()}`);
-  };
-
-  const handleCheck = (statusValue: string, isChecked: boolean) => {
-    setSelectedStatuses((prevSelectedStatuses) => {
-      const updatedStatuses = new Set(prevSelectedStatuses);
-      isChecked
-        ? updatedStatuses.add(statusValue)
-        : updatedStatuses.delete(statusValue);
-
-      debouncedUpdate(updatedStatuses);
-      return updatedStatuses;
-    });
   };
 
   return (
@@ -84,7 +70,7 @@ const SearchOpportunityStatus: React.FC<SearchOpportunityStatusProps> = ({
               label={option.label}
               tile={true}
               onChange={(e) => handleCheck(option.value, e.target.checked)}
-              checked={selectedStatuses.has(option.value)}
+             //  checked={selectedStatuses?.has(option.value)}
             />
           </div>
         ))}

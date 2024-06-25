@@ -4,7 +4,7 @@ import BetaAlert from "src/components/BetaAlert";
 import SearchCallToAction from "src/components/search/SearchCallToAction";
 import Breadcrumbs from "src/components/Breadcrumbs";
 import PageSEO from "src/components/PageSEO";
-import SearchBar from "src/components/search/SearchBar";
+import SearchBar from "./SearchBar";
 import { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
@@ -24,15 +24,14 @@ export async function generateMetadata() {
 export default function Look({
   searchParams,
 }: {
-  searchParams?: {
+  searchParams: {
     query?: string;
     page?: string;
   };
 }) {
   unstable_setRequestLocale("en");
   const t = useTranslations("Process");
-  const { query } = searchParams;
-  console.log(searchParams)
+  const query = searchParams?.query || '';
 
   return (
     <>
@@ -40,11 +39,20 @@ export default function Look({
       <BetaAlert />
       <Breadcrumbs breadcrumbList={SEARCH_CRUMBS} />
       <SearchCallToAction />
-      <SearchBar initialQueryParams={query as string}/>
-      <Suspense key={query as string} fallback={<Loading />}>
-        <SearchResultsList searchParams={searchParams} />
-      </Suspense>
-
+      <div className="grid-container">
+        <div className="search-bar">
+          <SearchBar query={query}/>
+        </div>
+        <div className="grid-row grid-gap">
+          <div className="tablet:grid-col-4">
+          </div>
+          <div className="tablet:grid-col-8">
+            <Suspense key={query} fallback={<Loading />}>
+              <SearchResultsList searchParams={searchParams} />
+            </Suspense>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

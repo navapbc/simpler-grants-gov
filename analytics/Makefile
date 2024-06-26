@@ -146,12 +146,10 @@ sprint-data-export:
 	--project $(SPRINT_PROJECT) \
 	--output-file $(SPRINT_FILE)
 
-# Import file data to database
-# Takes sprint and issue and puts it in database
-sprint-db-data-import:
-	@echo "=> Importing project data to the database"
+gh-db-data-import:
+	@echo "=> Importing sprint data to the database"
 	@echo "====================================================="
-	$(POETRY) analytics export db_export \
+	$(POETRY) analytics import db_import \
 	--sprint-file $(SPRINT_FILE) \
 	--issue-file $(ISSUE_FILE)
 

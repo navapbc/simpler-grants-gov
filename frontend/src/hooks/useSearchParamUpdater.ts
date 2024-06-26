@@ -1,6 +1,45 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { sendGAEvent } from "@next/third-parties/google";
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+
+
+export function useSearchParamUpdater2() {
+  const searchParams = useSearchParams() || undefined;
+  const pathname = usePathname() || "";
+  const router = useRouter();
+  const params = new URLSearchParams(searchParams);
+
+  const updateQueryParams = (
+    queryParamValue: string | Set<string>,
+    key: string,
+    queryTerm: string | null | undefined,
+  ) => {
+    
+    const finalQueryParamValue =
+      queryParamValue instanceof Set
+        ? Array.from(queryParamValue).join(",")
+        : queryParamValue;
+
+    if (finalQueryParamValue) {
+      params.set(key, finalQueryParamValue);
+    } else {
+      params.delete(key);
+    }
+    if (queryTerm) {
+      params.set('query', queryTerm);
+    } else {
+      params.delete('query');
+    } 
+
+    sendGAEvent("event", "search", { key: finalQueryParamValue });
+    router.replace(`${pathname}?${params.toString()}`);
+  }
+
+  return {
+    updateQueryParams
+  };
+}
 
 export function useSearchParamUpdater() {
   const pathname = usePathname() || "";

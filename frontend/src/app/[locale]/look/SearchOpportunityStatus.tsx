@@ -4,10 +4,8 @@ import { useContext } from "react";
 
 import { Checkbox } from "@trussworks/react-uswds";
 // import { useDebouncedCallback } from "use-debounce";
-import { sendGAEvent } from "@next/third-parties/google";
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { QueryContext } from "./QueryProvider";
-// import { useSearchParamUpdater } from "src/hooks/useSearchParamUpdater";
+import { useSearchParamUpdater2 } from "src/hooks/useSearchParamUpdater";
 
 interface StatusOption {
   id: string;
@@ -32,52 +30,22 @@ const statusOptions: StatusOption[] = [
 
 export default function SearchOpportunityStatus({ selectedStatuses }: SearchOpportunityStatusProps) {
   const { queryTerm } = useContext(QueryContext);
-
-  const searchParams = useSearchParams() || undefined;
-  const pathname = usePathname() || "";
-  const router = useRouter();
-  const statuses = Array.from(selectedStatuses).join(",");
-
-  const updateAll = (statusValue: string, isChecked: boolean) => {
-    const params = new URLSearchParams(searchParams);
-    const currentStatus = params.get('status');
-    const currentStatuses = currentStatus ? currentStatus.split(',') : [];
-
-    if (!isChecked) {
-      const values = currentStatuses.filter(status => status !== statusValue);
-      if (values.length) {
-        params.set('status', values.join(','));
-      }
-      else {
-        params.delete('status');
-      }
-    }
-    else {
-      const status = currentStatus ? `${currentStatus},${statusValue}` : statusValue;
-      params.set('status', status);
-    }
-    if (queryTerm) {
-      params.set('query', queryTerm);
-    } else {
-      params.delete('query');
-    }
-    
-    sendGAEvent("event", "search", { status: statusValue });
-    router.replace(`${pathname}?${params.toString()}`);
-  }
-
+  const { updateQueryParams   } = useSearchParamUpdater2();
 
   const handleCheck = (statusValue: string, isChecked: boolean) => {
-    updateAll(statusValue, isChecked);
+    const updatedStatuses = new Set(selectedStatuses);
+    isChecked
+      ? updatedStatuses.add(statusValue)
+      : updatedStatuses.delete(statusValue);
+    const key = "status";
+    updateQueryParams(updatedStatuses, key, queryTerm);
   };
 
   return (
     <>
       <h2 className="margin-bottom-1 font-sans-xs">Opportunity status</h2>
-      <h2>{queryTerm}</h2>
       <div className="grid-row flex-wrap">
         {statusOptions.map((option) => { 
-          const statusChecked = statuses.indexOf(option.value) >= 0;
           return (
             <div key={option.id} className="grid-col-6 padding-right-1">
               <Checkbox
@@ -86,8 +54,8 @@ export default function SearchOpportunityStatus({ selectedStatuses }: SearchOppo
                 label={option.label}
                 tile={true}
                 onChange={(e) => handleCheck(option.value, e.target.checked)}
-                checked={statusChecked}
-              />
+                checked={selectedStatuses.has(option.value)}
+                />
             </div>
         )})}
       </div>

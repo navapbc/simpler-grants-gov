@@ -13,6 +13,7 @@ import Loading from "src/app/[locale]/search/loading";
 import SearchResultsList from "./SearchResultList";
 import QueryProvider from "./QueryProvider";
 import SearchOpportunityStatus from "./SearchOpportunityStatus";
+import { convertSearchParamsToProperTypes } from "src/utils/search/convertSearchParamsToProperTypes";
 
 export async function generateMetadata() {
   const t = await getTranslations({ locale: "en" });
@@ -34,8 +35,11 @@ export default function Look({
 }) {
   unstable_setRequestLocale("en");
   const t = useTranslations("Process");
-  const query = searchParams?.query || '';
-  const statuses = searchParams?.status || '';
+  const key = searchParams.toString()
+  const convertedSearchParams = convertSearchParamsToProperTypes(searchParams);
+
+  const query = convertedSearchParams?.query || '';
+  const statuses = convertedSearchParams?.status || '';
   
   return (
     <>
@@ -53,7 +57,7 @@ export default function Look({
                 <SearchOpportunityStatus selectedStatuses={statuses} />
             </div>
             <div className="tablet:grid-col-8">
-              <Suspense key={query+statuses} fallback={<Loading />}>
+              <Suspense key={key} fallback={<Loading />}>
                 <SearchResultsList searchParams={searchParams} />
               </Suspense>
             </div>

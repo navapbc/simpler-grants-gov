@@ -38,8 +38,6 @@ export default function SearchOpportunityStatus({ selectedStatuses }: SearchOppo
   const router = useRouter();
   const statuses = Array.from(selectedStatuses).join(",");
 
- // console.log(Array.from(selectedStatuses).join(","), statuses)
-
   const updateAll = (statusValue: string, isChecked: boolean) => {
     const params = new URLSearchParams(searchParams);
     const currentStatus = params.get('status');

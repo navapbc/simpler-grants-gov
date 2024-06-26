@@ -7,7 +7,7 @@ import { QueryContext } from "./QueryProvider";
 import { useContext } from "react";
 
 interface SearchBarProps {
-  query: string;
+  query: string | null | undefined;
 }
 
 export default function SearchBar({ query }: SearchBarProps) {
@@ -46,7 +46,7 @@ export default function SearchBar({ query }: SearchBarProps) {
           id="query"
           type="search"
           name="query"
-          defaultValue={query}
+          defaultValue={query || ""}
           onChange={(e) => updateQueryTerm(e.target?.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {

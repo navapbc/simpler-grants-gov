@@ -3,7 +3,7 @@
 import { useContext } from "react";
 
 import { Checkbox } from "@trussworks/react-uswds";
-// import { useDebouncedCallback } from "use-debounce";
+import { useDebouncedCallback } from "use-debounce";
 import { QueryContext } from "./QueryProvider";
 import { useSearchParamUpdater2 } from "src/hooks/useSearchParamUpdater";
 
@@ -24,21 +24,28 @@ const statusOptions: StatusOption[] = [
   { id: "status-archived", label: "Archived", value: "archived" },
 ];
 
-// Wait a half-second before updating query params
+// Wait 50 miliseconds before updating query params
 // and submitting the form
-// const SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME = 500;
+const SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME = 50;
 
 export default function SearchOpportunityStatus({ selectedStatuses }: SearchOpportunityStatusProps) {
   const { queryTerm } = useContext(QueryContext);
   const { updateQueryParams   } = useSearchParamUpdater2();
+
+  const debouncedUpdate = useDebouncedCallback(
+    (selectedStatuses: Set<string>) => {
+      const key = "status";
+      updateQueryParams(selectedStatuses, key, queryTerm);
+    },
+    SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME,
+  );
 
   const handleCheck = (statusValue: string, isChecked: boolean) => {
     const updatedStatuses = new Set(selectedStatuses);
     isChecked
       ? updatedStatuses.add(statusValue)
       : updatedStatuses.delete(statusValue);
-    const key = "status";
-    updateQueryParams(updatedStatuses, key, queryTerm);
+    debouncedUpdate(updatedStatuses);
   };
 
   return (

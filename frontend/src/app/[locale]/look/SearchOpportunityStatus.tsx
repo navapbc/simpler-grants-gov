@@ -16,7 +16,7 @@ interface StatusOption {
 }
 
 interface SearchOpportunityStatusProps {
-  selectedStatuses: string;
+  selectedStatuses: Set<string>;
 }
 
 const statusOptions: StatusOption[] = [
@@ -36,7 +36,9 @@ export default function SearchOpportunityStatus({ selectedStatuses }: SearchOppo
   const searchParams = useSearchParams() || undefined;
   const pathname = usePathname() || "";
   const router = useRouter();
-  const statuses = selectedStatuses ? selectedStatuses.split(",") : [];
+  const statuses = Array.from(selectedStatuses).join(",");
+
+ // console.log(Array.from(selectedStatuses).join(","), statuses)
 
   const updateAll = (statusValue: string, isChecked: boolean) => {
     const params = new URLSearchParams(searchParams);

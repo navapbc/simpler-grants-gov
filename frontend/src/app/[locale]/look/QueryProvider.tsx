@@ -18,7 +18,6 @@ export default function QueryProvider({
     const searchParams = useSearchParams() || undefined;
     const defaultTerm = searchParams?.get('query');
     const [queryTerm, setQueryTerm] = useState(defaultTerm);
-    console.log("rendering provider:", queryTerm);
 
     const updateQueryTerm = useCallback((term: string) => {
       setQueryTerm(term);
@@ -31,8 +30,7 @@ export default function QueryProvider({
 
     return (
       <QueryContext.Provider value={contextValue}>
-            <h3>Query Provider</h3>
-            {children}
+        {children}
       </QueryContext.Provider>
     )
 }

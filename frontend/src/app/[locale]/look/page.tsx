@@ -36,38 +36,30 @@ export default function Look({
   const t = useTranslations("Process");
   const query = searchParams?.query || '';
   const statuses = searchParams?.status || '';
-
-  console.log("rendering page");
-  console.log("statuses", statuses)
-
-
+  
   return (
     <>
       <PageSEO title={t("page_title")} description={t("meta_description")} />
       <BetaAlert />
       <Breadcrumbs breadcrumbList={SEARCH_CRUMBS} />
       <SearchCallToAction />
-      <div className="grid-container">
-        <div className="search-bar">
-          <QueryProvider>
-            <SearchBar query={query}/>
-          </QueryProvider>
-        </div>
-        <div className="grid-row grid-gap">
-          <div className="tablet:grid-col-4">
-            <QueryProvider>
-              <SearchOpportunityStatus
-                selectedStatuses={statuses}
-              />
-            </QueryProvider>
+      <QueryProvider>
+        <div className="grid-container">
+          <div className="search-bar">
+              <SearchBar query={query}/>
           </div>
-          <div className="tablet:grid-col-8">
-            <Suspense key={query} fallback={<Loading />}>
-              <SearchResultsList searchParams={searchParams} />
-            </Suspense>
+          <div className="grid-row grid-gap">
+            <div className="tablet:grid-col-4">
+                <SearchOpportunityStatus selectedStatuses={statuses} />
+            </div>
+            <div className="tablet:grid-col-8">
+              <Suspense key={query+statuses} fallback={<Loading />}>
+                <SearchResultsList searchParams={searchParams} />
+              </Suspense>
+            </div>
           </div>
         </div>
-      </div>
+      </QueryProvider>
     </>
   );
 }

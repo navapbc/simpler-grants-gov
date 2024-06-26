@@ -16,7 +16,6 @@ export default function SearchBar({ query }: SearchBarProps) {
   const searchParams = useSearchParams() || undefined;
   const pathname = usePathname() || "";
   const router = useRouter();
-  console.log("queryTerm:", queryTerm, "vs. query:", query);
 
   const handleSubmit = () => {
     const params = new URLSearchParams(searchParams);

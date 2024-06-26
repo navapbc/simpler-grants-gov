@@ -35,11 +35,9 @@ export default function Look({
 }) {
   unstable_setRequestLocale("en");
   const t = useTranslations("Process");
-  const key = searchParams.toString()
+  const key = Object.entries(searchParams).join(',')
   const convertedSearchParams = convertSearchParamsToProperTypes(searchParams);
-
-  const query = convertedSearchParams?.query || '';
-  const statuses = convertedSearchParams?.status || '';
+  const { query, status } = convertedSearchParams;
   
   return (
     <>
@@ -54,7 +52,7 @@ export default function Look({
           </div>
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-4">
-                <SearchOpportunityStatus selectedStatuses={statuses} />
+                <SearchOpportunityStatus selectedStatuses={status} />
             </div>
             <div className="tablet:grid-col-8">
               <Suspense key={key} fallback={<Loading />}>

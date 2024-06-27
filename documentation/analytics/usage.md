@@ -127,7 +127,9 @@ When finished, run `docker-compose down` to stop and remove all containers, netw
 [Metabase](https://www.metabase.com/) is a buisness intelligence that lets you query, organize and view data with a friendly UX. In order to view data in Metabase, start the containers and then navigate to http://localhost:3100/.
 
 The first time you access Metabase you will be guided through a small setup process to sync the database to the platform.
+
 ![Screenshot of the landing page in Metabase](../../analytics/static/screenshot-metabase-page.png)
+
 ![Screenshot of a row of test data](../../analytics/static/screenshot-metabase-row-data.png)
 
 ### Calculating metrics

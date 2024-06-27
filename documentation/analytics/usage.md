@@ -118,7 +118,7 @@ The data from this command can be found in the `github_project_data` table.
 
 The database can be accessed locally by running the command `docker-compose up -d`. This will start the docker containers for Metabase and the analytics database in a detatched state. 
 
-In Docker desktop, navigate to the analytics database container and sign into the database `psql -U ,database-user>`. From here, you can run SQL queries to view data.
+In Docker desktop, navigate to the analytics database container and sign into the database `psql -U <database-user>`. From here, you can run SQL queries to view data.
 
 When finished, run `docker-compose down` to stop and remove all containers, networks and volumes associated with the analytics application. 
 

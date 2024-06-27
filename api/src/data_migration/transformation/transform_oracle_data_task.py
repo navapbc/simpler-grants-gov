@@ -1,6 +1,5 @@
 import logging
 from datetime import datetime
-from typing import TypeVar
 
 from pydantic_settings import SettingsConfigDict
 
@@ -22,29 +21,11 @@ from src.data_migration.transformation.subtask.transform_opportunity import Tran
 from src.data_migration.transformation.subtask.transform_opportunity_summary import (
     TransformOpportunitySummary,
 )
-from src.db.models.base import ApiSchemaTable
-from src.db.models.staging.staging_base import StagingParamMixin
 from src.task.task import Task
 from src.util import datetime_util
-
-from ...util.env_config import PydanticBaseEnvConfig
-
-S = TypeVar("S", bound=StagingParamMixin)
-D = TypeVar("D", bound=ApiSchemaTable)
+from src.util.env_config import PydanticBaseEnvConfig
 
 logger = logging.getLogger(__name__)
-
-### Constants
-ORPHANED_CFDA = "orphaned_cfda"
-ORPHANED_HISTORICAL_RECORD = "orphaned_historical_record"
-ORPHANED_DELETE_RECORD = "orphaned_delete_record"
-
-OPPORTUNITY = "opportunity"
-ASSISTANCE_LISTING = "assistance_listing"
-OPPORTUNITY_SUMMARY = "opportunity_summary"
-APPLICANT_TYPE = "applicant_type"
-FUNDING_CATEGORY = "funding_category"
-FUNDING_INSTRUMENT = "funding_instrument"
 
 
 class TransformOracleDataTaskConfig(PydanticBaseEnvConfig):

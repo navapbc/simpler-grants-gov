@@ -43,7 +43,7 @@ describe("Subscribe", () => {
     // Wait for the form submission
     await waitFor(() => {
       expect(mockRouter.push).toHaveBeenCalledWith(
-        "/newsletter/confirmation/?sendy=Success",
+        "/subscribe/confirmation/?sendy=Success",
       );
     });
   });

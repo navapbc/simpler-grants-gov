@@ -1,16 +1,15 @@
 import { fireEvent, render, screen, waitFor } from "tests/react-utils";
 
-import userEvent from "@testing-library/user-event";
+import Subscribe from "src/app/[locale]/subscribe/page";
 import { axe } from "jest-axe";
-import Newsletter from "src/app/[locale]/newsletter/page";
-
 import { useRouter } from "next/navigation";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("next/navigation");
 
-describe("Newsletter", () => {
+describe("Subscribe", () => {
   it("renders signup form with a submit button", () => {
-    render(<Newsletter />);
+    render(<Subscribe />);
 
     const sendyform = screen.getByTestId("sendy-form");
 
@@ -22,7 +21,7 @@ describe("Newsletter", () => {
       push: jest.fn(), // the component uses `router.push` only
     };
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
-    render(<Newsletter />);
+    render(<Subscribe />);
 
     // Mock the fetch function to return a successful response
     global.fetch = jest.fn().mockResolvedValue({
@@ -50,7 +49,7 @@ describe("Newsletter", () => {
   });
 
   it("shows alert when recieving an error from Sendy", async () => {
-    render(<Newsletter />);
+    render(<Subscribe />);
 
     // Mock the fetch function to return a successful response
     global.fetch = jest.fn().mockResolvedValue({
@@ -87,7 +86,7 @@ describe("Newsletter", () => {
   });
 
   it("prevents the form from submitting when incomplete", async () => {
-    render(<Newsletter />);
+    render(<Subscribe />);
 
     // Fill out the form
     await userEvent.type(screen.getByLabelText(/First Name/i), "John");
@@ -103,7 +102,7 @@ describe("Newsletter", () => {
   });
 
   it("passes accessibility scan", async () => {
-    const { container } = render(<Newsletter />);
+    const { container } = render(<Subscribe />);
     const results = await waitFor(() => axe(container));
 
     expect(results).toHaveNoViolations();

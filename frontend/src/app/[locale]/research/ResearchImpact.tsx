@@ -1,9 +1,8 @@
-import { ExternalRoutes } from "src/constants/routes";
 import { useMessages, useTranslations } from "next-intl";
 
-import { Grid } from "@trussworks/react-uswds";
-
 import ContentLayout from "src/components/ContentLayout";
+import { ExternalRoutes } from "src/constants/routes";
+import { Grid } from "@trussworks/react-uswds";
 import { USWDSIcon } from "src/components/USWDSIcon";
 
 const ResearchImpact = () => {
@@ -63,7 +62,7 @@ const ResearchImpact = () => {
               </a>
             ),
             strong: (chunks) => <strong>{chunks}</strong>,
-            newsletter: (chunks) => <a href={"/newsletter"}>{chunks}</a>,
+            subscribe: (chunks) => <a href={"/subscribe"}>{chunks}</a>,
             arrowUpRightFromSquare: () => (
               <USWDSIcon
                 className="usa-icon text-middle"

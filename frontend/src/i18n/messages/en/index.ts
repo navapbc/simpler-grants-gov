@@ -285,7 +285,7 @@ export const messages = {
     title: "Subscribe to project updates",
     intro: "Subscribe to get Simpler.Grants.gov project updates in your inbox!",
     paragraph_1:
-      "If you sign up for the Simpler.Grants.gov newsletter, we’ll keep you informed of our progress and you’ll know about every opportunity to get involved.",
+      "If you sign up for the Simpler.Grants.gov project updates, we’ll keep you informed of our progress and you’ll know about every opportunity to get involved.",
     list: "<ul><li>Hear about upcoming milestones</li><li>Be the first to know when we launch new code</li><li>Test out new features and functionalities</li><li>Participate in usability tests and other user research efforts</li><li>Learn about ways to provide feedback </li></ul>",
     disclaimer:
       "The Simpler.Grants.gov email subscriptions are powered by the Sendy data service. Personal information is not stored within Simpler.Grants.gov.",

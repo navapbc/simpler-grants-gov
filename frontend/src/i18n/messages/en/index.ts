@@ -311,7 +311,7 @@ export const messages = {
     paragraph_2:
       "You can read all about our <strong><process-link>transparent process</process-link></strong> and what we’re doing now, or explore <strong><research-link>our existing user research</research-link></strong> and the findings that are guiding our work.",
     disclaimer:
-      "The Simpler.Grants.gov newsletter is powered by the Sendy data service. Personal information is not stored within Simpler.Grants.gov. ",
+      "The Simpler.Grants.gov email subscription is powered by the Sendy data service. Personal information is not stored within Simpler.Grants.gov. ",
   },
   Unsubscribe: {
     page_title: "Newsletter Unsubscribe | Simpler.Grants.gov",

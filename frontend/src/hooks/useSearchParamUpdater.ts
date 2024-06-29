@@ -33,7 +33,7 @@ export function useSearchParamUpdater2() {
     } 
 
     sendGAEvent("event", "search", { key: finalQueryParamValue });
-    router.replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return {

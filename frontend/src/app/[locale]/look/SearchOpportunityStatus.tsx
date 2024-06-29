@@ -1,7 +1,6 @@
 "use client";
 
 import { useContext } from "react";
-
 import { Checkbox } from "@trussworks/react-uswds";
 import { useDebouncedCallback } from "use-debounce";
 import { QueryContext } from "./QueryProvider";
@@ -14,7 +13,7 @@ interface StatusOption {
 }
 
 interface SearchOpportunityStatusProps {
-  selectedStatuses: Set<string>;
+  query: Set<string>;
 }
 
 const statusOptions: StatusOption[] = [
@@ -28,7 +27,7 @@ const statusOptions: StatusOption[] = [
 // and submitting the form
 const SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME = 50;
 
-export default function SearchOpportunityStatus({ selectedStatuses }: SearchOpportunityStatusProps) {
+export default function SearchOpportunityStatus({ query }: SearchOpportunityStatusProps) {
   const { queryTerm } = useContext(QueryContext);
   const { updateQueryParams   } = useSearchParamUpdater2();
 
@@ -40,12 +39,12 @@ export default function SearchOpportunityStatus({ selectedStatuses }: SearchOppo
     SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME,
   );
 
-  const handleCheck = (statusValue: string, isChecked: boolean) => {
-    const updatedStatuses = new Set(selectedStatuses);
+  const handleCheck = (value: string, isChecked: boolean) => {
+    const updated = new Set(query);
     isChecked
-      ? updatedStatuses.add(statusValue)
-      : updatedStatuses.delete(statusValue);
-    debouncedUpdate(updatedStatuses);
+      ? updated.add(value)
+      : updated.delete(value);
+    debouncedUpdate(updated);
   };
 
   return (
@@ -61,7 +60,7 @@ export default function SearchOpportunityStatus({ selectedStatuses }: SearchOppo
                 label={option.label}
                 tile={true}
                 onChange={(e) => handleCheck(option.value, e.target.checked)}
-                checked={selectedStatuses.has(option.value)}
+                checked={query.has(option.value)}
                 />
             </div>
         )})}

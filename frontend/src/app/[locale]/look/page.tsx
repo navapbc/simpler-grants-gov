@@ -13,6 +13,7 @@ import Loading from "src/app/[locale]/search/loading";
 import SearchResultsList from "./SearchResultList";
 import QueryProvider from "./QueryProvider";
 import SearchOpportunityStatus from "./SearchOpportunityStatus";
+import SearchFilterFundingInstrument from "./SearchFilterFundingInstrument";
 import { convertSearchParamsToProperTypes } from "src/utils/search/convertSearchParamsToProperTypes";
 
 export async function generateMetadata() {
@@ -29,16 +30,19 @@ export default function Look({
 }: {
   searchParams: {
     query?: string;
-    status?: string
+    status?: string;
+    fundingInstrument?: string;
     page?: string;
   };
 }) {
   unstable_setRequestLocale("en");
   const t = useTranslations("Process");
   const key = Object.entries(searchParams).join(',')
+  console.log(searchParams);
   const convertedSearchParams = convertSearchParamsToProperTypes(searchParams);
-  const { query, status } = convertedSearchParams;
-  
+  const { query, status, fundingInstrument } = convertedSearchParams;
+  console.log(convertedSearchParams);
+  console.log('wtf')
   return (
     <>
       <PageSEO title={t("page_title")} description={t("meta_description")} />
@@ -52,7 +56,9 @@ export default function Look({
           </div>
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-4">
-                <SearchOpportunityStatus selectedStatuses={status} />
+                <SearchOpportunityStatus query={status} />
+                <SearchFilterFundingInstrument query={fundingInstrument} />
+
             </div>
             <div className="tablet:grid-col-8">
               <Suspense key={key} fallback={<Loading />}>

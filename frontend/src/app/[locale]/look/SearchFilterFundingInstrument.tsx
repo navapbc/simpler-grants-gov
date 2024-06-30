@@ -5,7 +5,7 @@ import {
   SearchFilterAccordion,
 } from "./SearchFilterAccordion/SearchFilterAccordion";
 
-export interface SearchFilterFundingInstrumentProps {
+export interface SearchFilterProps {
   query: Set<string>;
 }
 
@@ -34,8 +34,8 @@ const initialFilterOptions: FilterOption[] = [
 
 export default function SearchFilterFundingInstrument({
   query,
-}: SearchFilterFundingInstrumentProps) {
-  console.log('render', query);
+}: SearchFilterProps) {
+
   return (
     <SearchFilterAccordion
       options={initialFilterOptions}

@@ -11,10 +11,11 @@ import SectionLinkLabel from "./SectionLinkLabel";
 interface SearchFilterSectionProps {
   option: FilterOption;
   updateCheckedOption: (optionId: string, isChecked: boolean) => void;
-  toggleSelectAll: (isSelected: boolean, sectionId: string) => void;
+  toggleSelectAll: (all: boolean, allSelected: Set<string>) => void;
+  allSelected: Set<string>
   accordionTitle: string;
-  isSectionAllSelected: boolean;
-  isSectionNoneSelected: boolean;
+  isSectionAllSelected: (allSelected: Set<string>, query: Set<string>) => boolean;
+  isSectionNoneSelected: (allSelected: Set<string>, query: Set<string>) => boolean;
   query: Set<string>
 }
 
@@ -23,31 +24,14 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
   updateCheckedOption,
   toggleSelectAll,
   accordionTitle,
+  allSelected,
   query,
   isSectionAllSelected,
   isSectionNoneSelected,
 }) => {
   const [childrenVisible, setChildrenVisible] = useState<boolean>(false);
-
-  // TODO: Set this number per state/query params
-  const [sectionCount, setSectionCount] = useState<number>(0);
-
-  const handleSelectAll = () => {
-    toggleSelectAll(true, option.id);
-  };
-
-  const handleClearAll = () => {
-    toggleSelectAll(false, option.id);
-  };
-
-  useEffect(() => {
-    if (option.children) {
-      const newCount = option.children.filter(
-        (child) => child.isChecked,
-      ).length;
-      setSectionCount(newCount);
-    }
-  }, [option.children]);
+  const sectionQuery = new Set<string>();
+  const sectionCount = sectionQuery.size;
 
   const getHiddenName = (name: string) =>
     accordionTitle === "Agency" ? `agency-${name}` : name;
@@ -69,10 +53,10 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
       {childrenVisible ? (
         <div className="padding-y-1">
           <SearchFilterToggleAll
-            onSelectAll={handleSelectAll}
-            onClearAll={handleClearAll}
-            isAllSelected={isSectionAllSelected}
-            isNoneSelected={isSectionNoneSelected}
+            onSelectAll={() => toggleSelectAll(true, allSelected)}
+            onClearAll={() => toggleSelectAll(false, allSelected)}
+            isAllSelected={isSectionAllSelected(sectionQuery, sectionQuery)}
+            isNoneSelected={isSectionNoneSelected(sectionQuery, sectionQuery)}
           />
           <ul className="usa-list usa-list--unstyled margin-left-4">
             {option.children?.map((child) => (

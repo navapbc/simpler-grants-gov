@@ -14,7 +14,11 @@ import SearchResultsList from "./SearchResultList";
 import QueryProvider from "./QueryProvider";
 import SearchOpportunityStatus from "./SearchOpportunityStatus";
 import SearchFilterFundingInstrument from "./SearchFilterFundingInstrument";
+import SearchFilterEligibility from "./SearchFilterEligibility";
+import SearchFilterAccordion from "./SearchFilterAccordion/SearchFilterAccordion";
 import { convertSearchParamsToProperTypes } from "src/utils/search/convertSearchParamsToProperTypes";
+
+import { agencyOptions, categoryOptions, eligibilityOptions, fundingOptions } from "./SearchFilterAccordion/SearchFilterOptions"
 
 export async function generateMetadata() {
   const t = await getTranslations({ locale: "en" });
@@ -32,17 +36,16 @@ export default function Look({
     query?: string;
     status?: string;
     fundingInstrument?: string;
+    eligibility?: string;
     page?: string;
   };
 }) {
   unstable_setRequestLocale("en");
   const t = useTranslations("Process");
   const key = Object.entries(searchParams).join(',')
-  console.log(searchParams);
   const convertedSearchParams = convertSearchParamsToProperTypes(searchParams);
-  const { query, status, fundingInstrument } = convertedSearchParams;
-  console.log(convertedSearchParams);
-  console.log('wtf')
+  const { query, status, eligibility, fundingInstrument } = convertedSearchParams;
+
   return (
     <>
       <PageSEO title={t("page_title")} description={t("meta_description")} />
@@ -57,8 +60,13 @@ export default function Look({
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-4">
                 <SearchOpportunityStatus query={status} />
-                <SearchFilterFundingInstrument query={fundingInstrument} />
-
+                // TODO: These could be a single component.
+                <SearchFilterAccordion
+                  options={fundingOptions}
+                  title="Funding instrument"
+                  queryParamKey="fundingInstrument"
+                  query={fundingInstrument}
+                />
             </div>
             <div className="tablet:grid-col-8">
               <Suspense key={key} fallback={<Loading />}>

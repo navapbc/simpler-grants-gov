@@ -1,3 +1,5 @@
+"use client"
+
 import { Accordion } from "@trussworks/react-uswds";
 import { QueryParamKey } from "src/types/search/searchResponseTypes";
 import SearchFilterCheckbox from "./SearchFilterCheckbox";
@@ -41,7 +43,8 @@ export function SearchFilterAccordion({
   const { queryTerm } = useContext(QueryContext);
   const { updateQueryParams   } = useSearchParamUpdater2();
   const totalCheckedCount = query.size
-  
+  const allOptionValues = options.map((options) => options.value);
+  const allSelected = new Set(allOptionValues);
  
   const getAccordionTitle = () => (
     <>
@@ -54,25 +57,25 @@ export function SearchFilterAccordion({
     </>
   );
 
-  // This should just get the current params and push the update like everything else
-  const toggleSelectAll = (all: boolean) => {
-    // TODO: need to clear this.
+  const toggleSelectAll = (all: boolean, allSelected: Set<string>): void => {
     if (all) {
-
+      updateQueryParams(allSelected, queryParamKey, queryTerm);
     }
     else {
-
+      const noneSelected = new Set<string>();
+      updateQueryParams(noneSelected, queryParamKey, queryTerm);
     }
-
   }
 
-  const isSectionAllSelected = (options: FilterOption[], params: Set<string>): boolean => {
-    return false;
+  const isSectionAllSelected = (allSelected: Set<string>, query: Set<string>): boolean => {
+    return areSetsEqual(allSelected, query);
   }
 
-  const isSectionNoneSelected = (options: FilterOption[], params: Set<string>): boolean => {
-    return false;
+  const isSectionNoneSelected = (query: Set<string>): boolean => {
+    return query.size === 0;
   }
+
+  const areSetsEqual = (a: Set<string>, b: Set<string>) => a.size === b.size && [...a].every(value => b.has(value));
 
   const toggleOptionChecked = (value: string, isChecked: boolean) => {
     const updated = new Set(query)
@@ -89,8 +92,8 @@ export function SearchFilterAccordion({
   const getAccordionContent = () => (
     <>
       <SearchFilterToggleAll
-        onSelectAll={() => toggleSelectAll(true)}
-        onClearAll={() => toggleSelectAll(false)}
+        onSelectAll={() => toggleSelectAll(true, allSelected)}
+        onClearAll={() => toggleSelectAll(false, allSelected)}
         isAllSelected={isAllSelected}
         isNoneSelected={isNoneSelected}
       />
@@ -99,17 +102,18 @@ export function SearchFilterAccordion({
         {options.map((option) => (
           <li key={option.id}>
             {/* If we have children, show a "section" dropdown, otherwise show just a checkbox */}
-            {option.children ? (
+            {option.children ? 
+            (
               // SearchFilterSection will map over all children of this option
               <SearchFilterSection
                 option={option}
                 query={query}
                 updateCheckedOption={toggleOptionChecked}
                 toggleSelectAll={toggleSelectAll}
+                allSelected={allSelected}
                 accordionTitle={title}
-                // TODO: determine from vars
-                isSectionAllSelected={isSectionAllSelected(option.children, query)}
-                isSectionNoneSelected={isSectionNoneSelected(option.children, query)}
+                isSectionAllSelected={isSectionAllSelected}
+                isSectionNoneSelected={isSectionNoneSelected}
               />
             ) : (
               <SearchFilterCheckbox

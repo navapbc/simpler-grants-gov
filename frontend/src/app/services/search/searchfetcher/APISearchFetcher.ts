@@ -2,8 +2,8 @@ import "server-only";
 
 import { QueryParamData, SearchFetcher } from "./SearchFetcher";
 
-import { SearchAPIResponse } from "../../../types/search/searchResponseTypes";
-import SearchOpportunityAPI from "../../../app/api/SearchOpportunityAPI";
+import { SearchAPIResponse } from "../../../../types/search/searchResponseTypes";
+import SearchOpportunityAPI from "../../../api/SearchOpportunityAPI";
 
 export class APISearchFetcher extends SearchFetcher {
   private searchApi: SearchOpportunityAPI;
@@ -18,7 +18,7 @@ export class APISearchFetcher extends SearchFetcher {
   ): Promise<SearchAPIResponse> {
     try {
       // Keep commented in case we need to simulate a delay to test loaders
-      await new Promise((resolve) => setTimeout(resolve, 3250));
+      await new Promise((resolve) => setTimeout(resolve, 6250));
 
       const response: SearchAPIResponse =
         await this.searchApi.searchOpportunities(searchInputs);

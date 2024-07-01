@@ -13,8 +13,6 @@ import Loading from "src/app/[locale]/search/loading";
 import SearchResultsList from "./SearchResultList";
 import QueryProvider from "./QueryProvider";
 import SearchOpportunityStatus from "./SearchOpportunityStatus";
-import SearchFilterFundingInstrument from "./SearchFilterFundingInstrument";
-import SearchFilterEligibility from "./SearchFilterEligibility";
 import SearchFilterAccordion from "./SearchFilterAccordion/SearchFilterAccordion";
 import { convertSearchParamsToProperTypes } from "src/utils/search/convertSearchParamsToProperTypes";
 
@@ -33,19 +31,20 @@ export default function Look({
   searchParams,
 }: {
   searchParams: {
+    agency?: string;
+    category?: string;
+    eligibility?: string;
+    fundingInstrument?: string;
+    page?: string;
     query?: string;
     status?: string;
-    fundingInstrument?: string;
-    eligibility?: string;
-    category?: string;
-    page?: string;
   };
 }) {
   unstable_setRequestLocale("en");
   const t = useTranslations("Process");
   const key = Object.entries(searchParams).join(',')
   const convertedSearchParams = convertSearchParamsToProperTypes(searchParams);
-  const { category, eligibility, fundingInstrument, query, status } = convertedSearchParams;
+  const { agency, category, eligibility, fundingInstrument, query, status } = convertedSearchParams;
 
   return (
     <>
@@ -72,6 +71,12 @@ export default function Look({
                   title="Eligibility"
                   queryParamKey="eligibility"
                   query={eligibility}
+                />
+                <SearchFilterAccordion
+                  options={agencyOptions}
+                  title="Agency"
+                  queryParamKey="agency"
+                  query={agency}
                 />
                 <SearchFilterAccordion
                   options={categoryOptions}

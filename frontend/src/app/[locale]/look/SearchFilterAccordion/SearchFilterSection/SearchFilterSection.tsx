@@ -2,21 +2,21 @@
 
 import { useEffect, useState } from "react";
 
-import { FilterOption } from "../SearchFilterAccordion";
+import { FilterOptionWithChildren } from "../SearchFilterAccordion";
 import SearchFilterCheckbox from "../SearchFilterCheckbox";
 import SearchFilterToggleAll from "../SearchFilterToggleAll";
 import SectionLinkCount from "./SectionLinkCount";
 import SectionLinkLabel from "./SectionLinkLabel";
 
 interface SearchFilterSectionProps {
-  option: FilterOption;
+  option: FilterOptionWithChildren;
   updateCheckedOption: (optionId: string, isChecked: boolean) => void;
   toggleSelectAll: (all: boolean, allSelected: Set<string>) => void;
-  allSelected: Set<string>
   accordionTitle: string;
   isSectionAllSelected: (allSelected: Set<string>, query: Set<string>) => boolean;
   isSectionNoneSelected: (allSelected: Set<string>, query: Set<string>) => boolean;
-  query: Set<string>
+  query: Set<string>;
+  value: string;
 }
 
 const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
@@ -24,13 +24,25 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
   updateCheckedOption,
   toggleSelectAll,
   accordionTitle,
-  allSelected,
   query,
   isSectionAllSelected,
   isSectionNoneSelected,
+  value
 }) => {
   const [childrenVisible, setChildrenVisible] = useState<boolean>(false);
+
   const sectionQuery = new Set<string>();
+  query.forEach((queryValue) => {
+    console.log('queryValue:', queryValue, "value:", value)
+    // The value is treated as a child for some agencies if has children in the UI and so
+    // is added to the count.
+    if (queryValue.startsWith(`${value}-`) || query.has(value)) {
+      sectionQuery.add(queryValue);
+    }
+  });
+  const allSectionOptionValues = option.children.map((options) => options.value);
+  const sectionAllSelected = new Set(allSectionOptionValues);
+
   const sectionCount = sectionQuery.size;
 
   const getHiddenName = (name: string) =>
@@ -53,10 +65,10 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
       {childrenVisible ? (
         <div className="padding-y-1">
           <SearchFilterToggleAll
-            onSelectAll={() => toggleSelectAll(true, allSelected)}
-            onClearAll={() => toggleSelectAll(false, allSelected)}
-            isAllSelected={isSectionAllSelected(sectionQuery, sectionQuery)}
-            isNoneSelected={isSectionNoneSelected(sectionQuery, sectionQuery)}
+            onSelectAll={() => toggleSelectAll(true, sectionAllSelected)}
+            onClearAll={() => toggleSelectAll(false, sectionAllSelected)}
+            isAllSelected={isSectionAllSelected(sectionAllSelected, sectionQuery)}
+            isNoneSelected={isSectionNoneSelected(sectionAllSelected, sectionQuery)}
           />
           <ul className="usa-list usa-list--unstyled margin-left-4">
             {option.children?.map((child) => (

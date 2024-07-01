@@ -28,14 +28,14 @@ describe("getNextRoutes", () => {
     expect(result).toEqual([
       "/dev/feature-flags",
       "/health",
-      "/newsletter/confirmation",
-      "/newsletter",
-      "/newsletter/unsubscribe",
       "/opportunity/1",
       "/",
       "/process",
       "/research",
       "/search",
+      "/subscribe/confirmation",
+      "/subscribe",
+      "/unsubscribe",
     ]);
   });
 });
@@ -45,10 +45,10 @@ function getPaths() {
     "src/app/[locale]/dev/feature-flags/FeatureFlagsTable.tsx",
     "src/app/[locale]/dev/feature-flags/page.tsx",
     "src/app/[locale]/health/page.tsx",
-    "src/app/[locale]/newsletter/NewsletterForm.tsx",
-    "src/app/[locale]/newsletter/confirmation/page.tsx",
-    "src/app/[locale]/newsletter/page.tsx",
-    "src/app/[locale]/newsletter/unsubscribe/page.tsx",
+    "src/app/[locale]/subscribe/SubscribeForm.tsx",
+    "src/app/[locale]/subscribe/confirmation/page.tsx",
+    "src/app/[locale]/subscribe/page.tsx",
+    "src/app/[locale]/unsubscribe/page.tsx",
     "src/app/[locale]/page.tsx",
     "src/app/[locale]/process/ProcessIntro.tsx",
     "src/app/[locale]/process/ProcessInvolved.tsx",

@@ -1,10 +1,11 @@
 import { render, waitFor } from "tests/react-utils";
-import { axe } from "jest-axe";
-import NewsletterConfirmation from "src/app/[locale]/newsletter/confirmation/page";
 
-describe("Newsletter", () => {
+import SubscribeConfirmation from "src/app/[locale]/subscribe/confirmation/page";
+import { axe } from "jest-axe";
+
+describe("Subscribe", () => {
   it("passes accessibility scan", async () => {
-    const { container } = render(<NewsletterConfirmation />);
+    const { container } = render(<SubscribeConfirmation />);
     const results = await waitFor(() => axe(container));
 
     expect(results).toHaveNoViolations();

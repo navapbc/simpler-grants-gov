@@ -1,6 +1,6 @@
 import { render, screen } from "tests/react-utils";
-import { ExternalRoutes } from "src/constants/routes";
 
+import { ExternalRoutes } from "src/constants/routes";
 import Footer from "src/components/Footer";
 
 describe("Footer", () => {
@@ -17,7 +17,7 @@ describe("Footer", () => {
     const youtube = screen.getByTitle("YouTube");
     const github = screen.getByTitle("Github");
     const rss = screen.getByTitle("RSS");
-    const newsletter = screen.getByTitle("Newsletter");
+    const subscribe = screen.getByTitle("Subscribe");
     const blog = screen.getByTitle("Blog");
 
     expect(twitter).toBeInTheDocument();
@@ -32,11 +32,8 @@ describe("Footer", () => {
     expect(rss).toBeInTheDocument();
     expect(rss).toHaveAttribute("href", ExternalRoutes.GRANTS_RSS);
 
-    expect(newsletter).toBeInTheDocument();
-    expect(newsletter).toHaveAttribute(
-      "href",
-      ExternalRoutes.GRANTS_NEWSLETTER,
-    );
+    expect(subscribe).toBeInTheDocument();
+    expect(subscribe).toHaveAttribute("href", ExternalRoutes.GRANTS_SUBSCRIBE);
 
     expect(blog).toBeInTheDocument();
     expect(blog).toHaveAttribute("href", ExternalRoutes.GRANTS_BLOG);

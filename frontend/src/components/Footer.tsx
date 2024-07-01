@@ -1,10 +1,3 @@
-import { ExternalRoutes } from "src/constants/routes";
-import { useTranslations } from "next-intl";
-import { USWDSIcon } from "src/components/USWDSIcon";
-import GrantsLogo from "public/img/grants-gov-logo.png";
-
-import Image from "next/image";
-
 import {
   Address,
   Grid,
@@ -12,6 +5,12 @@ import {
   SocialLinks,
   Footer as USWDSFooter,
 } from "@trussworks/react-uswds";
+
+import { ExternalRoutes } from "src/constants/routes";
+import GrantsLogo from "public/img/grants-gov-logo.png";
+import Image from "next/image";
+import { USWDSIcon } from "src/components/USWDSIcon";
+import { useTranslations } from "next-intl";
 
 // Recreate @trussworks/react-uswds SocialLink component to accept any Icon
 // https://github.com/trussworks/react-uswds/blob/cf5b4555e25f0e52fc8af66afe29253922bed2a5/src/components/Footer/SocialLinks/SocialLinks.tsx#L33
@@ -52,8 +51,8 @@ const Footer = () => {
       icon: "local_library",
     },
     {
-      href: ExternalRoutes.GRANTS_NEWSLETTER,
-      name: t("link_newsletter"),
+      href: ExternalRoutes.GRANTS_SUBSCRIBE,
+      name: t("link_subscribe"),
       icon: "mail",
     },
     {

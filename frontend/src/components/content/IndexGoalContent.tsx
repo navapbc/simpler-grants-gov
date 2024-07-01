@@ -1,9 +1,9 @@
-import { useTranslations } from "next-intl";
-
-import Link from "next/link";
 import { Button, Grid } from "@trussworks/react-uswds";
-import { USWDSIcon } from "../USWDSIcon";
+
 import ContentLayout from "src/components/ContentLayout";
+import Link from "next/link";
+import { USWDSIcon } from "../USWDSIcon";
+import { useTranslations } from "next-intl";
 
 const IndexGoalContent = () => {
   const t = useTranslations("Index");
@@ -16,7 +16,7 @@ const IndexGoalContent = () => {
     >
       <Grid tabletLg={{ col: 6 }}>
         <p className="usa-intro padding-bottom-2">{t("goal.paragraph_1")}</p>
-        <Link href="/newsletter" passHref>
+        <Link href="/subscribe" passHref>
           <Button className="margin-bottom-4" type="button" size="big">
             <span className="margin-right-5">{t("goal.cta")}</span>
             <USWDSIcon

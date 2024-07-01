@@ -21,7 +21,6 @@ describe("OpportunityListingAPI", () => {
     mockedRequest.mockResolvedValue(mockResponse);
 
     const result = await opportunityListingAPI.getOpportunityById(12345);
-    console.log("results => ", result);
     expect(mockedRequest).toHaveBeenCalledWith(
       "GET",
       opportunityListingAPI.basePath,

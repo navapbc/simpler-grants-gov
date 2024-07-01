@@ -37,6 +37,7 @@ export default function Look({
     status?: string;
     fundingInstrument?: string;
     eligibility?: string;
+    category?: string;
     page?: string;
   };
 }) {
@@ -44,7 +45,7 @@ export default function Look({
   const t = useTranslations("Process");
   const key = Object.entries(searchParams).join(',')
   const convertedSearchParams = convertSearchParamsToProperTypes(searchParams);
-  const { query, status, eligibility, fundingInstrument } = convertedSearchParams;
+  const { category, eligibility, fundingInstrument, query, status } = convertedSearchParams;
 
   return (
     <>
@@ -60,12 +61,23 @@ export default function Look({
           <div className="grid-row grid-gap">
             <div className="tablet:grid-col-4">
                 <SearchOpportunityStatus query={status} />
-                // TODO: These could be a single component.
                 <SearchFilterAccordion
                   options={fundingOptions}
                   title="Funding instrument"
                   queryParamKey="fundingInstrument"
                   query={fundingInstrument}
+                />
+                <SearchFilterAccordion
+                  options={eligibilityOptions}
+                  title="Eligibility"
+                  queryParamKey="eligibility"
+                  query={eligibility}
+                />
+                <SearchFilterAccordion
+                  options={categoryOptions}
+                  title="Category"
+                  queryParamKey="category"
+                  query={category}
                 />
             </div>
             <div className="tablet:grid-col-8">

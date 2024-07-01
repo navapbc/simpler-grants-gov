@@ -86,16 +86,15 @@ export function SearchFilterAccordion({
     updateQueryParams(updated, key, queryTerm);
   }
 
-  const isAllSelected = false;
-  const isNoneSelected = true;
+  const isExpanded = query.size ? true: false;
 
   const getAccordionContent = () => (
     <>
       <SearchFilterToggleAll
         onSelectAll={() => toggleSelectAll(true, allSelected)}
         onClearAll={() => toggleSelectAll(false, allSelected)}
-        isAllSelected={isAllSelected}
-        isNoneSelected={isNoneSelected}
+        isAllSelected={isSectionAllSelected(allSelected, query)}
+        isNoneSelected={isSectionNoneSelected(query)}
       />
 
       <ul className="usa-list usa-list--unstyled">
@@ -133,7 +132,7 @@ export function SearchFilterAccordion({
     {
       title: getAccordionTitle(),
       content: getAccordionContent(),
-      expanded: false,
+      expanded: isExpanded,
       id: `funding-instrument-filter-${queryParamKey}`,
       headingLevel: "h2",
     },

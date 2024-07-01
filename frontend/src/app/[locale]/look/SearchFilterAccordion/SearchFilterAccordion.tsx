@@ -27,6 +27,14 @@ export interface FilterOption {
   children?: FilterOption[];
 }
 
+export interface FilterOptionWithChildren {
+  id: string;
+  label: string;
+  value: string;
+  isChecked?: boolean;
+  children: FilterOption[];
+}
+
 interface SearchFilterAccordionProps {
   options: FilterOption[];
   title: string; // Title in header of accordion
@@ -43,7 +51,9 @@ export function SearchFilterAccordion({
   const { queryTerm } = useContext(QueryContext);
   const { updateQueryParams   } = useSearchParamUpdater2();
   const totalCheckedCount = query.size
+  // These are all of the available selectedable options.
   const allOptionValues = options.map((options) => options.value);
+  // This is the setting for if all are selected.
   const allSelected = new Set(allOptionValues);
  
   const getAccordionTitle = () => (
@@ -105,11 +115,11 @@ export function SearchFilterAccordion({
             (
               // SearchFilterSection will map over all children of this option
               <SearchFilterSection
-                option={option}
+                option={option as FilterOptionWithChildren}
+                value={option.value}
                 query={query}
                 updateCheckedOption={toggleOptionChecked}
                 toggleSelectAll={toggleSelectAll}
-                allSelected={allSelected}
                 accordionTitle={title}
                 isSectionAllSelected={isSectionAllSelected}
                 isSectionNoneSelected={isSectionNoneSelected}

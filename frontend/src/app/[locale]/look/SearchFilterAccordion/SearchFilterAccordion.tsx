@@ -16,7 +16,6 @@ export interface AccordionItemProps {
   id: string;
   headingLevel: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   className?: string;
-  // handleToggle?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface FilterOption {
@@ -53,7 +52,7 @@ export function SearchFilterAccordion({
   const totalCheckedCount = query.size
   // These are all of the available selectedable options.
   const allOptionValues = options.map((options) => options.value);
-  // This is the setting for if all are selected.
+  // This is the setting if all are selected.
   const allSelected = new Set(allOptionValues);
  
   const getAccordionTitle = () => (
@@ -92,8 +91,7 @@ export function SearchFilterAccordion({
     isChecked
       ? updated.add(value)
       : updated.delete(value);
-    const key = queryParamKey;
-    updateQueryParams(updated, key, queryTerm);
+    updateQueryParams(updated, queryParamKey, queryTerm);
   }
 
   const isExpanded = query.size ? true: false;

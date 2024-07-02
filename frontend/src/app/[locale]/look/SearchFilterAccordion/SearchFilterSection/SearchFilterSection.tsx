@@ -14,7 +14,7 @@ interface SearchFilterSectionProps {
   toggleSelectAll: (all: boolean, allSelected: Set<string>) => void;
   accordionTitle: string;
   isSectionAllSelected: (allSelected: Set<string>, query: Set<string>) => boolean;
-  isSectionNoneSelected: (allSelected: Set<string>, query: Set<string>) => boolean;
+  isSectionNoneSelected: (query: Set<string>) => boolean;
   query: Set<string>;
   value: string;
 }
@@ -33,7 +33,6 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
 
   const sectionQuery = new Set<string>();
   query.forEach((queryValue) => {
-    console.log('queryValue:', queryValue, "value:", value)
     // The value is treated as a child for some agencies if has children in the UI and so
     // is added to the count.
     if (queryValue.startsWith(`${value}-`) || query.has(value)) {
@@ -68,7 +67,7 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
             onSelectAll={() => toggleSelectAll(true, sectionAllSelected)}
             onClearAll={() => toggleSelectAll(false, sectionAllSelected)}
             isAllSelected={isSectionAllSelected(sectionAllSelected, sectionQuery)}
-            isNoneSelected={isSectionNoneSelected(sectionAllSelected, sectionQuery)}
+            isNoneSelected={isSectionNoneSelected(sectionQuery)}
           />
           <ul className="usa-list usa-list--unstyled margin-left-4">
             {option.children?.map((child) => (

@@ -3,19 +3,17 @@ import SearchResultsListItem from "src/components/search/SearchResultsListItem";
 import { getSearchFetcher } from "src/services/search/searchfetcher/SearchFetcherUtil";
 import { ServerSideSearchParams } from "src/types/searchRequestURLTypes";
 import { convertSearchParamsToProperTypes } from "src/utils/search/convertSearchParamsToProperTypes";
+import { QueryParamData } from "src/services/search/searchfetcher/SearchFetcher";
 
 interface ServerPageProps {
-  searchParams: ServerSideSearchParams;
+  searchParams: QueryParamData;
 }
+
 export default async function SearchResultsList({ searchParams }: ServerPageProps) {
-
   const searchFetcher = getSearchFetcher();
-  const convertedSearchParams = convertSearchParamsToProperTypes(searchParams);
-
   const searchResults = await searchFetcher.fetchOpportunities(
-    convertedSearchParams,
+    searchParams,
   );
-
   const maxPaginationError = null;
 
   if (searchResults.status_code !== 200) {

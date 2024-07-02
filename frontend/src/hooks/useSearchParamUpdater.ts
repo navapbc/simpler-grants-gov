@@ -30,10 +30,13 @@ export function useSearchParamUpdater2() {
       params.set('query', queryTerm);
     } else {
       params.delete('query');
-    } 
+    }
+    if (key !== 'page') {
+      params.delete('page');
+    }
 
     sendGAEvent("event", "search", { key: finalQueryParamValue });
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return {

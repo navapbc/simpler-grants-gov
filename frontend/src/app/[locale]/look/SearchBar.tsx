@@ -5,6 +5,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { QueryContext } from "./QueryProvider";
 import { useContext } from "react";
+import { useSearchParamUpdater2 } from "src/hooks/useSearchParamUpdater";
 
 interface SearchBarProps {
   query: string | null | undefined;
@@ -12,25 +13,14 @@ interface SearchBarProps {
 
 export default function SearchBar({ query }: SearchBarProps) {
   const { queryTerm, updateQueryTerm } = useContext(QueryContext);
-
-  const searchParams = useSearchParams() || undefined;
-  const pathname = usePathname() || "";
-  const router = useRouter();
+  const { updateQueryParams   } = useSearchParamUpdater2();
 
   const handleSubmit = () => {
-    const params = new URLSearchParams(searchParams);
-    if (queryTerm) {
-      params.set('query', queryTerm);
-    } else {
-      params.delete('query');
-    }
-    sendGAEvent("event", "search", { search_term: queryTerm });
-    router.replace(`${pathname}?${params.toString()}`);
+    updateQueryParams('', "query", queryTerm);
   };
 
   return (
     <div className="margin-top-5 margin-bottom-2">
-      <h1>queryTerm: {queryTerm}</h1>
       <label
         htmlFor="query"
         className="font-sans-lg display-block margin-bottom-2"

@@ -33,8 +33,7 @@ export default function SearchOpportunityStatus({ query }: SearchOpportunityStat
 
   const debouncedUpdate = useDebouncedCallback(
     (selectedStatuses: Set<string>) => {
-      const key = "status";
-      updateQueryParams(selectedStatuses, key, queryTerm);
+      updateQueryParams(selectedStatuses, "status", queryTerm);
     },
     SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME,
   );

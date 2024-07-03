@@ -21,20 +21,15 @@ jest.mock("src/hooks/useSearchParamUpdater", () => ({
 }));
 
 describe("SearchOpportunityStatus", () => {
-
   it("passes accessibility scan", async () => {
-    const { container } = render(
-      <SearchOpportunityStatus query={new Set()}/>,
-    );
+    const { container } = render(<SearchOpportunityStatus query={new Set()} />);
     const results = await axe(container);
 
     expect(results).toHaveNoViolations();
   });
 
   it("component renders with checkboxes", () => {
-    render(
-      <SearchOpportunityStatus query={new Set()}/>,
-    );
+    render(<SearchOpportunityStatus query={new Set()} />);
 
     expect(screen.getByText("Forecasted")).toBeEnabled();
     expect(screen.getByText("Posted")).toBeEnabled();

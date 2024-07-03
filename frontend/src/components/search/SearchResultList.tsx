@@ -7,11 +7,11 @@ interface ServerPageProps {
   searchParams: QueryParamData;
 }
 
-export default async function SearchResultsList({ searchParams }: ServerPageProps) {
+export default async function SearchResultsList({
+  searchParams,
+}: ServerPageProps) {
   const searchFetcher = getSearchFetcher();
-  const searchResults = await searchFetcher.fetchOpportunities(
-    searchParams,
-  );
+  const searchResults = await searchFetcher.fetchOpportunities(searchParams);
   const maxPaginationError = null;
 
   if (searchResults.status_code !== 200) {
@@ -44,9 +44,7 @@ export default async function SearchResultsList({ searchParams }: ServerPageProp
       )}
       {searchResults.data.map((opportunity) => (
         <li key={opportunity?.opportunity_id}>
-          <SearchResultsListItem
-            opportunity={opportunity}
-          />
+          <SearchResultsListItem opportunity={opportunity} />
         </li>
       ))}
     </ul>

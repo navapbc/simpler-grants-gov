@@ -42,7 +42,7 @@ export default function SearchSortBy({ queryTerm, sortby }: SearchSortByProps) {
         id="search-sort-by-select"
         name="search-sort-by"
         onChange={handleChange}
-        value={sortby || ''}
+        value={sortby || ""}
       >
         {SORT_OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>

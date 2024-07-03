@@ -8,7 +8,6 @@ interface SearchFilterCheckboxProps {
   updateCheckedOption: (optionId: string, isChecked: boolean) => void;
   accordionTitle: string;
   query: Set<string>;
-
 }
 
 const SearchFilterCheckbox: React.FC<SearchFilterCheckboxProps> = ({

@@ -19,9 +19,7 @@ describe("SearchBar", () => {
   const initialQueryParams = "initial query";
 
   it("should not have basic accessibility issues", async () => {
-    const { container } = render(
-      <SearchBar query={initialQueryParams} />,
-    );
+    const { container } = render(<SearchBar query={initialQueryParams} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });

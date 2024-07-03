@@ -6,18 +6,21 @@ import React from "react";
 import SearchFilterSection from "src/components/search/SearchFilterAccordion/SearchFilterSection/SearchFilterSection";
 import { axe } from "jest-axe";
 
-const isSectionAllSelected = (allSelected: Set<string>, query: Set<string>): boolean => {
+const isSectionAllSelected = (
+  allSelected: Set<string>,
+  query: Set<string>,
+): boolean => {
   if (allSelected && query) {
-    return false
+    return false;
   }
-  return true
-}
-const isSectionNoneSelected = (query: Set<string>):boolean => {
+  return true;
+};
+const isSectionNoneSelected = (query: Set<string>): boolean => {
   if (query) {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 const defaultProps = {
   isSectionAllSelected,
   isSectionNoneSelected,

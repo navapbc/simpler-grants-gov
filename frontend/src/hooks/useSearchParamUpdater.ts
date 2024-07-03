@@ -1,8 +1,7 @@
 "use client";
 
 import { sendGAEvent } from "@next/third-parties/google";
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 export function useSearchParamUpdater() {
   const searchParams = useSearchParams() || undefined;
@@ -16,7 +15,6 @@ export function useSearchParamUpdater() {
     queryTerm: string | null | undefined,
     scroll = false,
   ) => {
-    
     const finalQueryParamValue =
       queryParamValue instanceof Set
         ? Array.from(queryParamValue).join(",")
@@ -28,12 +26,12 @@ export function useSearchParamUpdater() {
       params.delete(key);
     }
     if (queryTerm) {
-      params.set('query', queryTerm);
+      params.set("query", queryTerm);
     } else {
-      params.delete('query');
+      params.delete("query");
     }
-    if (key !== 'page') {
-      params.delete('page');
+    if (key !== "page") {
+      params.delete("page");
     }
 
     sendGAEvent("event", "search", { key: finalQueryParamValue });
@@ -41,10 +39,10 @@ export function useSearchParamUpdater() {
     newPath = removeURLEncodedCommas(newPath);
     newPath = removeQuestionMarkIfNoParams(params, newPath);
     router.push(newPath, { scroll });
-  }
+  };
 
   return {
-    updateQueryParams
+    updateQueryParams,
   };
 }
 

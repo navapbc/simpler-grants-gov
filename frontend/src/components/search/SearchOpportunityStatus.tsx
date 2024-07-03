@@ -26,9 +26,11 @@ const statusOptions: StatusOption[] = [
 // and submitting the form
 const SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME = 50;
 
-export default function SearchOpportunityStatus({ query }: SearchOpportunityStatusProps) {
+export default function SearchOpportunityStatus({
+  query,
+}: SearchOpportunityStatusProps) {
   const { queryTerm } = useContext(QueryContext);
-  const { updateQueryParams   } = useSearchParamUpdater();
+  const { updateQueryParams } = useSearchParamUpdater();
 
   const debouncedUpdate = useDebouncedCallback(
     (selectedStatuses: Set<string>) => {
@@ -39,9 +41,7 @@ export default function SearchOpportunityStatus({ query }: SearchOpportunityStat
 
   const handleCheck = (value: string, isChecked: boolean) => {
     const updated = new Set(query);
-    isChecked
-      ? updated.add(value)
-      : updated.delete(value);
+    isChecked ? updated.add(value) : updated.delete(value);
     debouncedUpdate(updated);
   };
 
@@ -49,7 +49,7 @@ export default function SearchOpportunityStatus({ query }: SearchOpportunityStat
     <>
       <h2 className="margin-bottom-1 font-sans-xs">Opportunity status</h2>
       <div className="grid-row flex-wrap">
-        {statusOptions.map((option) => { 
+        {statusOptions.map((option) => {
           return (
             <div key={option.id} className="grid-col-6 padding-right-1">
               <Checkbox
@@ -59,9 +59,10 @@ export default function SearchOpportunityStatus({ query }: SearchOpportunityStat
                 tile={true}
                 onChange={(e) => handleCheck(option.value, e.target.checked)}
                 checked={query.has(option.value)}
-                />
+              />
             </div>
-        )})}
+          );
+        })}
       </div>
     </>
   );

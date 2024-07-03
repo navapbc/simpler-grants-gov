@@ -12,13 +12,9 @@ jest.mock("src/hooks/useSearchParamUpdater", () => ({
 }));
 
 describe("SearchSortBy", () => {
-
   it("should not have basic accessibility issues", async () => {
     const { container } = render(
-      <SearchSortBy
-          queryTerm="test"
-          sortby="closeDateDesc"
-      />,
+      <SearchSortBy queryTerm="test" sortby="closeDateDesc" />,
     );
 
     const results = await axe(container);
@@ -26,12 +22,7 @@ describe("SearchSortBy", () => {
   });
 
   it("renders correctly with initial query params", () => {
-    render(
-      <SearchSortBy
-          queryTerm="test"
-          sortby=""
-      />,
-    );
+    render(<SearchSortBy queryTerm="test" sortby="" />);
 
     expect(
       screen.getByDisplayValue("Posted Date (newest)"),
@@ -43,12 +34,7 @@ describe("SearchSortBy", () => {
     const requestSubmitMock = jest.fn();
     formElement.requestSubmit = requestSubmitMock;
 
-    render(
-      <SearchSortBy
-          queryTerm="test"
-          sortby=""
-      />,
-    );
+    render(<SearchSortBy queryTerm="test" sortby="" />);
 
     fireEvent.change(screen.getByRole("combobox"), {
       target: { value: "opportunityTitleDesc" },

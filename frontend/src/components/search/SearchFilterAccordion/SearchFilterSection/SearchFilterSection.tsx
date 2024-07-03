@@ -11,7 +11,10 @@ interface SearchFilterSectionProps {
   updateCheckedOption: (optionId: string, isChecked: boolean) => void;
   toggleSelectAll: (all: boolean, allSelected: Set<string>) => void;
   accordionTitle: string;
-  isSectionAllSelected: (allSelected: Set<string>, query: Set<string>) => boolean;
+  isSectionAllSelected: (
+    allSelected: Set<string>,
+    query: Set<string>,
+  ) => boolean;
   isSectionNoneSelected: (query: Set<string>) => boolean;
   query: Set<string>;
   value: string;
@@ -25,7 +28,7 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
   query,
   isSectionAllSelected,
   isSectionNoneSelected,
-  value
+  value,
 }) => {
   const [childrenVisible, setChildrenVisible] = useState<boolean>(false);
 
@@ -37,7 +40,9 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
       sectionQuery.add(queryValue);
     }
   });
-  const allSectionOptionValues = option.children.map((options) => options.value);
+  const allSectionOptionValues = option.children.map(
+    (options) => options.value,
+  );
   const sectionAllSelected = new Set(allSectionOptionValues);
 
   const sectionCount = sectionQuery.size;
@@ -64,7 +69,10 @@ const SearchFilterSection: React.FC<SearchFilterSectionProps> = ({
           <SearchFilterToggleAll
             onSelectAll={() => toggleSelectAll(true, sectionAllSelected)}
             onClearAll={() => toggleSelectAll(false, sectionAllSelected)}
-            isAllSelected={isSectionAllSelected(sectionAllSelected, sectionQuery)}
+            isAllSelected={isSectionAllSelected(
+              sectionAllSelected,
+              sectionQuery,
+            )}
             isNoneSelected={isSectionNoneSelected(sectionQuery)}
           />
           <ul className="usa-list usa-list--unstyled margin-left-4">

@@ -10,10 +10,10 @@ interface SearchBarProps {
 
 export default function SearchBar({ query }: SearchBarProps) {
   const { queryTerm, updateQueryTerm } = useContext(QueryContext);
-  const { updateQueryParams   } = useSearchParamUpdater();
+  const { updateQueryParams } = useSearchParamUpdater();
 
   const handleSubmit = () => {
-    updateQueryParams('', "query", queryTerm, false);
+    updateQueryParams("", "query", queryTerm, false);
   };
 
   return (
@@ -36,7 +36,7 @@ export default function SearchBar({ query }: SearchBarProps) {
           defaultValue={query || ""}
           onChange={(e) => updateQueryTerm(e.target?.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') handleSubmit();
+            if (e.key === "Enter") handleSubmit();
           }}
         />
         <button className="usa-button" type="submit" onClick={handleSubmit}>

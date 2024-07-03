@@ -8,7 +8,12 @@ import SearchCallToAction from "src/components/search/SearchCallToAction";
 import SearchFilterAccordion from "src/components/search/SearchFilterAccordion/SearchFilterAccordion";
 import SearchOpportunityStatus from "src/components/search/SearchOpportunityStatus";
 import SearchResultsHeader from "src/components/search/SearchResultsHeader";
-import { agencyOptions, categoryOptions, eligibilityOptions, fundingOptions } from "src/components/search/SearchFilterAccordion/SearchFilterOptions";
+import {
+  agencyOptions,
+  categoryOptions,
+  eligibilityOptions,
+  fundingOptions,
+} from "src/components/search/SearchFilterAccordion/SearchFilterOptions";
 import { SEARCH_CRUMBS } from "src/constants/breadcrumbs";
 import { QueryParamData } from "src/services/search/searchfetcher/SearchFetcher";
 import { useEffect } from "react";
@@ -49,65 +54,73 @@ export default function Error({ error }: ErrorProps) {
       parsedErrorData.searchInputs,
     );
   }
-  const { agency, category, eligibility, fundingInstrument, query, sortby, status } = convertedSearchParams;
+  const {
+    agency,
+    category,
+    eligibility,
+    fundingInstrument,
+    query,
+    sortby,
+    status,
+  } = convertedSearchParams;
 
   useEffect(() => {
     console.error(error);
   }, [error]);
 
- return (
-   <>
+  return (
+    <>
       <PageSEO
         title="Search Funding Opportunities"
         description="Try out our experimental search page."
       />
-     <BetaAlert />
-     <Breadcrumbs breadcrumbList={SEARCH_CRUMBS} />
-     <SearchCallToAction />
-     <QueryProvider>
-       <div className="grid-container">
-         <div className="search-bar">
-             <SearchBar query={query}/>
-         </div>
-         <div className="grid-row grid-gap">
-           <div className="tablet:grid-col-4">
-               <SearchOpportunityStatus query={status} />
-               <SearchFilterAccordion
-                 options={fundingOptions}
-                 title="Funding instrument"
-                 queryParamKey="fundingInstrument"
-                 query={fundingInstrument}
-               />
-               <SearchFilterAccordion
-                 options={eligibilityOptions}
-                 title="Eligibility"
-                 queryParamKey="eligibility"
-                 query={eligibility}
-               />
-               <SearchFilterAccordion
-                 options={agencyOptions}
-                 title="Agency"
-                 queryParamKey="agency"
-                 query={agency}
-               />
-               <SearchFilterAccordion
-                 options={categoryOptions}
-                 title="Category"
-                 queryParamKey="category"
-                 query={category}
-               />
-           </div>
-           <div className="tablet:grid-col-8">
-             <SearchResultsHeader sortby={sortby} />
-             <div className="usa-prose">
+      <BetaAlert />
+      <Breadcrumbs breadcrumbList={SEARCH_CRUMBS} />
+      <SearchCallToAction />
+      <QueryProvider>
+        <div className="grid-container">
+          <div className="search-bar">
+            <SearchBar query={query} />
+          </div>
+          <div className="grid-row grid-gap">
+            <div className="tablet:grid-col-4">
+              <SearchOpportunityStatus query={status} />
+              <SearchFilterAccordion
+                options={fundingOptions}
+                title="Funding instrument"
+                queryParamKey="fundingInstrument"
+                query={fundingInstrument}
+              />
+              <SearchFilterAccordion
+                options={eligibilityOptions}
+                title="Eligibility"
+                queryParamKey="eligibility"
+                query={eligibility}
+              />
+              <SearchFilterAccordion
+                options={agencyOptions}
+                title="Agency"
+                queryParamKey="agency"
+                query={agency}
+              />
+              <SearchFilterAccordion
+                options={categoryOptions}
+                title="Category"
+                queryParamKey="category"
+                query={category}
+              />
+            </div>
+            <div className="tablet:grid-col-8">
+              <SearchResultsHeader sortby={sortby} />
+              <div className="usa-prose">
                 <SearchErrorAlert />
-             </div>
-           </div>
-         </div>
-       </div>
-     </QueryProvider>
-   </>
- );
+              </div>
+            </div>
+          </div>
+        </div>
+      </QueryProvider>
+    </>
+  );
 }
 
 function convertSearchInputArraysToSets(

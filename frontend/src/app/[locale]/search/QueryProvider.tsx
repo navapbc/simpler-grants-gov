@@ -1,5 +1,5 @@
-"use client"
-import { createContext, useCallback, useMemo, useState } from 'react';
+"use client";
+import { createContext, useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 interface QueryContextParams {
@@ -11,43 +11,53 @@ interface QueryContextParams {
   updateTotalResults: (total: string) => void;
 }
 
-export const QueryContext = createContext( {} as QueryContextParams );
+export const QueryContext = createContext({} as QueryContextParams);
 
 export default function QueryProvider({
-    children,
-  }: {
-    children: React.ReactNode
-  }) {
-    const searchParams = useSearchParams() || undefined;
-    const defaultTerm = searchParams?.get('query');
-    const [queryTerm, setQueryTerm] = useState(defaultTerm);
-    const [totalPages, setTotalPages] = useState('na');
-    const [totalResults, setTotalResults] = useState('');
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const searchParams = useSearchParams() || undefined;
+  const defaultTerm = searchParams?.get("query");
+  const [queryTerm, setQueryTerm] = useState(defaultTerm);
+  const [totalPages, setTotalPages] = useState("na");
+  const [totalResults, setTotalResults] = useState("");
 
-    const updateQueryTerm = useCallback((term: string) => {
-      setQueryTerm(term);
-    }, []);
+  const updateQueryTerm = useCallback((term: string) => {
+    setQueryTerm(term);
+  }, []);
 
-    const updateTotalResults = useCallback((total: string) => {
-      setTotalResults(total);
-    }, []);
+  const updateTotalResults = useCallback((total: string) => {
+    setTotalResults(total);
+  }, []);
 
-    const updateTotalPages = useCallback((page: string) => {
-      setTotalPages(page);
-    }, []);
+  const updateTotalPages = useCallback((page: string) => {
+    setTotalPages(page);
+  }, []);
 
-    const contextValue = useMemo(() => ({
+  const contextValue = useMemo(
+    () => ({
       queryTerm,
       updateQueryTerm,
       totalPages,
       updateTotalPages,
       totalResults,
-      updateTotalResults
-    }), [queryTerm, updateQueryTerm, totalPages, updateTotalPages, totalResults, updateTotalResults]);
+      updateTotalResults,
+    }),
+    [
+      queryTerm,
+      updateQueryTerm,
+      totalPages,
+      updateTotalPages,
+      totalResults,
+      updateTotalResults,
+    ],
+  );
 
-    return (
-      <QueryContext.Provider value={contextValue}>
-        {children}
-      </QueryContext.Provider>
-    )
+  return (
+    <QueryContext.Provider value={contextValue}>
+      {children}
+    </QueryContext.Provider>
+  );
 }

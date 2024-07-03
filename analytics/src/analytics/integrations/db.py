@@ -3,7 +3,7 @@
 
 from sqlalchemy import Engine, create_engine
 
-from config import settings
+from config import DBSettings
 
 
 # The variables used in the connection url are set in settings.toml and
@@ -23,7 +23,7 @@ def get_db() -> Engine:
     A SQLAlchemy engine object representing the connection to the database.
     """
     return create_engine(
-        f"postgresql+psycopg://{settings.postgres_user}:{settings.postgres_password}@{settings.postgres_host}:{settings.postgres_port}",
+        f"postgresql+psycopg://{DBSettings.user}:{DBSettings.password}@{DBSettings.db_host}:{DBSettings.port}",
         pool_pre_ping=True,
         hide_parameters=True,
     )

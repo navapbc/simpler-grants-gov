@@ -187,6 +187,7 @@ def export_json_to_database(
     )
     rows = len(sprint_data.to_dict())
     logger.info("Number of rows in table: %s", rows)
+    print("Number of rows in table: %s", rows)
 
 
 @metrics_app.command(name="deliverable_percent_complete")

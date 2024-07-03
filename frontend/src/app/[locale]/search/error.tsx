@@ -1,15 +1,18 @@
 "use client"; // Error components must be Client Components
-
-import {
-  PaginationInfo,
-  SearchAPIResponse,
-} from "src/types/search/searchResponseTypes";
-
+import BetaAlert from "src/components/BetaAlert";
+import Breadcrumbs from "src/components/Breadcrumbs";
 import PageSEO from "src/components/PageSEO";
-import { QueryParamData } from "src/services/search/searchfetcher/SearchFetcher";
+import QueryProvider from "./QueryProvider";
+import SearchBar from "src/components/search/SearchBar";
 import SearchCallToAction from "src/components/search/SearchCallToAction";
-import { SearchForm } from "src/app/[locale]/search/SearchForm";
+import SearchFilterAccordion from "src/components/search/SearchFilterAccordion/SearchFilterAccordion";
+import SearchOpportunityStatus from "src/components/search/SearchOpportunityStatus";
+import SearchResultsHeader from "src/components/search/SearchResultsHeader";
+import { agencyOptions, categoryOptions, eligibilityOptions, fundingOptions } from "src/components/search/SearchFilterAccordion/SearchFilterOptions";
+import { SEARCH_CRUMBS } from "src/constants/breadcrumbs";
+import { QueryParamData } from "src/services/search/searchfetcher/SearchFetcher";
 import { useEffect } from "react";
+import SearchErrorAlert from "src/components/search/error/SearchErrorAlert";
 
 interface ErrorProps {
   // Next's error boundary also includes a reset function as a prop for retries,
@@ -29,8 +32,8 @@ export default function Error({ error }: ErrorProps) {
   // Parse it here.
 
   let parsedErrorData;
-  const pagination_info = getErrorPaginationInfo();
   let convertedSearchParams;
+
   if (!isValidJSON(error.message)) {
     // the error likely is just a string with a non-specific Server Component error when running the built app
     // "An error occurred in the Server Components render. The specific message is omitted in production builds..."
@@ -46,60 +49,65 @@ export default function Error({ error }: ErrorProps) {
       parsedErrorData.searchInputs,
     );
   }
-
-  const initialSearchResults: SearchAPIResponse = getErrorInitialSearchResults(
-    pagination_info,
-    parsedErrorData,
-  );
+  const { agency, category, eligibility, fundingInstrument, query, sortby, status } = convertedSearchParams;
 
   useEffect(() => {
     console.error(error);
   }, [error]);
 
-  return (
-    <>
+ return (
+   <>
       <PageSEO
         title="Search Funding Opportunities"
         description="Try out our experimental search page."
       />
-      <SearchCallToAction />
-      <SearchForm
-        initialSearchResults={initialSearchResults}
-        requestURLQueryParams={convertedSearchParams}
-      />
-    </>
-  );
-}
-
-/*
- * Generate empty response data to render the full page on an error
- * which otherwise may not have any data.
- */
-function getErrorInitialSearchResults(
-  pagination_info: PaginationInfo,
-  parsedError: ParsedError,
-) {
-  return {
-    errors: parsedError ? [{ ...parsedError }] : [{}],
-    data: [],
-    pagination_info,
-    status_code: parsedError?.status || -1,
-    message: parsedError?.message || "Unable to parse thrown error",
-  };
-}
-
-// There will be no pagination shown on an error
-// so the values here just need to be valid for the page to
-// load without error
-function getErrorPaginationInfo() {
-  return {
-    order_by: "opportunity_id",
-    page_offset: 0,
-    page_size: 25,
-    sort_direction: "ascending",
-    total_pages: 1,
-    total_records: 0,
-  };
+     <BetaAlert />
+     <Breadcrumbs breadcrumbList={SEARCH_CRUMBS} />
+     <SearchCallToAction />
+     <QueryProvider>
+       <div className="grid-container">
+         <div className="search-bar">
+             <SearchBar query={query}/>
+         </div>
+         <div className="grid-row grid-gap">
+           <div className="tablet:grid-col-4">
+               <SearchOpportunityStatus query={status} />
+               <SearchFilterAccordion
+                 options={fundingOptions}
+                 title="Funding instrument"
+                 queryParamKey="fundingInstrument"
+                 query={fundingInstrument}
+               />
+               <SearchFilterAccordion
+                 options={eligibilityOptions}
+                 title="Eligibility"
+                 queryParamKey="eligibility"
+                 query={eligibility}
+               />
+               <SearchFilterAccordion
+                 options={agencyOptions}
+                 title="Agency"
+                 queryParamKey="agency"
+                 query={agency}
+               />
+               <SearchFilterAccordion
+                 options={categoryOptions}
+                 title="Category"
+                 queryParamKey="category"
+                 query={category}
+               />
+           </div>
+           <div className="tablet:grid-col-8">
+             <SearchResultsHeader sortby={sortby} />
+             <div className="usa-prose">
+                <SearchErrorAlert />
+             </div>
+           </div>
+         </div>
+       </div>
+     </QueryProvider>
+   </>
+ );
 }
 
 function convertSearchInputArraysToSets(

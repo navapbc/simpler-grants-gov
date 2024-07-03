@@ -3,10 +3,24 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import React from "react";
-import SearchFilterSection from "../../../../../src/components/search/SearchFilterAccordion/SearchFilterSection/SearchFilterSection";
+import SearchFilterSection from "src/components/search/SearchFilterAccordion/SearchFilterSection/SearchFilterSection";
 import { axe } from "jest-axe";
 
+const isSectionAllSelected = (allSelected: Set<string>, query: Set<string>): boolean => {
+  if (allSelected && query) {
+    return false
+  }
+  return true
+}
+const isSectionNoneSelected = (query: Set<string>):boolean => {
+  if (query) {
+    return false
+  }
+  return true
+}
 const defaultProps = {
+  isSectionAllSelected,
+  isSectionNoneSelected,
   option: {
     id: "1",
     label: "Option 1",
@@ -28,12 +42,11 @@ const defaultProps = {
   },
   incrementTotal: jest.fn(),
   decrementTotal: jest.fn(),
-  mounted: true,
   updateCheckedOption: jest.fn(),
   toggleSelectAll: jest.fn(),
   accordionTitle: "Default Title",
-  isSectionAllSelected: false,
-  isSectionNoneSelected: true,
+  query: new Set(""),
+  value: "",
 };
 
 describe("SearchFilterSection", () => {

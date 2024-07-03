@@ -3,11 +3,10 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import React from "react";
-import SearchFilterCheckbox from "../../../../src/components/search/SearchFilterAccordion/SearchFilterCheckbox";
+import SearchFilterCheckbox from "src/components/search/SearchFilterAccordion/SearchFilterCheckbox";
 import { axe } from "jest-axe";
 
 const mockIncrement = jest.fn();
-const mockDecrement = jest.fn();
 const mockUpdateCheckedOption = jest.fn();
 const option = {
   id: "test-option",
@@ -20,11 +19,9 @@ describe("SearchFilterCheckbox", () => {
     const { container } = render(
       <SearchFilterCheckbox
         option={option}
-        increment={mockIncrement}
-        decrement={mockDecrement}
-        mounted={true}
         updateCheckedOption={mockUpdateCheckedOption}
         accordionTitle={"Test Accordion"}
+        query={new Set()}
       />,
     );
     const results = await axe(container);
@@ -35,11 +32,9 @@ describe("SearchFilterCheckbox", () => {
     render(
       <SearchFilterCheckbox
         option={option}
-        increment={mockIncrement}
-        decrement={mockDecrement}
-        mounted={true}
         updateCheckedOption={mockUpdateCheckedOption}
         accordionTitle={"Test Accordion"}
+        query={new Set()}
       />,
     );
 

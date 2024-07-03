@@ -1,8 +1,6 @@
 import SearchErrorAlert from "src/components/search/error/SearchErrorAlert";
 import SearchResultsListItem from "src/components/search/SearchResultsListItem";
 import { getSearchFetcher } from "src/services/search/searchfetcher/SearchFetcherUtil";
-import { ServerSideSearchParams } from "src/types/searchRequestURLTypes";
-import { convertSearchParamsToProperTypes } from "src/utils/search/convertSearchParamsToProperTypes";
 import { QueryParamData } from "src/services/search/searchfetcher/SearchFetcher";
 
 interface ServerPageProps {

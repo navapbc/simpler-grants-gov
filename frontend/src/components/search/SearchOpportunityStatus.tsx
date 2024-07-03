@@ -1,10 +1,9 @@
 "use client";
-
-import { useEffect, useState } from "react";
-
 import { Checkbox } from "@trussworks/react-uswds";
+import { QueryContext } from "../../app/[locale]/search/QueryProvider";
+import { useContext } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { useSearchParamUpdater } from "../../hooks/useSearchParamUpdater";
+import { useSearchParamUpdater } from "src/hooks/useSearchParamUpdater";
 
 interface StatusOption {
   id: string;
@@ -13,8 +12,7 @@ interface StatusOption {
 }
 
 interface SearchOpportunityStatusProps {
-  formRef: React.RefObject<HTMLFormElement>;
-  initialQueryParams: Set<string>;
+  query: Set<string>;
 }
 
 const statusOptions: StatusOption[] = [
@@ -24,68 +22,47 @@ const statusOptions: StatusOption[] = [
   { id: "status-archived", label: "Archived", value: "archived" },
 ];
 
-// Wait a half-second before updating query params
+// Wait 50 miliseconds before updating query params
 // and submitting the form
-const SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME = 500;
+const SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME = 50;
 
-const SearchOpportunityStatus: React.FC<SearchOpportunityStatusProps> = ({
-  formRef,
-  initialQueryParams,
-}) => {
-  const [mounted, setMounted] = useState(false);
-  const { updateQueryParams } = useSearchParamUpdater();
-
-  const [selectedStatuses, setSelectedStatuses] =
-    useState<Set<string>>(initialQueryParams);
+export default function SearchOpportunityStatus({ query }: SearchOpportunityStatusProps) {
+  const { queryTerm } = useContext(QueryContext);
+  const { updateQueryParams   } = useSearchParamUpdater();
 
   const debouncedUpdate = useDebouncedCallback(
     (selectedStatuses: Set<string>) => {
-      const key = "status";
-      updateQueryParams(selectedStatuses, key);
-      formRef?.current?.requestSubmit();
+      updateQueryParams(selectedStatuses, "status", queryTerm);
     },
     SEARCH_OPPORTUNITY_STATUS_DEBOUNCE_TIME,
   );
 
-  const handleCheck = (statusValue: string, isChecked: boolean) => {
-    setSelectedStatuses((prevSelectedStatuses) => {
-      const updatedStatuses = new Set(prevSelectedStatuses);
-      isChecked
-        ? updatedStatuses.add(statusValue)
-        : updatedStatuses.delete(statusValue);
-
-      debouncedUpdate(updatedStatuses);
-      return updatedStatuses;
-    });
+  const handleCheck = (value: string, isChecked: boolean) => {
+    const updated = new Set(query);
+    isChecked
+      ? updated.add(value)
+      : updated.delete(value);
+    debouncedUpdate(updated);
   };
-
-  useEffect(() => {
-    setMounted(true);
-    return () => {
-      setMounted(false);
-    };
-  }, []);
 
   return (
     <>
       <h2 className="margin-bottom-1 font-sans-xs">Opportunity status</h2>
       <div className="grid-row flex-wrap">
-        {statusOptions.map((option) => (
-          <div key={option.id} className="grid-col-6 padding-right-1">
-            <Checkbox
-              id={option.id}
-              name={option.id}
-              label={option.label}
-              tile={true}
-              onChange={(e) => handleCheck(option.value, e.target.checked)}
-              disabled={!mounted} // Required to be disabled until hydrated so query params are updated properly
-              checked={selectedStatuses.has(option.value)}
-            />
-          </div>
-        ))}
+        {statusOptions.map((option) => { 
+          return (
+            <div key={option.id} className="grid-col-6 padding-right-1">
+              <Checkbox
+                id={option.id}
+                name={option.id}
+                label={option.label}
+                tile={true}
+                onChange={(e) => handleCheck(option.value, e.target.checked)}
+                checked={query.has(option.value)}
+                />
+            </div>
+        )})}
       </div>
     </>
   );
-};
-
-export default SearchOpportunityStatus;
+}

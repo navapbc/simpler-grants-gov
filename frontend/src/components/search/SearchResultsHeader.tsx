@@ -1,30 +1,22 @@
 "use client";
-
 import SearchSortyBy from "./SearchSortBy";
+import { QueryContext } from "src/app/[locale]/search/QueryProvider";
+import { useContext } from "react";
 
-interface SearchResultsHeaderProps {
-  searchResultsLength: number;
-  formRef: React.RefObject<HTMLFormElement>;
-  initialQueryParams: string;
-}
+export default function SearchResultsHeader({ sortby }: {sortby: string | null}) {
+  const { totalResults, queryTerm } = useContext(QueryContext);
+  
 
-const SearchResultsHeader: React.FC<SearchResultsHeaderProps> = ({
-  searchResultsLength,
-  formRef,
-  initialQueryParams,
-}) => {
   return (
     <div className="grid-row">
       <h2 className="tablet-lg:grid-col-fill margin-top-5 tablet-lg:margin-top-2 tablet-lg:margin-bottom-0">
-        {searchResultsLength} Opportunities
+        {totalResults.length > 0 &&
+          <>{totalResults} Opportunities</>
+        } 
       </h2>
       <div className="tablet-lg:grid-col-auto">
-        <SearchSortyBy
-          formRef={formRef}
-          initialQueryParams={initialQueryParams}
-        />
+        <SearchSortyBy sortby={sortby} queryTerm={queryTerm} />
       </div>
     </div>
   );
-};
-export default SearchResultsHeader;
+}

@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import SearchFilterAccordion, {
   FilterOption,
-} from "../../../../src/components/search/SearchFilterAccordion/SearchFilterAccordion";
+} from "src/components/search/SearchFilterAccordion/SearchFilterAccordion";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 import React from "react";
@@ -34,16 +34,14 @@ const initialFilterOptions: FilterOption[] = [
 describe("SearchFilterAccordion", () => {
   const title = "Test Accordion";
   const queryParamKey = "status";
-  const initialQueryParams = new Set("");
 
   it("should not have basic accessibility issues", async () => {
     const { container } = render(
       <SearchFilterAccordion
-        initialFilterOptions={initialFilterOptions}
+        options={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
-        initialQueryParams={initialQueryParams}
-        formRef={React.createRef()}
+        query={new Set()}
       />,
     );
     const results = await axe(container);
@@ -53,11 +51,10 @@ describe("SearchFilterAccordion", () => {
   it("displays the correct checkbox labels", () => {
     render(
       <SearchFilterAccordion
-        initialFilterOptions={initialFilterOptions}
+        options={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
-        initialQueryParams={initialQueryParams}
-        formRef={React.createRef()}
+        query={new Set()}
       />,
     );
 
@@ -70,11 +67,10 @@ describe("SearchFilterAccordion", () => {
   it("displays select all and clear all correctly", () => {
     render(
       <SearchFilterAccordion
-        initialFilterOptions={initialFilterOptions}
+        options={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
-        initialQueryParams={initialQueryParams}
-        formRef={React.createRef()}
+        query={new Set()}
       />,
     );
 
@@ -99,11 +95,10 @@ describe("SearchFilterAccordion", () => {
   it("has hidden attribute when collapsed", () => {
     render(
       <SearchFilterAccordion
-        initialFilterOptions={initialFilterOptions}
+        options={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
-        initialQueryParams={initialQueryParams}
-        formRef={React.createRef()}
+        query={new Set()}
       />,
     );
 
@@ -123,11 +118,10 @@ describe("SearchFilterAccordion", () => {
   it("checks boxes correctly and updates count", () => {
     render(
       <SearchFilterAccordion
-        initialFilterOptions={initialFilterOptions}
+        options={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
-        initialQueryParams={initialQueryParams}
-        formRef={React.createRef()}
+        query={new Set()}
       />,
     );
 

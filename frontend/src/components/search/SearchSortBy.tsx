@@ -1,6 +1,5 @@
 import { Select } from "@trussworks/react-uswds";
-import { useSearchParamUpdater } from "../../hooks/useSearchParamUpdater";
-import { useState } from "react";
+import { useSearchParamUpdater } from "src/hooks/useSearchParamUpdater";
 
 type SortOption = {
   label: string;
@@ -21,25 +20,16 @@ const SORT_OPTIONS: SortOption[] = [
 ];
 
 interface SearchSortByProps {
-  formRef: React.RefObject<HTMLFormElement>;
-  initialQueryParams: string;
+  queryTerm: string | null | undefined;
+  sortby: string | null;
 }
 
-const SearchSortBy: React.FC<SearchSortByProps> = ({
-  formRef,
-  initialQueryParams,
-}) => {
-  const [sortBy, setSortBy] = useState(
-    initialQueryParams || SORT_OPTIONS[0].value,
-  );
+export default function SearchSortBy({ queryTerm, sortby }: SearchSortByProps) {
   const { updateQueryParams } = useSearchParamUpdater();
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = event.target.value;
-    setSortBy(newValue);
-    const key = "sortby";
-    updateQueryParams(newValue, key);
-    formRef?.current?.requestSubmit();
+    updateQueryParams(newValue, "sortby", queryTerm);
   };
 
   return (
@@ -52,7 +42,7 @@ const SearchSortBy: React.FC<SearchSortByProps> = ({
         id="search-sort-by-select"
         name="search-sort-by"
         onChange={handleChange}
-        value={sortBy}
+        value={sortby || ''}
       >
         {SORT_OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>
@@ -62,6 +52,4 @@ const SearchSortBy: React.FC<SearchSortByProps> = ({
       </Select>
     </div>
   );
-};
-
-export default SearchSortBy;
+}

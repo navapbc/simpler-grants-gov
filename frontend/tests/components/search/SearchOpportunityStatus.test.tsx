@@ -3,7 +3,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { render, screen } from "@testing-library/react";
 
 import React from "react";
-import SearchOpportunityStatus from "../../../src/components/search/SearchOpportunityStatus";
+import SearchOpportunityStatus from "src/components/search/SearchOpportunityStatus";
 import { axe } from "jest-axe";
 
 jest.mock("use-debounce", () => ({
@@ -14,28 +14,17 @@ jest.mock("use-debounce", () => ({
 
 const mockUpdateQueryParams = jest.fn();
 
-jest.mock("../../../src/hooks/useSearchParamUpdater", () => ({
+jest.mock("src/hooks/useSearchParamUpdater", () => ({
   useSearchParamUpdater: () => ({
     updateQueryParams: mockUpdateQueryParams,
   }),
 }));
 
 describe("SearchOpportunityStatus", () => {
-  let formRef: React.RefObject<HTMLFormElement>;
-
-  beforeEach(() => {
-    formRef = {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      current: { requestSubmit: jest.fn() } as any as HTMLFormElement,
-    };
-  });
 
   it("passes accessibility scan", async () => {
     const { container } = render(
-      <SearchOpportunityStatus
-        formRef={formRef}
-        initialQueryParams={new Set()}
-      />,
+      <SearchOpportunityStatus query={new Set()}/>,
     );
     const results = await axe(container);
 
@@ -44,12 +33,7 @@ describe("SearchOpportunityStatus", () => {
 
   it("component renders with checkboxes", () => {
     render(
-      <SearchOpportunityStatus
-        formRef={formRef}
-        initialQueryParams={
-          new Set(["forecasted", "posted", "closed", "archived"])
-        }
-      />,
+      <SearchOpportunityStatus query={new Set()}/>,
     );
 
     expect(screen.getByText("Forecasted")).toBeEnabled();

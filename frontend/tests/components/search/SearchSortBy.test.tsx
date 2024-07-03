@@ -1,25 +1,23 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 
 import React from "react";
-import SearchSortBy from "../../../src/components/search/SearchSortBy";
+import SearchSortBy from "src/components/search/SearchSortBy";
 import { axe } from "jest-axe";
 
 // Mock the useSearchParamUpdater hook
-jest.mock("../../../src/hooks/useSearchParamUpdater", () => ({
+jest.mock("src/hooks/useSearchParamUpdater", () => ({
   useSearchParamUpdater: () => ({
     updateQueryParams: jest.fn(),
   }),
 }));
 
 describe("SearchSortBy", () => {
-  const initialQueryParams = "postedDateDesc";
-  const mockFormRef = React.createRef<HTMLFormElement>();
 
   it("should not have basic accessibility issues", async () => {
     const { container } = render(
       <SearchSortBy
-        formRef={mockFormRef}
-        initialQueryParams={initialQueryParams}
+          queryTerm="test"
+          sortby="closeDateDesc"
       />,
     );
 
@@ -30,8 +28,8 @@ describe("SearchSortBy", () => {
   it("renders correctly with initial query params", () => {
     render(
       <SearchSortBy
-        formRef={mockFormRef}
-        initialQueryParams={initialQueryParams}
+          queryTerm="test"
+          sortby=""
       />,
     );
 
@@ -47,8 +45,8 @@ describe("SearchSortBy", () => {
 
     render(
       <SearchSortBy
-        formRef={{ current: formElement }}
-        initialQueryParams={initialQueryParams}
+          queryTerm="test"
+          sortby=""
       />,
     );
 

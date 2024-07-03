@@ -1,7 +1,7 @@
 "use client"
 
 import { Pagination } from "@trussworks/react-uswds";
-import { QueryContext } from "./QueryProvider";
+import { QueryContext } from "../../app/[locale]/search/QueryProvider";
 import { useContext } from "react";
 
 interface SearchPaginationProps {
@@ -9,7 +9,6 @@ interface SearchPaginationProps {
 }
 
 const MAX_SLOTS = 7;
-const DEBOUNCE_TIME = 300;
 
 export default function SearchPaginationLoader({ page }: SearchPaginationProps) {
   const { totalPages } = useContext(QueryContext);

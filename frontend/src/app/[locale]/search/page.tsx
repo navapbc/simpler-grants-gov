@@ -117,4 +117,6 @@ function Search({
     </>
   );
 }
+
+// Exports page behind a feature flag
 export default withFeatureFlag(Search, "showSearchV0");

@@ -23,8 +23,8 @@ import { Suspense } from 'react';
 export async function generateMetadata() {
   const t = await getTranslations({ locale: "en" });
   const meta: Metadata = {
-    title: t("Process.page_title"),
-    description: t("Process.meta_description"),
+    title: t("Search.title"),
+    description: t("Index.meta_description"),
   };
   return meta;
 }

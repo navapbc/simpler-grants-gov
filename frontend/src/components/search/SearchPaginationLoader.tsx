@@ -17,7 +17,7 @@ export default function SearchPaginationLoader({ page }: SearchPaginationProps) 
   return (
     <div style={{opacity: 1}}>
       <Pagination
-        pathname="/look"
+        pathname="/search"
         totalPages={Number(total)}
         currentPage={page}
         maxSlots={MAX_SLOTS}

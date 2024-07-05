@@ -1,5 +1,8 @@
+"use client";
 import { Select } from "@trussworks/react-uswds";
 import { useSearchParamUpdater } from "src/hooks/useSearchParamUpdater";
+import { QueryContext } from "src/app/[locale]/search/QueryProvider";
+import { useContext } from "react";
 
 type SortOption = {
   label: string;
@@ -22,13 +25,20 @@ const SORT_OPTIONS: SortOption[] = [
 interface SearchSortByProps {
   queryTerm: string | null | undefined;
   sortby: string | null;
+  totalResults: string;
 }
 
-export default function SearchSortBy({ queryTerm, sortby }: SearchSortByProps) {
+export default function SearchSortBy({
+  queryTerm,
+  sortby,
+  totalResults,
+}: SearchSortByProps) {
   const { updateQueryParams } = useSearchParamUpdater();
+  const { updateTotalResults } = useContext(QueryContext);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = event.target.value;
+    updateTotalResults(totalResults);
     updateQueryParams(newValue, "sortby", queryTerm);
   };
 

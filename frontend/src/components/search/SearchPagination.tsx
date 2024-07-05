@@ -1,31 +1,63 @@
-"use server";
-import { getSearchFetcher } from "src/services/search/searchfetcher/SearchFetcherUtil";
-import { QueryParamData } from "src/services/search/searchfetcher/SearchFetcher";
-import SearchPaginationItem from "./SearchPaginationItem";
+"use client";
+import { Pagination } from "@trussworks/react-uswds";
+import { QueryContext } from "src/app/[locale]/search/QueryProvider";
+import { useSearchParamUpdater } from "src/hooks/useSearchParamUpdater";
+import { useContext } from "react";
 
-interface SearchPaginationProps {
-  searchParams: QueryParamData;
-  scroll: boolean;
+export enum PaginationPosition {
+  Top = "topPagination",
+  Bottom = "bottomPagination",
 }
 
-export default async function SearchPagination({
-  searchParams,
-  scroll,
+interface SearchPaginationProps {
+  page: number;
+  query: string | null | undefined;
+  total?: number | null;
+  scroll?: boolean;
+  totalResults?: string;
+  loading?: boolean;
+}
+
+const MAX_SLOTS = 7;
+
+export default function SearchPagination({
+  page,
+  query,
+  total = null,
+  scroll = false,
+  totalResults = "",
+  loading = false,
 }: SearchPaginationProps) {
-  const searchFetcher = getSearchFetcher();
-  const searchResults = await searchFetcher.fetchOpportunities(searchParams);
-  const totalPages = searchResults.pagination_info?.total_pages;
-  const totalResults = searchResults.pagination_info?.total_records;
+  const { updateQueryParams } = useSearchParamUpdater();
+  const { updateTotalPages, updateTotalResults } = useContext(QueryContext);
+  const { totalPages } = useContext(QueryContext);
+  // Shows total pages from the query context before it is re-fetched from the API.
+  const pages = total || Number(totalPages);
+
+  const updatePage = (page: number) => {
+    updateTotalPages(String(total));
+    updateTotalResults(totalResults);
+    updateQueryParams(String(page), "page", query, scroll);
+  };
 
   return (
-    <>
-      <SearchPaginationItem
-        total={totalPages}
-        page={searchParams.page}
-        query={searchParams.query}
-        scroll={scroll}
-        totalResults={String(totalResults)}
+    <div
+      style={{
+        pointerEvents: loading ? "none" : "fill",
+        opacity: loading ? 0.5 : 1,
+      }}
+    >
+      <Pagination
+        pathname="/search"
+        totalPages={pages}
+        currentPage={page}
+        maxSlots={MAX_SLOTS}
+        onClickNext={() => updatePage(page + 1)}
+        onClickPrevious={() => updatePage(page > 1 ? page - 1 : 0)}
+        onClickPageNumber={(event: React.MouseEvent, page: number) =>
+          updatePage(page)
+        }
       />
-    </>
+    </div>
   );
 }

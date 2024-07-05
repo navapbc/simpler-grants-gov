@@ -2,14 +2,15 @@ import BetaAlert from "src/components/BetaAlert";
 import Breadcrumbs from "src/components/Breadcrumbs";
 import Loading from "src/app/[locale]/search/loading";
 import PageSEO from "src/components/PageSEO";
-import SearchResultsList from "src/components/search/SearchResultList";
+import SearchResultsListFetch from "src/components/search/SearchResultsListFetch";
 import QueryProvider from "./QueryProvider";
 import SearchBar from "src/components/search/SearchBar";
 import SearchCallToAction from "src/components/search/SearchCallToAction";
 import SearchFilterAccordion from "src/components/search/SearchFilterAccordion/SearchFilterAccordion";
 import SearchOpportunityStatus from "src/components/search/SearchOpportunityStatus";
 import SearchPagination from "src/components/search/SearchPagination";
-import SearchPaginationLoader from "src/components/search/SearchPaginationLoader";
+import SearchPaginationFetch from "src/components/search/SearchPaginationFetch";
+import SearchResultsHeaderFetch from "src/components/search/SearchResultsHeaderFetch";
 import SearchResultsHeader from "src/components/search/SearchResultsHeader";
 import withFeatureFlag from "src/hoc/search/withFeatureFlag";
 import {
@@ -108,25 +109,48 @@ function Search({ searchParams }: { searchParams: searchParamsTypes }) {
               />
             </div>
             <div className="tablet:grid-col-8">
-              <SearchResultsHeader sortby={sortby} />
+              <Suspense
+                key={key}
+                fallback={
+                  <SearchResultsHeader sortby={sortby} loading={false} />
+                }
+              >
+                <SearchResultsHeaderFetch
+                  sortby={sortby}
+                  queryTerm={query}
+                  searchParams={convertedSearchParams}
+                />
+              </Suspense>
               <div className="usa-prose">
                 <Suspense
                   key={pager1key}
-                  fallback={<SearchPaginationLoader page={page} />}
+                  fallback={
+                    <SearchPagination
+                      loading={true}
+                      page={page}
+                      query={query}
+                    />
+                  }
                 >
-                  <SearchPagination
+                  <SearchPaginationFetch
                     searchParams={convertedSearchParams}
                     scroll={false}
                   />
                 </Suspense>
                 <Suspense key={key} fallback={<Loading />}>
-                  <SearchResultsList searchParams={convertedSearchParams} />
+                  <SearchResultsListFetch searchParams={convertedSearchParams} />
                 </Suspense>
                 <Suspense
                   key={pager2key}
-                  fallback={<SearchPaginationLoader page={page} />}
+                  fallback={
+                    <SearchPagination
+                      loading={true}
+                      page={page}
+                      query={query}
+                    />
+                  }
                 >
-                  <SearchPagination
+                  <SearchPaginationFetch
                     searchParams={convertedSearchParams}
                     scroll={true}
                   />

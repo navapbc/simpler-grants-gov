@@ -7,7 +7,7 @@ interface ServerPageProps {
   searchParams: QueryParamData;
 }
 
-export default async function SearchResultsList({
+export default async function SearchResultsListFetch({
   searchParams,
 }: ServerPageProps) {
   const searchFetcher = getSearchFetcher();

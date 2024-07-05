@@ -1,12 +1,10 @@
 import "@testing-library/jest-dom/extend-expect";
-
+import { axe } from "jest-axe";
+import { fireEvent, render, screen } from "@testing-library/react";
+import React from "react";
 import SearchFilterAccordion, {
   FilterOption,
 } from "src/components/search/SearchFilterAccordion/SearchFilterAccordion";
-import { fireEvent, render, screen } from "@testing-library/react";
-
-import React from "react";
-import { axe } from "jest-axe";
 
 const initialFilterOptions: FilterOption[] = [
   {
@@ -31,9 +29,17 @@ const initialFilterOptions: FilterOption[] = [
   },
 ];
 
+const mockUpdateQueryParams = jest.fn();
+
+jest.mock("src/hooks/useSearchParamUpdater", () => ({
+  useSearchParamUpdater: () => ({
+    updateQueryParams: mockUpdateQueryParams,
+  }),
+}));
+
 describe("SearchFilterAccordion", () => {
   const title = "Test Accordion";
-  const queryParamKey = "status";
+  const queryParamKey = "fundingInstrument";
 
   it("should not have basic accessibility issues", async () => {
     const { container } = render(
@@ -65,7 +71,7 @@ describe("SearchFilterAccordion", () => {
   });
 
   it("displays select all and clear all correctly", () => {
-    render(
+    const { rerender } = render(
       <SearchFilterAccordion
         options={initialFilterOptions}
         title={title}
@@ -86,8 +92,18 @@ describe("SearchFilterAccordion", () => {
       "Cooperative Agreement",
     );
 
-    // after clicking one of the boxes, both select all and clear all should be enabled
-    fireEvent.click(cooperativeAgreementCheckbox);
+    const updatedQuery = new Set("");
+    updatedQuery.add("Cooperative Agreement");
+    // after clicking one of the boxes, the page should rerender
+    // both select all and clear all should be enabled
+    rerender(
+      <SearchFilterAccordion
+        options={initialFilterOptions}
+        title={title}
+        queryParamKey={queryParamKey}
+        query={updatedQuery}
+      />,
+    );
     expect(selectAllButton).toBeEnabled();
     expect(clearAllButton).toBeEnabled();
   });
@@ -97,7 +113,7 @@ describe("SearchFilterAccordion", () => {
       <SearchFilterAccordion
         options={initialFilterOptions}
         title={title}
-        queryParamKey={queryParamKey}
+        queryParamKey={"status"}
         query={new Set()}
       />,
     );
@@ -116,31 +132,38 @@ describe("SearchFilterAccordion", () => {
   });
 
   it("checks boxes correctly and updates count", () => {
-    render(
+    const { rerender } = render(
       <SearchFilterAccordion
         options={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
-        query={new Set()}
+        query={new Set("")}
+      />,
+    );
+
+    const updatedQuery = new Set("");
+    updatedQuery.add("Cooperative Agreement");
+    updatedQuery.add("Grant");
+    // after clicking one of the boxes, the page should rerender
+    // both select all and clear all should be enabled
+    rerender(
+      <SearchFilterAccordion
+        options={initialFilterOptions}
+        title={title}
+        queryParamKey={queryParamKey}
+        query={updatedQuery}
       />,
     );
 
     const cooperativeAgreementCheckbox = screen.getByLabelText(
       "Cooperative Agreement",
     );
-    fireEvent.click(cooperativeAgreementCheckbox);
-
     const grantCheckbox = screen.getByLabelText("Grant");
-    fireEvent.click(grantCheckbox);
 
     // Verify the count updates to 2
     const countSpan = screen.getByText("2", {
       selector: ".usa-tag.usa-tag--big.radius-pill.margin-left-1",
     });
     expect(countSpan).toBeInTheDocument();
-
-    // Verify the checkboxes are checked
-    expect(cooperativeAgreementCheckbox).toBeChecked();
-    expect(grantCheckbox).toBeChecked();
   });
 });

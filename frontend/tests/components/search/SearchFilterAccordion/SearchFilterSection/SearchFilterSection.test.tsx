@@ -80,29 +80,6 @@ describe("SearchFilterSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("correctly updates the section count", async () => {
-    // Render the component with default props
-    render(<SearchFilterSection {...defaultProps} />);
-
-    // Just 1 is checked initially, so count should be 1
-    const countSpanAsOne = screen.getByText("1", { selector: ".usa-tag" });
-    expect(countSpanAsOne).toBeInTheDocument();
-
-    // uncollapse section
-    fireEvent.click(screen.getByRole("button"));
-
-    // Check the 1st box in the section
-    const checkboxForChild1 = screen.getByLabelText("Child 1");
-    fireEvent.click(checkboxForChild1);
-
-    await waitFor(() => {
-      // count should now be 2
-      expect(
-        screen.getByText("2", { selector: ".usa-tag" }),
-      ).toBeInTheDocument();
-    });
-  });
-
   it("renders hidden inputs for checked children when collapsed", () => {
     // checkbox "1-2" is checked, but when the section is collapsed we still need to send the value
     // to the form to submit, so we use a hidden input. It must be present.

@@ -1,8 +1,8 @@
+import { axe } from "jest-axe";
 import { fireEvent, render, screen } from "@testing-library/react";
-
 import React from "react";
 import SearchSortBy from "src/components/search/SearchSortBy";
-import { axe } from "jest-axe";
+import QueryProvider from "src/app/[locale]/search/QueryProvider";
 
 // Mock the useSearchParamUpdater hook
 jest.mock("src/hooks/useSearchParamUpdater", () => ({
@@ -34,20 +34,18 @@ describe("SearchSortBy", () => {
   });
 
   it("updates sort option and submits the form on change", () => {
-    const formElement = document.createElement("form");
-    const requestSubmitMock = jest.fn();
-    formElement.requestSubmit = requestSubmitMock;
+    const container = render(
+      <QueryProvider>
+        <SearchSortBy totalResults={"10"} queryTerm="test" sortby="" />
+      </QueryProvider>,
+    );
 
-    render(<SearchSortBy totalResults={"10"} queryTerm="test" sortby="" />);
-
-    fireEvent.change(screen.getByRole("combobox"), {
+    fireEvent.change(container.getByRole("combobox"), {
       target: { value: "opportunityTitleDesc" },
     });
 
     expect(
-      screen.getByDisplayValue("Opportunity Title (Z to A)"),
+      container.getByText("Opportunity Title (Z to A)"),
     ).toBeInTheDocument();
-
-    expect(requestSubmitMock).toHaveBeenCalled();
   });
 });

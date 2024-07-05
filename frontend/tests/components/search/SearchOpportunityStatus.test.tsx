@@ -1,16 +1,8 @@
 import "@testing-library/jest-dom/extend-expect";
-
-import { render, screen } from "@testing-library/react";
-
+import { axe } from "jest-axe";
+import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import SearchOpportunityStatus from "src/components/search/SearchOpportunityStatus";
-import { axe } from "jest-axe";
-
-jest.mock("use-debounce", () => ({
-  useDebouncedCallback: (fn: (...args: unknown[]) => unknown) => {
-    return [fn, jest.fn()];
-  },
-}));
 
 const mockUpdateQueryParams = jest.fn();
 
@@ -37,28 +29,23 @@ describe("SearchOpportunityStatus", () => {
     expect(screen.getByText("Archived")).toBeEnabled();
   });
 
-  /* eslint-disable jest/no-commented-out-tests */
+  it("checking a checkbox calls updateQueryParams and requestSubmit", async () => {
+    const query = new Set("");
+    query.add("test");
+    const combined = new Set("");
+    combined.add("test").add("forecasted");
+    render(<SearchOpportunityStatus query={query} />);
 
-  // TODO: Fix additional tests
+    const forecastedCheckbox = screen.getByRole("checkbox", {
+      name: "Forecasted",
+    });
 
-  //   it("checking a checkbox calls updateQueryParams and requestSubmit", async () => {
-  //     render(<SearchOpportunityStatus formRef={formRef} />);
+    fireEvent.click(forecastedCheckbox);
 
-  //     // No need to wait for component to mount since we're not testing that here
-  //     const forecastedCheckbox = screen.getByRole("checkbox", {
-  //       name: "Forecasted",
-  //     });
-
-  //     fireEvent.click(forecastedCheckbox);
-
-  //     // Since we mocked useDebouncedCallback, we expect the function to be called immediately
-  //     // Make sure to check for both updateQueryParams and requestSubmit
-  //     // expect(formRef.current.requestSubmit).toHaveBeenCalled();
-  //     expect(mockUpdateQueryParams).toHaveBeenCalledWith(
-  //       new Set(["forecasted"]),
-  //       "status",
-  //     );
-  //   });
-
-  // TODO:  Add more tests as needed to cover other interactions and edge cases
+    expect(mockUpdateQueryParams).toHaveBeenCalledWith(
+      combined,
+      "status",
+      undefined,
+    );
+  });
 });

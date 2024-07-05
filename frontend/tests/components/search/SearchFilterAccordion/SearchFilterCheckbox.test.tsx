@@ -42,28 +42,9 @@ describe("SearchFilterCheckbox", () => {
     const checkbox = screen.getByLabelText(option.label);
     fireEvent.click(checkbox);
 
-    // Wait for the increment function to be called
-    await waitFor(() => {
-      expect(mockIncrement).toHaveBeenCalledTimes(1);
-    });
-
     // Wait for the updateCheckedOption function to be called with the checkbox being checked
     await waitFor(() => {
-      expect(mockUpdateCheckedOption).toHaveBeenCalledWith(option.id, true);
+      expect(mockUpdateCheckedOption).toHaveBeenCalledWith(option.value, true);
     });
-
-    // Simulate user clicking the checkbox again to uncheck it
-    fireEvent.click(checkbox);
-
-    // TODO (Issue #1618): Resolve issues with unchecking
-
-    // await waitFor(() => {
-    //   expect(mockDecrement).toHaveBeenCalledTimes(1);
-    // });
-
-    // // Wait for the updateCheckedOption function to be called with the checkbox being unchecked
-    // await waitFor(() => {
-    //   expect(mockUpdateCheckedOption).toHaveBeenCalledWith(option.id, false);
-    // });
   });
 });

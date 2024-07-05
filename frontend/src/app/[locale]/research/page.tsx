@@ -1,6 +1,6 @@
-"use server";
 import { RESEARCH_CRUMBS } from "src/constants/breadcrumbs";
 import ResearchIntro from "src/app/[locale]/research/ResearchIntro";
+
 import Breadcrumbs from "src/components/Breadcrumbs";
 import PageSEO from "src/components/PageSEO";
 import BetaAlert from "src/components/BetaAlert";

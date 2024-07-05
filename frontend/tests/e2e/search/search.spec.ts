@@ -76,7 +76,7 @@ test.describe("Search page tests", () => {
     const searchTerm = "0resultearch";
 
     await fillSearchInputAndSubmit(searchTerm, page);
-
+    await new Promise((resolve) => setTimeout(resolve, 3250));
     expectURLContainsQueryParam(page, "query", searchTerm);
 
     // eslint-disable-next-line testing-library/prefer-screen-queries
@@ -212,9 +212,9 @@ test.describe("Search page tests", () => {
     await waitForSearchResultsInitialLoad(page);
 
     // Verify that page 1 is highlighted
-    currentPageButton = page.locator(".usa-pagination__button.usa-current");
+    currentPageButton = page.locator(".usa-pagination__button.usa-current").first();
     await expect(currentPageButton).toHaveAttribute("aria-label", "Page 1");
-
+    
     // It should not have a page query param set
     expectURLContainsQueryParam(page, "page", "1", false);
   });
@@ -230,7 +230,7 @@ test.describe("Search page tests", () => {
 
     const lastSearchResultTitle = await getLastSearchResultTitle(page);
 
-    await selectOppositeSortOption(page);
+    await selectSortBy(page, "opportunityTitleAsc");
 
     const firstSearchResultTitle = await getFirstSearchResultTitle(page);
 

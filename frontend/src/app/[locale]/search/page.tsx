@@ -138,7 +138,9 @@ function Search({ searchParams }: { searchParams: searchParamsTypes }) {
                   />
                 </Suspense>
                 <Suspense key={key} fallback={<Loading />}>
-                  <SearchResultsListFetch searchParams={convertedSearchParams} />
+                  <SearchResultsListFetch
+                    searchParams={convertedSearchParams}
+                  />
                 </Suspense>
                 <Suspense
                   key={pager2key}

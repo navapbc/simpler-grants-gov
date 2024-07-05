@@ -212,9 +212,11 @@ test.describe("Search page tests", () => {
     await waitForSearchResultsInitialLoad(page);
 
     // Verify that page 1 is highlighted
-    currentPageButton = page.locator(".usa-pagination__button.usa-current").first();
+    currentPageButton = page
+      .locator(".usa-pagination__button.usa-current")
+      .first();
     await expect(currentPageButton).toHaveAttribute("aria-label", "Page 1");
-    
+
     // It should not have a page query param set
     expectURLContainsQueryParam(page, "page", "1", false);
   });

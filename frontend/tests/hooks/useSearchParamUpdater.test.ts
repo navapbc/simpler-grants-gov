@@ -15,7 +15,6 @@ jest.mock("next/navigation", () => ({
 }));
 
 describe("useSearchParamUpdater", () => {
-
   it("updates a singular param and pushes new path", async () => {
     const { result } = renderHook(() => useSearchParamUpdater());
 
@@ -49,10 +48,9 @@ describe("useSearchParamUpdater", () => {
     result.current.updateQueryParams(statuses, "status", "test");
 
     await waitFor(() => {
-      expect(routerPush).toHaveBeenCalledWith(
-        "/test?query=test",
-        { scroll: false },
-      );
+      expect(routerPush).toHaveBeenCalledWith("/test?query=test", {
+        scroll: false,
+      });
     });
   });
 });

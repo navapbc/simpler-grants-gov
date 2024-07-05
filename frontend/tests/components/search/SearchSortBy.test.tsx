@@ -44,8 +44,6 @@ describe("SearchSortBy", () => {
       target: { value: "opportunityTitleDesc" },
     });
 
-    expect(
-      screen.getByText("Opportunity Title (Z to A)"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Opportunity Title (Z to A)")).toBeInTheDocument();
   });
 });

@@ -6,7 +6,6 @@ import React from "react";
 import SearchFilterCheckbox from "src/components/search/SearchFilterAccordion/SearchFilterCheckbox";
 import { axe } from "jest-axe";
 
-const mockIncrement = jest.fn();
 const mockUpdateCheckedOption = jest.fn();
 const option = {
   id: "test-option",

@@ -2,8 +2,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { useSearchParamUpdater } from "src/hooks/useSearchParamUpdater";
 
-
-let mockSearchParams = new URLSearchParams();
+const mockSearchParams = new URLSearchParams();
 const routerPush = jest.fn(() => Promise.resolve(true));
 jest.mock("next/navigation", () => ({
   usePathname: jest.fn(() => "/test") as jest.Mock<string>,

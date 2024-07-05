@@ -88,10 +88,6 @@ describe("SearchFilterAccordion", () => {
     expect(clearAllButton).toBeInTheDocument();
     expect(clearAllButton).toBeDisabled();
 
-    const cooperativeAgreementCheckbox = screen.getByLabelText(
-      "Cooperative Agreement",
-    );
-
     const updatedQuery = new Set("");
     updatedQuery.add("Cooperative Agreement");
     // after clicking one of the boxes, the page should rerender
@@ -154,11 +150,6 @@ describe("SearchFilterAccordion", () => {
         query={updatedQuery}
       />,
     );
-
-    const cooperativeAgreementCheckbox = screen.getByLabelText(
-      "Cooperative Agreement",
-    );
-    const grantCheckbox = screen.getByLabelText("Grant");
 
     // Verify the count updates to 2
     const countSpan = screen.getByText("2", {

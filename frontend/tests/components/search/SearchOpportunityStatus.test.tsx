@@ -29,7 +29,7 @@ describe("SearchOpportunityStatus", () => {
     expect(screen.getByText("Archived")).toBeEnabled();
   });
 
-  it("checking a checkbox calls updateQueryParams and requestSubmit", async () => {
+  it("checking a checkbox calls updateQueryParams and requestSubmit", () => {
     const query = new Set("");
     query.add("test");
     const combined = new Set("");

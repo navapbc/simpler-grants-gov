@@ -34,18 +34,18 @@ describe("SearchSortBy", () => {
   });
 
   it("updates sort option and submits the form on change", () => {
-    const container = render(
+    render(
       <QueryProvider>
         <SearchSortBy totalResults={"10"} queryTerm="test" sortby="" />
       </QueryProvider>,
     );
 
-    fireEvent.change(container.getByRole("combobox"), {
+    fireEvent.change(screen.getByRole("combobox"), {
       target: { value: "opportunityTitleDesc" },
     });
 
     expect(
-      container.getByText("Opportunity Title (Z to A)"),
+      screen.getByText("Opportunity Title (Z to A)"),
     ).toBeInTheDocument();
   });
 });

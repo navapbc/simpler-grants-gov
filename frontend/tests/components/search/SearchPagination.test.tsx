@@ -1,6 +1,7 @@
+/* eslint-disable jest/no-commented-out-tests */
 import "@testing-library/jest-dom/extend-expect";
 import { axe } from "jest-axe";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import React from "react";
 import SearchPagination from "src/components/search/SearchPagination";
 

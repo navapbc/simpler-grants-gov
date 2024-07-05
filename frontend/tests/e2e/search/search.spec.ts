@@ -16,7 +16,6 @@ import {
   getSearchInput,
   hasMobileMenu,
   refreshPageWithCurrentURL,
-  selectOppositeSortOption,
   selectSortBy,
   toggleCheckboxes,
   waitForSearchResultsInitialLoad,

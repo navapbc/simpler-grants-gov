@@ -6,10 +6,8 @@ from sqlalchemy import Engine, create_engine
 from config import DBSettings
 
 
-# The variables used in the connection url are set in settings.toml and
-# .secrets.toml. These can be overridden with the custom prefix defined in config.py: "ANALYTICS".
-# e.g. `export ANALYTICS_POSTGRES_USER=new_usr`.
-# Docs: https://www.dynaconf.com/envvars/
+# The variables used in the connection url are pulled from local.env and configured in the DBSettings class found in config.py
+
 def get_db() -> Engine:
     """
     Get a connection to the database using a SQLAlchemy engine object.

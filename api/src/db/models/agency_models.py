@@ -17,7 +17,7 @@ from src.db.models.lookup_models import (
 class AgencyContactInfo(ApiSchemaTable, TimestampMixin):
     __tablename__ = "agency_contact_info"
 
-    agency_contact_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    agency_contact_info_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
 
     contact_name: Mapped[str]
 
@@ -42,7 +42,7 @@ class Agency(ApiSchemaTable, TimestampMixin):
 
     agency_name: Mapped[str]
 
-    agency_code: Mapped[str] = mapped_column(index=True)
+    agency_code: Mapped[str] = mapped_column(index=True, unique=True)
     sub_agency_code: Mapped[str | None]
 
     assistance_listing_number: Mapped[str]
@@ -56,7 +56,7 @@ class Agency(ApiSchemaTable, TimestampMixin):
     )
 
     agency_contact_info_id: Mapped[BigInteger | None] = mapped_column(
-        BigInteger, ForeignKey(AgencyContactInfo.agency_contact_id)
+        BigInteger, ForeignKey(AgencyContactInfo.agency_contact_info_id)
     )
     agency_contact_info: Mapped[AgencyContactInfo | None] = relationship(AgencyContactInfo)
 

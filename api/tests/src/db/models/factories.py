@@ -650,6 +650,7 @@ class AgencyContactInfoFactory(BaseFactory):
     class Meta:
         model = agency_models.AgencyContactInfo
 
+    contact_name = factory.Faker("name")
     address_line_1 = factory.Faker("street_address")
     address_line_2 = sometimes_none(factory.Sequence(lambda n: f"Room {n}"))
     city = factory.Faker("city")

@@ -5,7 +5,7 @@ import pytest
 from slack_sdk import WebClient
 
 from analytics.integrations.slack import FileMapping, SlackBot
-from config import settings
+from config import DBSettings as settings
 
 client = WebClient(token=settings.slack_bot_token)
 

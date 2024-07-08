@@ -15,4 +15,5 @@ class DBSettings(PydanticBaseEnvConfig):
      user: str = Field (alias="DB_USER")
      password: str = Field(alias="DB_PASSWORD")
      ssl_mode: str = Field(alias="DB_SSL_MODE")
-# Need to figure out how to get slackbot an gh tokens here
+     slack_bot_token: str = Field(alias="SLACK_BOT_TOKEN")
+     reporting_channel_id: str = Field(alias="REPORTING_CHANNEL_ID")

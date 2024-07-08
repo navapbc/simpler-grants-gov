@@ -428,6 +428,7 @@ class TestTransformFullRunTask(BaseTestClass):
         )
         validate_summary_and_nested(db_session, synopsis_hist_insert, [], [], [])
 
+        print(transform_oracle_data_task.metrics)
         assert {
             transform_oracle_data_task.Metrics.TOTAL_RECORDS_PROCESSED: 41,
             transform_oracle_data_task.Metrics.TOTAL_RECORDS_INSERTED: 8,

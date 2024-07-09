@@ -243,15 +243,17 @@ def show_and_or_post_results(
     # this prevents an error if ANALYTICS_SLACK_BOT_TOKEN env var is unset
     from config import DBSettings
 
+    settings = DBSettings()
+
     # optionally display the burndown chart in the browser
     if show_results:
         metric.show_chart()
         print("Slack message:\n")
         print(metric.format_slack_message())
     if post_results:
-        slackbot = slack.SlackBot(client=WebClient(token=DBSettings.slack_bot_token))
+        slackbot = slack.SlackBot(client=WebClient(token=settings.slack_bot_token))
         metric.post_results_to_slack(
             slackbot=slackbot,
-            channel_id=DBSettings.reporting_channel_id,
+            channel_id=settings.reporting_channel_id,
             output_dir=Path(output_dir),
         )

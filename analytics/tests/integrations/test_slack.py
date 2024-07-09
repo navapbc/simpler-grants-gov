@@ -7,7 +7,8 @@ from slack_sdk import WebClient
 from analytics.integrations.slack import FileMapping, SlackBot
 from config import DBSettings
 
-client = WebClient(token=DBSettings.slack_bot_token)
+settings = DBSettings()
+client = WebClient(token=settings.slack_bot_token)
 
 
 @pytest.fixture(name="slackbot")
@@ -20,7 +21,7 @@ def mock_slackbot() -> SlackBot:
 def test_fetch_slack_channels(slackbot: SlackBot):
     """The fetch_slack_channels() function should execute correctly."""
     result = slackbot.fetch_slack_channel_info(
-        channel_id=DBSettings.reporting_channel_id,
+        channel_id=settings.reporting_channel_id,
     )
     assert result["ok"] is True
     assert result["channel"]["name"] == "z_bot-analytics-ci-test"
@@ -49,7 +50,7 @@ def test_upload_files_to_slack_channel(slackbot: SlackBot):
 """
     result = slackbot.upload_files_to_slack_channel(
         files=files,
-        channel_id=DBSettings.reporting_channel_id,
+        channel_id=settings.reporting_channel_id,
         message=markdown,
     )
     assert result["ok"] is True

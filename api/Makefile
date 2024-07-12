@@ -198,7 +198,7 @@ start-opensearch:
 init-localstack: start-localstack setup-localstack
 
 start-localstack:
-	docker-compose up --detach localstack
+	docker compose up --detach localstack
 
 setup-localstack:
 	$(PY_RUN_CMD) setup-localstack

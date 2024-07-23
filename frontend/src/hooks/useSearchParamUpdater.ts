@@ -10,9 +10,15 @@ export function useSearchParamUpdater() {
   const params = new URLSearchParams(searchParams);
 
   const updateQueryParams = (
+    // The parameter value that is not the query term. Query term is treated
+    // separately because updates to it are captured, ie if a user updates the
+    // search term and then clicks a facet, the updated term is used.
     queryParamValue: string | Set<string>,
+    // Key of the parameter.
     key: string,
     queryTerm: string | null | undefined,
+    // Determines whether the state update scrolls the user to the top. This
+    // is useful for components that are expected to be "under the fold."
     scroll = false,
   ) => {
     const finalQueryParamValue =

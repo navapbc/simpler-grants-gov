@@ -3,7 +3,7 @@ import Breadcrumbs from "src/components/Breadcrumbs";
 import Loading from "src/app/[locale]/search/loading";
 import PageSEO from "src/components/PageSEO";
 import SearchResultsListFetch from "src/components/search/SearchResultsListFetch";
-import QueryProvider from "./QueryProvider";
+import QueryProvider from "src/app/[locale]/search/QueryProvider";
 import SearchBar from "src/components/search/SearchBar";
 import SearchCallToAction from "src/components/search/SearchCallToAction";
 import SearchFilterAccordion from "src/components/search/SearchFilterAccordion/SearchFilterAccordion";
@@ -84,25 +84,25 @@ function Search({ searchParams }: { searchParams: searchParamsTypes }) {
             <div className="tablet:grid-col-4">
               <SearchOpportunityStatus query={status} />
               <SearchFilterAccordion
-                options={fundingOptions}
+                filterOptions={fundingOptions}
                 title="Funding instrument"
                 queryParamKey="fundingInstrument"
                 query={fundingInstrument}
               />
               <SearchFilterAccordion
-                options={eligibilityOptions}
+                filterOptions={eligibilityOptions}
                 title="Eligibility"
                 queryParamKey="eligibility"
                 query={eligibility}
               />
               <SearchFilterAccordion
-                options={agencyOptions}
+                filterOptions={agencyOptions}
                 title="Agency"
                 queryParamKey="agency"
                 query={agency}
               />
               <SearchFilterAccordion
-                options={categoryOptions}
+                filterOptions={categoryOptions}
                 title="Category"
                 queryParamKey="category"
                 query={category}

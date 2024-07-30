@@ -1,7 +1,7 @@
 "use server";
 import { getSearchFetcher } from "src/services/search/searchfetcher/SearchFetcherUtil";
 import { QueryParamData } from "src/services/search/searchfetcher/SearchFetcher";
-import SearchPagination from "./SearchPagination";
+import SearchPagination from "src/components/search/SearchPagination";
 
 interface SearchPaginationProps {
   searchParams: QueryParamData;

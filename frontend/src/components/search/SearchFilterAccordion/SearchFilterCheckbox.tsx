@@ -1,7 +1,7 @@
 "use client";
 
 import FilterCheckbox from "src/components/FilterCheckbox";
-import { FilterOption } from "./SearchFilterAccordion";
+import { FilterOption } from "src/components/search/SearchFilterAccordion/SearchFilterAccordion";
 
 interface SearchFilterCheckboxProps {
   option: FilterOption;

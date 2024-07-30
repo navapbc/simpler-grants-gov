@@ -1,7 +1,7 @@
 "use client";
-import SearchFilterCheckbox from "./SearchFilterCheckbox";
-import SearchFilterSection from "./SearchFilterSection/SearchFilterSection";
-import SearchFilterToggleAll from "./SearchFilterToggleAll";
+import SearchFilterCheckbox from "src/components/search/SearchFilterAccordion/SearchFilterCheckbox";
+import SearchFilterSection from "src/components/search/SearchFilterAccordion/SearchFilterSection/SearchFilterSection";
+import SearchFilterToggleAll from "src/components/search/SearchFilterAccordion/SearchFilterToggleAll";
 import { Accordion } from "@trussworks/react-uswds";
 import { QueryParamKey } from "src/types/search/searchResponseTypes";
 import { QueryContext } from "src/app/[locale]/search/QueryProvider";
@@ -34,14 +34,14 @@ export interface FilterOptionWithChildren {
 }
 
 interface SearchFilterAccordionProps {
-  options: FilterOption[];
+  filterOptions: FilterOption[];
   title: string; // Title in header of accordion
   query: Set<string>;
   queryParamKey: QueryParamKey; // Ex - In query params, search?{key}=first,second,third
 }
 
 export function SearchFilterAccordion({
-  options,
+  filterOptions,
   title,
   queryParamKey,
   query,
@@ -50,7 +50,7 @@ export function SearchFilterAccordion({
   const { updateQueryParams } = useSearchParamUpdater();
   const totalCheckedCount = query.size;
   // These are all of the available selectedable options.
-  const allOptionValues = options.map((options) => options.value);
+  const allOptionValues = filterOptions.map((options) => options.value);
   // This is the setting if all are selected.
   const allSelected = new Set(allOptionValues);
 
@@ -106,7 +106,7 @@ export function SearchFilterAccordion({
       />
 
       <ul className="usa-list usa-list--unstyled">
-        {options.map((option) => (
+        {filterOptions.map((option) => (
           <li key={option.id}>
             {/* If we have children, show a "section" dropdown, otherwise show just a checkbox */}
             {option.children ? (

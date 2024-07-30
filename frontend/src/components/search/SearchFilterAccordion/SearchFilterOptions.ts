@@ -1,4 +1,4 @@
-import { FilterOption } from "./SearchFilterAccordion";
+import { FilterOption } from "src/components/search/SearchFilterAccordion/SearchFilterAccordion";
 
 export const eligibilityOptions: FilterOption[] = [
   {

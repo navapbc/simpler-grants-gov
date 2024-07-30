@@ -40,7 +40,7 @@ export function useSearchParamUpdater() {
       params.delete("page");
     }
 
-    sendGAEvent("event", "search", { key: finalQueryParamValue });
+    sendGAEvent("event", "search_term", { key: finalQueryParamValue });
     let newPath = `${pathname}?${params.toString()}`;
     newPath = removeURLEncodedCommas(newPath);
     newPath = removeQuestionMarkIfNoParams(params, newPath);

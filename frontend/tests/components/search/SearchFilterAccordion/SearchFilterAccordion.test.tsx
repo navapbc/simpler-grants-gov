@@ -44,7 +44,7 @@ describe("SearchFilterAccordion", () => {
   it("should not have basic accessibility issues", async () => {
     const { container } = render(
       <SearchFilterAccordion
-        options={initialFilterOptions}
+        filterOptions={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
         query={new Set()}
@@ -57,7 +57,7 @@ describe("SearchFilterAccordion", () => {
   it("displays the correct checkbox labels", () => {
     render(
       <SearchFilterAccordion
-        options={initialFilterOptions}
+        filterOptions={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
         query={new Set()}
@@ -73,7 +73,7 @@ describe("SearchFilterAccordion", () => {
   it("displays select all and clear all correctly", () => {
     const { rerender } = render(
       <SearchFilterAccordion
-        options={initialFilterOptions}
+        filterOptions={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
         query={new Set()}
@@ -94,7 +94,7 @@ describe("SearchFilterAccordion", () => {
     // both select all and clear all should be enabled
     rerender(
       <SearchFilterAccordion
-        options={initialFilterOptions}
+        filterOptions={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
         query={updatedQuery}
@@ -107,7 +107,7 @@ describe("SearchFilterAccordion", () => {
   it("has hidden attribute when collapsed", () => {
     render(
       <SearchFilterAccordion
-        options={initialFilterOptions}
+        filterOptions={initialFilterOptions}
         title={title}
         queryParamKey={"status"}
         query={new Set()}
@@ -130,7 +130,7 @@ describe("SearchFilterAccordion", () => {
   it("checks boxes correctly and updates count", () => {
     const { rerender } = render(
       <SearchFilterAccordion
-        options={initialFilterOptions}
+        filterOptions={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
         query={new Set("")}
@@ -144,7 +144,7 @@ describe("SearchFilterAccordion", () => {
     // both select all and clear all should be enabled
     rerender(
       <SearchFilterAccordion
-        options={initialFilterOptions}
+        filterOptions={initialFilterOptions}
         title={title}
         queryParamKey={queryParamKey}
         query={updatedQuery}

@@ -321,6 +321,19 @@ class OpportunitySearchFilterV1Schema(Schema):
         .build()
     )
 
+    post_date = fields.Nested(
+        StrSearchSchemaBuilder("PostDateFilterV1Schema")
+        .with_start_date()
+        .with_end_date()
+        .build()
+    )
+
+    close_date = fields.Nested(
+        StrSearchSchemaBuilder("CloseDateFilterV1Schema")
+        .with_start_date()
+        .with_end_date()
+        .build()
+    )
 
 class OpportunityFacetV1Schema(Schema):
     opportunity_status = fields.Dict(

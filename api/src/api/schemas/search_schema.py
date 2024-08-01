@@ -50,7 +50,8 @@ class StrSearchSchemaBuilder:
         }
 
     This helps generate the filters for a given field. At the moment,
-    only a one_of filter is implemented.
+    only a one_of filter is implemented. Support for start_date and
+    end_date filters have been partially implemented.
 
     Usage::
 
@@ -66,6 +67,25 @@ class StrSearchSchemaBuilder:
             example_str_field = fields.Nested(
                 StrSearchSchemaBuilder("ExampleStrFieldSchema")
                     .with_one_of(example="example_value", minimum_length=5)
+                    .build()
+            )
+
+            example_start_date_field = fields.Nested(
+                StrSearchSchemaBuilder("ExampleStartDateFieldSchema")
+                    .with_start_date()
+                    .build()
+            )
+
+            example_end_date_field = fields.Nested(
+                StrSearchSchemaBuilder("ExampleEndDateFieldSchema")
+                    .with_end_date()
+                    .build()
+            )
+
+            example_startend_date_field = fields.Nested(
+                StrSearchSchemaBuilder("ExampleStartEndDateFieldSchema")
+                    .with_start_date()
+                    .with_end_date()
                     .build()
             )
     """
@@ -101,6 +121,14 @@ class StrSearchSchemaBuilder:
         # Note that the list requires at least one value (sending us just [] will raise a validation error)
         self.schema_fields["one_of"] = fields.List(list_type, validate=[validators.Length(min=1)])
 
+        return self
+    
+    def with_start_date(self) -> "StrSearchSchemaBuilder":
+        self.schema_fields["start_date"] = fields.Date(allow_none=True)
+        return self
+    
+    def with_end_date(self) -> "StrSearchSchemaBuilder":
+        self.schema_fields["end_date"] = fields.Date(allow_none=True)
         return self
 
     def build(self) -> Schema:

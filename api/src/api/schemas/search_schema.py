@@ -34,6 +34,7 @@ class BaseSearchSchema(Schema):
                 ]
             )
 
+
 class BaseSearchSchemaBuilder:
     def __init__(self, schema_class_name: str):
         # The schema class name is used on the endpoint
@@ -42,6 +43,7 @@ class BaseSearchSchemaBuilder:
 
     def build(self) -> Schema:
         return BaseSearchSchema.from_dict(self.schema_fields, name=self.schema_class_name)  # type: ignore
+
 
 class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
     """
@@ -77,6 +79,7 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
                     .build()
             )
     """
+
     def __init__(self, schema_class_name: str):
         super().__init__(schema_class_name)
 
@@ -110,6 +113,7 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
 
     def build(self) -> Schema:
         return super().build()
+
 
 class DateSearchSchemaBuilder(BaseSearchSchemaBuilder):
     """
@@ -150,14 +154,15 @@ class DateSearchSchemaBuilder(BaseSearchSchemaBuilder):
                 .build()
         )
     """
+
     def __init__(self, schema_class_name: str):
         super().__init__(schema_class_name)
 
-    def with_start_date(self) -> "StrSearchSchemaBuilder":
+    def with_start_date(self) -> "DateSearchSchemaBuilder":
         self.schema_fields["start_date"] = fields.Date(allow_none=True)
         return self
 
-    def with_end_date(self) -> "StrSearchSchemaBuilder":
+    def with_end_date(self) -> "DateSearchSchemaBuilder":
         self.schema_fields["end_date"] = fields.Date(allow_none=True)
         return self
 

@@ -66,10 +66,10 @@ def get_search_request(
 
     if agency_one_of is not None:
         filters["agency"] = {"one_of": agency_one_of}
-    
+
     if post_date is not None:
         filters["post_date"] = post_date
-    
+
     if close_date is not None:
         filters["close_date"] = close_date
 

@@ -2,7 +2,7 @@ from enum import StrEnum
 
 from src.api.schemas.extension import Schema, fields, validators
 from src.api.schemas.response_schema import AbstractResponseSchema, PaginationMixinSchema
-from src.api.schemas.search_schema import StrSearchSchemaBuilder, DateSearchSchemaBuilder
+from src.api.schemas.search_schema import DateSearchSchemaBuilder, StrSearchSchemaBuilder
 from src.constants.lookup_constants import (
     ApplicantType,
     FundingCategory,
@@ -322,18 +322,13 @@ class OpportunitySearchFilterV1Schema(Schema):
     )
 
     post_date = fields.Nested(
-        DateSearchSchemaBuilder("PostDateFilterV1Schema")
-        .with_start_date()
-        .with_end_date()
-        .build()
+        DateSearchSchemaBuilder("PostDateFilterV1Schema").with_start_date().with_end_date().build()
     )
 
     close_date = fields.Nested(
-        DateSearchSchemaBuilder("CloseDateFilterV1Schema")
-        .with_start_date()
-        .with_end_date()
-        .build()
+        DateSearchSchemaBuilder("CloseDateFilterV1Schema").with_start_date().with_end_date().build()
     )
+
 
 class OpportunityFacetV1Schema(Schema):
     opportunity_status = fields.Dict(

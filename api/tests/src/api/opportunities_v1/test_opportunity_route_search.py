@@ -721,7 +721,12 @@ class TestOpportunityRouteSearch(BaseTestClass):
             (get_search_request(post_date={"start_date": None, "end_date": None}), 200),
             (get_search_request(post_date={"start_date": "2020-01-01", "end_date": None}), 200),
             (get_search_request(post_date={"start_date": None, "end_date": "2020-02-01"}), 200),
-            (get_search_request(post_date={"start_date": "2020-01-01", "end_date": "2020-02-01"}), 200),
+            (
+                get_search_request(
+                    post_date={"start_date": "2020-01-01", "end_date": "2020-02-01"}
+                ),
+                200,
+            ),
             (get_search_request(post_date={"start_date": "I am not a date"}), 422),
             (get_search_request(post_date={"start_date": "123-456-789"}), 422),
             (get_search_request(post_date={"start_date": "5"}), 422),
@@ -730,7 +735,6 @@ class TestOpportunityRouteSearch(BaseTestClass):
             (get_search_request(post_date={"end_date": "123-456-789"}), 422),
             (get_search_request(post_date={"end_date": "5"}), 422),
             (get_search_request(post_date={"end_date": 5}), 422),
-
             # Close Date
             (get_search_request(close_date={"start_date": None}), 200),
             (get_search_request(close_date={"end_date": None}), 200),
@@ -739,7 +743,12 @@ class TestOpportunityRouteSearch(BaseTestClass):
             (get_search_request(close_date={"start_date": None, "end_date": None}), 200),
             (get_search_request(close_date={"start_date": "2020-01-01", "end_date": None}), 200),
             (get_search_request(close_date={"start_date": None, "end_date": "2020-02-01"}), 200),
-            (get_search_request(close_date={"start_date": "2020-01-01", "end_date": "2020-02-01"}), 200),
+            (
+                get_search_request(
+                    close_date={"start_date": "2020-01-01", "end_date": "2020-02-01"}
+                ),
+                200,
+            ),
             (get_search_request(close_date={"start_date": "I am not a date"}), 422),
             (get_search_request(close_date={"start_date": "123-456-789"}), 422),
             (get_search_request(close_date={"start_date": "5"}), 422),
@@ -748,7 +757,7 @@ class TestOpportunityRouteSearch(BaseTestClass):
             (get_search_request(close_date={"end_date": "123-456-789"}), 422),
             (get_search_request(close_date={"end_date": "5"}), 422),
             (get_search_request(close_date={"end_date": 5}), 422),
-        ]
+        ],
     )
     def test_search_validate_date_filters(
         self, client, api_auth_token, search_request, expected_status_code

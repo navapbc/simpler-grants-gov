@@ -34,8 +34,16 @@ class BaseSearchSchema(Schema):
                 ]
             )
 
+class BaseSearchSchemaBuilder:
+    def __init__(self, schema_class_name: str):
+        # The schema class name is used on the endpoint
+        self.schema_fields: dict[str, fields.MixinField] = {}
+        self.schema_class_name = schema_class_name
 
-class StrSearchSchemaBuilder:
+    def build(self) -> Schema:
+        return BaseSearchSchema.from_dict(self.schema_fields, name=self.schema_class_name)  # type: ignore
+
+class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
     """
     Builder for setting up a filter in a search endpoint schema.
 
@@ -50,8 +58,7 @@ class StrSearchSchemaBuilder:
         }
 
     This helps generate the filters for a given field. At the moment,
-    only a one_of filter is implemented. Support for start_date and
-    end_date filters have been partially implemented.
+    only a one_of filter is implemented.
 
     Usage::
 
@@ -69,31 +76,9 @@ class StrSearchSchemaBuilder:
                     .with_one_of(example="example_value", minimum_length=5)
                     .build()
             )
-
-            example_start_date_field = fields.Nested(
-                StrSearchSchemaBuilder("ExampleStartDateFieldSchema")
-                    .with_start_date()
-                    .build()
-            )
-
-            example_end_date_field = fields.Nested(
-                StrSearchSchemaBuilder("ExampleEndDateFieldSchema")
-                    .with_end_date()
-                    .build()
-            )
-
-            example_startend_date_field = fields.Nested(
-                StrSearchSchemaBuilder("ExampleStartEndDateFieldSchema")
-                    .with_start_date()
-                    .with_end_date()
-                    .build()
-            )
     """
-
     def __init__(self, schema_class_name: str):
-        # The schema class name is used on the endpoint
-        self.schema_fields: dict[str, fields.MixinField] = {}
-        self.schema_class_name = schema_class_name
+        super().__init__(schema_class_name)
 
     def with_one_of(
         self,
@@ -122,14 +107,59 @@ class StrSearchSchemaBuilder:
         self.schema_fields["one_of"] = fields.List(list_type, validate=[validators.Length(min=1)])
 
         return self
-    
+
+    def build(self) -> Schema:
+        return super().build()
+
+class DateSearchSchemaBuilder(BaseSearchSchemaBuilder):
+    """
+    Builder for setting up a filter for a date in the search endpoint schema.
+
+    Example of what this might look like:
+        {
+            "filters": {
+                "post_date": {
+                    "start_date": "YYYY-MM-DD",
+                    "end_date": "YYYY-MM-DD"
+                }
+            }
+        }
+
+    Support for start_date and
+    end_date filters have been partially implemented.
+
+    Usage::
+    # In a search request schema, you would use it like so:
+
+        example_start_date_field = fields.Nested(
+            StrSearchSchemaBuilder("ExampleStartDateFieldSchema")
+                .with_start_date()
+                .build()
+        )
+
+        example_end_date_field = fields.Nested(
+            StrSearchSchemaBuilder("ExampleEndDateFieldSchema")
+                .with_end_date()
+                .build()
+        )
+
+        example_startend_date_field = fields.Nested(
+            StrSearchSchemaBuilder("ExampleStartEndDateFieldSchema")
+                .with_start_date()
+                .with_end_date()
+                .build()
+        )
+    """
+    def __init__(self, schema_class_name: str):
+        super().__init__(schema_class_name)
+
     def with_start_date(self) -> "StrSearchSchemaBuilder":
         self.schema_fields["start_date"] = fields.Date(allow_none=True)
         return self
-    
+
     def with_end_date(self) -> "StrSearchSchemaBuilder":
         self.schema_fields["end_date"] = fields.Date(allow_none=True)
         return self
 
     def build(self) -> Schema:
-        return BaseSearchSchema.from_dict(self.schema_fields, name=self.schema_class_name)  # type: ignore
+        return super().build()

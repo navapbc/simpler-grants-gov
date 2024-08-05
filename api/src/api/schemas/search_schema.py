@@ -80,9 +80,6 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
             )
     """
 
-    def __init__(self, schema_class_name: str):
-        super().__init__(schema_class_name)
-
     def with_one_of(
         self,
         *,
@@ -110,9 +107,6 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
         self.schema_fields["one_of"] = fields.List(list_type, validate=[validators.Length(min=1)])
 
         return self
-
-    def build(self) -> Schema:
-        return super().build()
 
 
 class DateSearchSchemaBuilder(BaseSearchSchemaBuilder):
@@ -155,9 +149,6 @@ class DateSearchSchemaBuilder(BaseSearchSchemaBuilder):
         )
     """
 
-    def __init__(self, schema_class_name: str):
-        super().__init__(schema_class_name)
-
     def with_start_date(self) -> "DateSearchSchemaBuilder":
         self.schema_fields["start_date"] = fields.Date(allow_none=True)
         return self
@@ -165,6 +156,3 @@ class DateSearchSchemaBuilder(BaseSearchSchemaBuilder):
     def with_end_date(self) -> "DateSearchSchemaBuilder":
         self.schema_fields["end_date"] = fields.Date(allow_none=True)
         return self
-
-    def build(self) -> Schema:
-        return super().build()

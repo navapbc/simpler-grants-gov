@@ -111,7 +111,7 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
 
 class DateSearchSchemaBuilder(BaseSearchSchemaBuilder):
     """
-    Builder for setting up a filter for a date in the search endpoint schema.
+    Builder for setting up a filter for a range of dates in the search endpoint schema.
 
     Example of what this might look like:
         {
@@ -130,19 +130,19 @@ class DateSearchSchemaBuilder(BaseSearchSchemaBuilder):
     # In a search request schema, you would use it like so:
 
         example_start_date_field = fields.Nested(
-            StrSearchSchemaBuilder("ExampleStartDateFieldSchema")
+            DateSearchSchemaBuilder("ExampleStartDateFieldSchema")
                 .with_start_date()
                 .build()
         )
 
         example_end_date_field = fields.Nested(
-            StrSearchSchemaBuilder("ExampleEndDateFieldSchema")
+            DateSearchSchemaBuilder("ExampleEndDateFieldSchema")
                 .with_end_date()
                 .build()
         )
 
         example_startend_date_field = fields.Nested(
-            StrSearchSchemaBuilder("ExampleStartEndDateFieldSchema")
+            DateSearchSchemaBuilder("ExampleStartEndDateFieldSchema")
                 .with_start_date()
                 .with_end_date()
                 .build()

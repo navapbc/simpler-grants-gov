@@ -711,67 +711,67 @@ class TestOpportunityRouteSearch(BaseTestClass):
         call_search_and_validate(client, api_auth_token, search_request, expected_results)
 
     @pytest.mark.parametrize(
-        "search_request, expected_status_code",
+        "search_request",
         [
             # Post Date
-            (get_search_request(post_date={"start_date": None}), 200),
-            (get_search_request(post_date={"end_date": None}), 200),
-            (get_search_request(post_date={"start_date": "2020-01-01"}), 200),
-            (get_search_request(post_date={"end_date": "2020-02-01"}), 200),
-            (get_search_request(post_date={"start_date": None, "end_date": None}), 200),
-            (get_search_request(post_date={"start_date": "2020-01-01", "end_date": None}), 200),
-            (get_search_request(post_date={"start_date": None, "end_date": "2020-02-01"}), 200),
-            (
-                get_search_request(
-                    post_date={"start_date": "2020-01-01", "end_date": "2020-02-01"}
-                ),
-                200,
-            ),
-            (get_search_request(post_date={"start_date": "I am not a date"}), 422),
-            (get_search_request(post_date={"start_date": "123-456-789"}), 422),
-            (get_search_request(post_date={"start_date": "5"}), 422),
-            (get_search_request(post_date={"start_date": 5}), 422),
-            (get_search_request(post_date={"end_date": "I am not a date"}), 422),
-            (get_search_request(post_date={"end_date": "123-456-789"}), 422),
-            (get_search_request(post_date={"end_date": "5"}), 422),
-            (get_search_request(post_date={"end_date": 5}), 422),
+            (get_search_request(post_date={"start_date": None})),
+            (get_search_request(post_date={"end_date": None})),
+            (get_search_request(post_date={"start_date": "2020-01-01"})),
+            (get_search_request(post_date={"end_date": "2020-02-01"})),
+            (get_search_request(post_date={"start_date": None, "end_date": None})),
+            (get_search_request(post_date={"start_date": "2020-01-01", "end_date": None})),
+            (get_search_request(post_date={"start_date": None, "end_date": "2020-02-01"})),
+            (get_search_request(post_date={"start_date": "2020-01-01", "end_date": "2020-02-01"})),
             # Close Date
-            (get_search_request(close_date={"start_date": None}), 200),
-            (get_search_request(close_date={"end_date": None}), 200),
-            (get_search_request(close_date={"start_date": "2020-01-01"}), 200),
-            (get_search_request(close_date={"end_date": "2020-02-01"}), 200),
-            (get_search_request(close_date={"start_date": None, "end_date": None}), 200),
-            (get_search_request(close_date={"start_date": "2020-01-01", "end_date": None}), 200),
-            (get_search_request(close_date={"start_date": None, "end_date": "2020-02-01"}), 200),
-            (
-                get_search_request(
-                    close_date={"start_date": "2020-01-01", "end_date": "2020-02-01"}
-                ),
-                200,
-            ),
-            (get_search_request(close_date={"start_date": "I am not a date"}), 422),
-            (get_search_request(close_date={"start_date": "123-456-789"}), 422),
-            (get_search_request(close_date={"start_date": "5"}), 422),
-            (get_search_request(close_date={"start_date": 5}), 422),
-            (get_search_request(close_date={"end_date": "I am not a date"}), 422),
-            (get_search_request(close_date={"end_date": "123-456-789"}), 422),
-            (get_search_request(close_date={"end_date": "5"}), 422),
-            (get_search_request(close_date={"end_date": 5}), 422),
+            (get_search_request(close_date={"start_date": None})),
+            (get_search_request(close_date={"end_date": None})),
+            (get_search_request(close_date={"start_date": "2020-01-01"})),
+            (get_search_request(close_date={"end_date": "2020-02-01"})),
+            (get_search_request(close_date={"start_date": None, "end_date": None})),
+            (get_search_request(close_date={"start_date": "2020-01-01", "end_date": None})),
+            (get_search_request(close_date={"start_date": None, "end_date": "2020-02-01"})),
+            (get_search_request(close_date={"start_date": "2020-01-01", "end_date": "2020-02-01"})),
         ],
     )
-    def test_search_validate_date_filters(
-        self, client, api_auth_token, search_request, expected_status_code
-    ):
+    def test_search_validate_date_filters_200(self, client, api_auth_token, search_request):
         resp = client.post(
             "/v1/opportunities/search", json=search_request, headers={"X-Auth": api_auth_token}
         )
-        assert resp.status_code == expected_status_code
+        assert resp.status_code == 200
 
-        if resp.status_code == 422:
-            json = resp.get_json()
-            error = json["errors"][0]
-            assert json["message"] == "Validation error"
-            assert error["message"] == "Not a valid date."
+    @pytest.mark.parametrize(
+        "search_request",
+        [
+            # Post Date
+            (get_search_request(post_date={"start_date": "I am not a date"})),
+            (get_search_request(post_date={"start_date": "123-456-789"})),
+            (get_search_request(post_date={"start_date": "5"})),
+            (get_search_request(post_date={"start_date": 5})),
+            (get_search_request(post_date={"end_date": "I am not a date"})),
+            (get_search_request(post_date={"end_date": "123-456-789"})),
+            (get_search_request(post_date={"end_date": "5"})),
+            (get_search_request(post_date={"end_date": 5})),
+            # Close Date
+            (get_search_request(close_date={"start_date": "I am not a date"})),
+            (get_search_request(close_date={"start_date": "123-456-789"})),
+            (get_search_request(close_date={"start_date": "5"})),
+            (get_search_request(close_date={"start_date": 5})),
+            (get_search_request(close_date={"end_date": "I am not a date"})),
+            (get_search_request(close_date={"end_date": "123-456-789"})),
+            (get_search_request(close_date={"end_date": "5"})),
+            (get_search_request(close_date={"end_date": 5})),
+        ],
+    )
+    def test_search_validate_date_filters_422(self, client, api_auth_token, search_request):
+        resp = client.post(
+            "/v1/opportunities/search", json=search_request, headers={"X-Auth": api_auth_token}
+        )
+        assert resp.status_code == 422
+
+        json = resp.get_json()
+        error = json["errors"][0]
+        assert json["message"] == "Validation error"
+        assert error["message"] == "Not a valid date."
 
     @pytest.mark.parametrize(
         "search_request, expected_results",

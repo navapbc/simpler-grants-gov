@@ -16,13 +16,16 @@ export default function SearchResultsHeader({
 }) {
   const { totalResults } = useContext(QueryContext);
   const total = totalFetchedResults || totalResults;
-  const gridRowClasses = ["tablet-lg:grid-col-fill", "margin-top-5", "tablet-lg:margin-top-2", "tablet-lg:margin-bottom-0"]
+  const gridRowClasses = [
+    "tablet-lg:grid-col-fill",
+    "margin-top-5",
+    "tablet-lg:margin-top-2",
+    "tablet-lg:margin-bottom-0",
+  ];
   if (loading) gridRowClasses.push("opacity-50");
   return (
     <div className="grid-row">
-      <h2
-        className={gridRowClasses.join(" ")}
-      >
+      <h2 className={gridRowClasses.join(" ")}>
         {total && <>{total} Opportunities</>}
       </h2>
       <div className="tablet-lg:grid-col-auto">

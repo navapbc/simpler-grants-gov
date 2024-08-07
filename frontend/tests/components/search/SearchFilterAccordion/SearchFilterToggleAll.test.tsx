@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 
-import { fireEvent} from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import { render, screen } from "tests/react-utils";
 
 import React from "react";

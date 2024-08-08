@@ -53,10 +53,9 @@ $spinner-size: units(4);
 .grants-pagination.disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  & > *, & * {
-    user-select:none;
-    pointer-events:none;
+  & > *,
+  & * {
+    user-select: none;
+    pointer-events: none;
   }
 }
-
-

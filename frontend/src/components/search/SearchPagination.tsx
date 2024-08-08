@@ -41,9 +41,7 @@ export default function SearchPagination({
   };
 
   return (
-    <div
-      className={`grants-pagination ${loading ? 'disabled' : ''}`}
-    >
+    <div className={`grants-pagination ${loading ? "disabled" : ""}`}>
       <Pagination
         pathname="/search"
         totalPages={pages}

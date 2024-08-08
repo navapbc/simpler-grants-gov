@@ -1,29 +1,44 @@
 /* eslint-disable jest/no-commented-out-tests */
 import "@testing-library/jest-dom/extend-expect";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { axe } from "jest-axe";
-import { render } from "tests/react-utils";
 import React from "react";
+import { QueryContext } from "src/app/[locale]/search/QueryProvider";
 import SearchPagination from "src/components/search/SearchPagination";
+import { useSearchParamUpdater } from "src/hooks/useSearchParamUpdater";
 
-const mockUpdateQueryParams = jest.fn();
-
+// Mocking the useSearchParamUpdater hook
 jest.mock("src/hooks/useSearchParamUpdater", () => ({
   useSearchParamUpdater: () => ({
-    updateQueryParams: mockUpdateQueryParams,
+    updateQueryParams: jest.fn(),
   }),
 }));
 
-// import SearchPagination, {
-//   PaginationPosition,
-// } from "../../../src/components/search/SearchPagination";
+// Create a mock QueryProvider
+const mockUpdateQueryTerm = jest.fn();
+const mockUpdateTotalPages = jest.fn();
+const mockUpdateTotalResults = jest.fn();
 
-// import { render } from "@testing-library/react";
+const MockQueryProvider = ({ children }: { children: React.ReactNode }) => (
+  <QueryContext.Provider
+    value={{
+      queryTerm: null,
+      updateQueryTerm: mockUpdateQueryTerm,
+      totalPages: "na",
+      updateTotalPages: mockUpdateTotalPages,
+      totalResults: "",
+      updateTotalResults: mockUpdateTotalResults,
+    }}
+  >
+    {children}
+  </QueryContext.Provider>
+);
 
-// TODO (Issue #1936): Uncomment tests after React 19 upgrade
 describe("SearchPagination", () => {
-  it("pass test", () => {
-    expect(1).toBe(1);
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
+
   it("should not have basic accessibility issues", async () => {
     const { container } = render(<SearchPagination page={1} query={"test"} />);
 
@@ -36,73 +51,121 @@ describe("SearchPagination", () => {
     });
     expect(results).toHaveNoViolations();
   });
+  it("Renders Pagination component when pages > 0", () => {
+    render(<SearchPagination page={1} query={"test"} total={10} />);
 
-  //   it("renders hidden input when showHiddenInput is true", () => {
-  //     render(
-  //       <SearchPagination
-  //         showHiddenInput={true}
-  //         totalPages={totalPages}
-  //         page={page}
-  //         handlePageChange={mockHandlePageChange}
-  //         position={PaginationPosition.Top}
-  //       />,
-  //     );
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+  });
+  it("Does not render Pagination component when pages <= 0", () => {
+    render(<SearchPagination page={1} query={"test"} total={0} />);
 
-  //     const hiddenInput = screen.getByTestId("hiddenCurrentPage");
-  //     expect(hiddenInput).toHaveValue("1");
-  //   });
+    expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
+  });
+  it("calls updateQueryParams with correct arguments when page number is clicked", async () => {
+    const { updateQueryParams } = useSearchParamUpdater();
 
-  //   it("does not render hidden input when showHiddenInput is false", () => {
-  //     render(
-  //       <SearchPagination
-  //         showHiddenInput={false}
-  //         totalPages={totalPages}
-  //         page={page}
-  //         handlePageChange={mockHandlePageChange}
-  //         position={PaginationPosition.Top}
-  //       />,
-  //     );
-  //     expect(screen.queryByTestId("hiddenCurrentPage")).not.toBeInTheDocument();
-  //   });
+    render(
+      <MockQueryProvider>
+        <SearchPagination
+          page={1}
+          query=""
+          total={2}
+          scroll={false}
+          totalResults={"30"}
+          loading={false}
+        />
+      </MockQueryProvider>,
+    );
 
-  //   it("calls handlePageChange with next page on next button click", () => {
-  //     render(
-  //       <SearchPagination
-  //         showHiddenInput={true}
-  //         totalPages={totalPages}
-  //         page={page}
-  //         handlePageChange={mockHandlePageChange}
-  //         position={PaginationPosition.Top}
-  //       />,
-  //     );
-  //     fireEvent.click(screen.getByLabelText("Next page"));
-  //     expect(mockHandlePageChange).toHaveBeenCalledWith(page + 1);
-  //   });
+    // Simulate clicking a page number
+    fireEvent.click(screen.getByText("2"));
+    // Check if updateQueryParams was called with the correct arguments
+    waitFor(() => {
+      expect(updateQueryParams).toHaveBeenCalledWith(
+        "2",
+        "page",
+        "test",
+        false,
+      );
+    });
+  });
+  it("disables interaction and reduces opacity when loading", () => {
+    render(
+      <MockQueryProvider>
+        <SearchPagination
+          page={1}
+          query=""
+          total={2}
+          scroll={false}
+          totalResults={"30"}
+          loading={false}
+        />
+      </MockQueryProvider>,
+    );
+    const container = screen.getByText("Next").closest("div");
 
-  //   it("calls handlePageChange with previous page on previous button click", () => {
-  //     render(
-  //       <SearchPagination
-  //         showHiddenInput={true}
-  //         totalPages={totalPages}
-  //         page={2} // Set to second page to test going back to first page
-  //         handlePageChange={mockHandlePageChange}
-  //         position={PaginationPosition.Top}
-  //       />,
-  //     );
-  //     fireEvent.click(screen.getByLabelText("Previous page"));
-  //     expect(mockHandlePageChange).toHaveBeenCalledWith(1);
-  //   });
+    // Check styles when loading
+    waitFor(() => {
+      expect(container).toHaveStyle("pointer-events: none");
+      expect(container).toHaveStyle("opacity: 0.5");
+    });
+  });
+  it("calls updateQueryParams with correct arguments when next is clicked", async () => {
+    const { updateQueryParams } = useSearchParamUpdater();
 
-  //   it("returns null when searchResultsLength is less than 1", () => {
-  //     const { container } = render(
-  //       <SearchPagination
-  //         showHiddenInput={true}
-  //         page={page}
-  //         handlePageChange={mockHandlePageChange}
-  //         searchResultsLength={0} // No results, pagination should be hidden
-  //         position={PaginationPosition.Top}
-  //       />,
-  //     );
-  //     expect(container).toBeEmptyDOMElement();
-  //   });
+    render(
+      <MockQueryProvider>
+        <SearchPagination
+          page={1}
+          query=""
+          total={2}
+          scroll={false}
+          totalResults={"30"}
+          loading={false}
+        />
+      </MockQueryProvider>,
+    );
+
+    // Simulate clicking a page number
+    const container = screen.getByText("Next").closest("div");
+    // Check if updateQueryParams was called with the correct arguments
+    waitFor(() => {
+      expect(updateQueryParams).toHaveBeenCalledWith(
+        "2",
+        "page",
+        "test",
+        false,
+      );
+      expect(updatePage).toHaveBeenCalledWith("1");
+    });
+  });
+  it("calls updateQueryParams with correct arguments when previous is clicked", async () => {
+    const { updateQueryParams } = useSearchParamUpdater();
+
+    render(
+      <MockQueryProvider>
+        <SearchPagination
+          page={2}
+          query=""
+          total={2}
+          scroll={false}
+          totalResults={"30"}
+          loading={false}
+        />
+      </MockQueryProvider>,
+    );
+
+    // Simulate clicking a page number
+    const container = screen.getByText("Previous").closest("div");
+    // Check if updateQueryParams was called with the correct arguments
+    waitFor(() => {
+      expect(updateQueryParams).toHaveBeenCalledWith(
+        "1",
+        "page",
+        "test",
+        false,
+      );
+      expect(updatePage).toHaveBeenCalledWith("1");
+    });
+  });
 });

@@ -4,7 +4,6 @@ import os
 from enum import StrEnum
 from typing import Iterator, Sequence
 
-from pydantic import Field
 from pydantic_settings import SettingsConfigDict
 from sqlalchemy import select
 from sqlalchemy.orm import noload, selectinload
@@ -35,13 +34,13 @@ def export_opportunity_data(db_session: db.Session) -> None:
 class ExportOpportunityDataConfig(PydanticBaseEnvConfig):
     model_config = SettingsConfigDict(env_prefix="EXPORT_OPP_DATA_")
 
-    file_path: str = Field(default="/api/src/task/opportunities/output/")
-    file_name: str = Field(default="opportunity_data")
+    # EXPORT_OPP_DATA_FILE_PATH
+    file_path: str
 
 
 class ExportOpportunityDataTask(Task):
     class Metrics(StrEnum):
-        RECORDS_LOADED = "records_loaded"
+        RECORDS_EXPORTED = "records_exported"
 
     def __init__(
         self,
@@ -57,10 +56,10 @@ class ExportOpportunityDataTask(Task):
         self.current_timestamp = get_now_us_eastern_datetime().strftime("%Y-%m-%d_%H-%M-%S")
 
         self.json_file = os.path.join(
-            config.file_path, f"{config.file_name}-{self.current_timestamp}.json"
+            config.file_path, f"opportunity_data-{self.current_timestamp}.json"
         )
         self.csv_file = os.path.join(
-            config.file_path, f"{config.file_name}-{self.current_timestamp}.csv"
+            config.file_path, f"opportunity_data-{self.current_timestamp}.csv"
         )
 
         self.set_metrics({"csv_file": self.csv_file, "json_file": self.json_file})
@@ -72,7 +71,7 @@ class ExportOpportunityDataTask(Task):
         opportunities = []
         for opp_batch in self.fetch_opportunities():
             for record in opp_batch:
-                self.increment(self.Metrics.RECORDS_LOADED)
+                self.increment(self.Metrics.RECORDS_EXPORTED)
                 opportunities.append(schema.dump(record))
 
         # Format data

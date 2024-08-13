@@ -50,19 +50,20 @@ class TestExportOpportunityDataTask(BaseTestClass):
             ]
         )
 
+        expected_opportunity_ids = set([opp.opportunity_id for opp in opportunities])
         # Verify csv file contents
         with file_util.open_stream(export_opportunity_data_task.csv_file, "r") as infile:
             reader = csv.DictReader(infile)
-            assert set([opp.opportunity_id for opp in opportunities]) == set(
+            assert expected_opportunity_ids == set(
                 [int(record["opportunity_id"]) for record in reader]
             )
 
+        # Verify JSON file contents
         with file_util.open_stream(export_opportunity_data_task.json_file, "r") as infile:
             # Parse JSON File
-            print("JSON OPPORTUNITIES:")
             json_opportunities = json.load(infile)
 
-            assert set([opp.opportunity_id for opp in opportunities]) == set(
+            assert expected_opportunity_ids == set(
                 [int(record["opportunity_id"]) for record in json_opportunities["opportunities"]]
             )
 

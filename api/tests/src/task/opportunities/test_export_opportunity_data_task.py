@@ -38,7 +38,7 @@ class TestExportOpportunityDataTask(BaseTestClass):
             OpportunityFactory.create_batch(size=6, is_archived_forecast_summary=True)
         )
 
-        # Create some opportunities that won't get fetched / loaded into search
+        # Create some opportunities that won't get fetched / exported
         OpportunityFactory.create_batch(size=3, is_draft=True)
         OpportunityFactory.create_batch(size=4, no_current_summary=True)
 

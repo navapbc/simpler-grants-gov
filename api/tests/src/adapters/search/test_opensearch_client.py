@@ -65,6 +65,25 @@ def test_bulk_upsert(search_client, generic_index):
         assert search_client._client.get(generic_index, record["id"])["_source"] == record
 
 
+def test_bulk_delete(search_client, generic_index):
+    records = [
+        {"id": 1, "title": "Green Eggs & Ham", "notes": "why are the eggs green?"},
+        {"id": 2, "title": "The Cat in the Hat", "notes": "silly cat wears a hat"},
+        {"id": 3, "title": "One Fish, Two Fish, Red Fish, Blue Fish", "notes": "fish"},
+    ]
+
+    search_client.bulk_upsert(generic_index, records, primary_key_field="id")
+
+    search_client.bulk_delete(generic_index, [1])
+
+    resp = search_client.search(generic_index, {}, include_scores=False)
+    assert resp.records == records[1:]
+
+    search_client.bulk_delete(generic_index, [2, 3])
+    resp = search_client.search(generic_index, {}, include_scores=False)
+    assert resp.records == []
+
+
 def test_swap_alias_index(search_client, generic_index):
     alias_name = f"tmp-alias-{uuid.uuid4().int}"
 
@@ -101,3 +120,29 @@ def test_swap_alias_index(search_client, generic_index):
 
     # Verify the tmp one was deleted
     assert search_client._client.indices.exists(tmp_index) is False
+
+
+def test_scroll(search_client, generic_index):
+    records = [
+        {"id": 1, "title": "Green Eggs & Ham", "notes": "why are the eggs green?"},
+        {"id": 2, "title": "The Cat in the Hat", "notes": "silly cat wears a hat"},
+        {"id": 3, "title": "One Fish, Two Fish, Red Fish, Blue Fish", "notes": "fish"},
+        {"id": 4, "title": "Fox in Socks", "notes": "why he wearing socks?"},
+        {"id": 5, "title": "The Lorax", "notes": "trees"},
+        {"id": 6, "title": "Oh, the Places You'll Go", "notes": "graduation gift"},
+        {"id": 7, "title": "Hop on Pop", "notes": "Let him sleep"},
+        {"id": 8, "title": "How the Grinch Stole Christmas", "notes": "who"},
+    ]
+
+    search_client.bulk_upsert(generic_index, records, primary_key_field="id")
+
+    results = []
+
+    for response in search_client.scroll(generic_index, {"size": 3}):
+        assert response.total_records == 8
+        results.append(response)
+
+    assert len(results) == 3
+    assert len(results[0].records) == 3
+    assert len(results[1].records) == 3
+    assert len(results[2].records) == 2

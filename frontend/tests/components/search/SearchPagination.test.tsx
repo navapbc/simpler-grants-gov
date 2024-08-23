@@ -19,7 +19,7 @@ const mockUpdateTotalResults = jest.fn();
 interface SearchPaginationProps {
   page: number;
   query: string;
-  total?: number;
+  total?: string;
   loading?: boolean;
 }
 

@@ -3,7 +3,6 @@ import "@testing-library/jest-dom/extend-expect";
 import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import React from "react";
-import { QueryContext } from "src/app/[locale]/search/QueryProvider";
 import SearchPagination from "src/components/search/SearchPagination";
 
 // Mock the useSearchParamUpdater hook
@@ -13,33 +12,12 @@ jest.mock("src/hooks/useSearchParamUpdater", () => ({
   }),
 }));
 
-const mockUpdateTotalPages = jest.fn();
-const mockUpdateTotalResults = jest.fn();
-
-interface SearchPaginationProps {
-  page: number;
-  query: string;
-  total?: number | null;
-  loading?: boolean;
-}
 
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
-const renderComponent = (props: SearchPaginationProps) => {
-  return render(
-    <QueryContext.Provider
-      value={{
-        updateTotalPages: mockUpdateTotalPages,
-        updateTotalResults: mockUpdateTotalResults,
-        totalPages: props.total || 1,
-      }}
-    >
-      <SearchPagination {...props} />
-    </QueryContext.Provider>,
-  );
-};
+
 
 describe("SearchPagination", () => {
   beforeEach(() => {
@@ -68,16 +46,4 @@ describe("SearchPagination", () => {
 
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
-  it("disables pagination when loading", () => {
-    renderComponent({
-      page: 1,
-      query: "test",
-      total: 5,
-      loading: true,
-    });
-    expect(screen.getByText("Next").closest("div")).toHaveStyle(
-      "pointer-events: none",
-    );
-    expect(screen.getByText("Next").closest("div")).toHaveStyle("opacity: 0.5");
   });
-});

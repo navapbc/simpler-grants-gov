@@ -12,12 +12,9 @@ jest.mock("src/hooks/useSearchParamUpdater", () => ({
   }),
 }));
 
-
 beforeEach(() => {
   jest.clearAllMocks();
 });
-
-
 
 describe("SearchPagination", () => {
   beforeEach(() => {
@@ -46,4 +43,4 @@ describe("SearchPagination", () => {
 
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
-  });
+});

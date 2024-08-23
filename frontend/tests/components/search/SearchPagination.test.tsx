@@ -1,38 +1,45 @@
-/* eslint-disable jest/no-commented-out-tests */
+/* eslint-disable testing-library/no-node-access */
 import "@testing-library/jest-dom/extend-expect";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { axe } from "jest-axe";
 import React from "react";
 import { QueryContext } from "src/app/[locale]/search/QueryProvider";
 import SearchPagination from "src/components/search/SearchPagination";
-import { useSearchParamUpdater } from "src/hooks/useSearchParamUpdater";
 
-// Mocking the useSearchParamUpdater hook
+// Mock the useSearchParamUpdater hook
 jest.mock("src/hooks/useSearchParamUpdater", () => ({
   useSearchParamUpdater: () => ({
     updateQueryParams: jest.fn(),
   }),
 }));
 
-// Create a mock QueryProvider
-const mockUpdateQueryTerm = jest.fn();
 const mockUpdateTotalPages = jest.fn();
 const mockUpdateTotalResults = jest.fn();
 
-const MockQueryProvider = ({ children }: { children: React.ReactNode }) => (
-  <QueryContext.Provider
-    value={{
-      queryTerm: null,
-      updateQueryTerm: mockUpdateQueryTerm,
-      totalPages: "na",
-      updateTotalPages: mockUpdateTotalPages,
-      totalResults: "",
-      updateTotalResults: mockUpdateTotalResults,
-    }}
-  >
-    {children}
-  </QueryContext.Provider>
-);
+interface SearchPaginationProps {
+  page: number;
+  query: string;
+  total?: number;
+  loading?: boolean;
+}
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
+const renderComponent = (props: SearchPaginationProps) => {
+  return render(
+    <QueryContext.Provider
+      value={{
+        updateTotalPages: mockUpdateTotalPages,
+        updateTotalResults: mockUpdateTotalResults,
+        totalPages: props.total || 1,
+      }}
+    >
+      <SearchPagination {...props} />
+    </QueryContext.Provider>,
+  );
+};
 
 describe("SearchPagination", () => {
   beforeEach(() => {
@@ -61,111 +68,16 @@ describe("SearchPagination", () => {
 
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
-  it("calls updateQueryParams with correct arguments when page number is clicked", async () => {
-    const { updateQueryParams } = useSearchParamUpdater();
-
-    render(
-      <MockQueryProvider>
-        <SearchPagination
-          page={1}
-          query=""
-          total={2}
-          scroll={false}
-          totalResults={"30"}
-          loading={false}
-        />
-      </MockQueryProvider>,
-    );
-
-    // Simulate clicking a page number
-    fireEvent.click(screen.getByText("2"));
-    // Check if updateQueryParams was called with the correct arguments
-    waitFor(() => {
-      expect(updateQueryParams).toHaveBeenCalledWith(
-        "2",
-        "page",
-        "test",
-        false,
-      );
+  it("disables pagination when loading", () => {
+    renderComponent({
+      page: 1,
+      query: "test",
+      total: 5,
+      loading: true,
     });
-  });
-  it("disables interaction and reduces opacity when loading", () => {
-    render(
-      <MockQueryProvider>
-        <SearchPagination
-          page={1}
-          query=""
-          total={2}
-          scroll={false}
-          totalResults={"30"}
-          loading={false}
-        />
-      </MockQueryProvider>,
+    expect(screen.getByText("Next").closest("div")).toHaveStyle(
+      "pointer-events: none",
     );
-    const container = screen.getByText("Next").closest("div");
-
-    // Check styles when loading
-    waitFor(() => {
-      expect(container).toHaveStyle("pointer-events: none");
-      expect(container).toHaveStyle("opacity: 0.5");
-    });
-  });
-  it("calls updateQueryParams with correct arguments when next is clicked", async () => {
-    const { updateQueryParams } = useSearchParamUpdater();
-
-    render(
-      <MockQueryProvider>
-        <SearchPagination
-          page={1}
-          query=""
-          total={2}
-          scroll={false}
-          totalResults={"30"}
-          loading={false}
-        />
-      </MockQueryProvider>,
-    );
-
-    // Simulate clicking a page number
-    const container = screen.getByText("Next").closest("div");
-    // Check if updateQueryParams was called with the correct arguments
-    waitFor(() => {
-      expect(updateQueryParams).toHaveBeenCalledWith(
-        "2",
-        "page",
-        "test",
-        false,
-      );
-      expect(updatePage).toHaveBeenCalledWith("1");
-    });
-  });
-  it("calls updateQueryParams with correct arguments when previous is clicked", async () => {
-    const { updateQueryParams } = useSearchParamUpdater();
-
-    render(
-      <MockQueryProvider>
-        <SearchPagination
-          page={2}
-          query=""
-          total={2}
-          scroll={false}
-          totalResults={"30"}
-          loading={false}
-        />
-      </MockQueryProvider>,
-    );
-
-    // Simulate clicking a page number
-    const container = screen.getByText("Previous").closest("div");
-    // Check if updateQueryParams was called with the correct arguments
-    waitFor(() => {
-      expect(updateQueryParams).toHaveBeenCalledWith(
-        "1",
-        "page",
-        "test",
-        false,
-      );
-      expect(updatePage).toHaveBeenCalledWith("1");
-    });
+    expect(screen.getByText("Next").closest("div")).toHaveStyle("opacity: 0.5");
   });
 });

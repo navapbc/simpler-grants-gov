@@ -103,7 +103,6 @@ class TestLoadOpportunitiesToIndexPartialRefresh(BaseTestClass):
         opportunity_index_alias,
         load_opportunities_to_index,
     ):
-        # TODO - need to test/modify logic to be better about handling not already having an index
         index_name = "partial-refresh-index-" + get_now_us_eastern_datetime().strftime(
             "%Y-%m-%d_%H-%M-%S"
         )
@@ -141,3 +140,14 @@ class TestLoadOpportunitiesToIndexPartialRefresh(BaseTestClass):
 
         resp = search_client.search(opportunity_index_alias, {"size": 100})
         assert resp.total_records == len(opportunities)
+
+    def test_load_opportunities_to_index_index_does_not_exist(self, db_session, search_client):
+        config = LoadOpportunitiesToIndexConfig(
+            alias_name="fake-index-that-will-not-exist", index_prefix="test-load-opps"
+        )
+        load_opportunities_to_index = LoadOpportunitiesToIndex(
+            db_session, search_client, False, config
+        )
+
+        with pytest.raises(RuntimeError, match="please run the full refresh job"):
+            load_opportunities_to_index.run()

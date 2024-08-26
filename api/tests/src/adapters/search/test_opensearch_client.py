@@ -122,6 +122,53 @@ def test_swap_alias_index(search_client, generic_index):
     assert search_client._client.indices.exists(tmp_index) is False
 
 
+def test_index_or_alias_exists(search_client, generic_index):
+    # Create a few aliased indexes
+    index_a = f"test-index-a-{uuid.uuid4().int}"
+    index_b = f"test-index-b-{uuid.uuid4().int}"
+    index_c = f"test-index-c-{uuid.uuid4().int}"
+
+    search_client.create_index(index_a)
+    search_client.create_index(index_b)
+    search_client.create_index(index_c)
+
+    alias_index_a = f"test-alias-a-{uuid.uuid4().int}"
+    alias_index_b = f"test-alias-b-{uuid.uuid4().int}"
+    alias_index_c = f"test-alias-c-{uuid.uuid4().int}"
+
+    search_client.swap_alias_index(index_a, alias_index_a)
+    search_client.swap_alias_index(index_b, alias_index_b)
+    search_client.swap_alias_index(index_c, alias_index_c)
+
+    # Checking the indexes directly - we expect the index method to return true
+    # and the alias method to not
+    assert search_client.index_exists(index_a) is True
+    assert search_client.index_exists(index_b) is True
+    assert search_client.index_exists(index_c) is True
+
+    assert search_client.alias_exists(index_a) is False
+    assert search_client.alias_exists(index_b) is False
+    assert search_client.alias_exists(index_c) is False
+
+    # We just created these aliases, they should exist
+    assert search_client.index_exists(alias_index_a) is True
+    assert search_client.index_exists(alias_index_b) is True
+    assert search_client.index_exists(alias_index_c) is True
+
+    assert search_client.alias_exists(alias_index_a) is True
+    assert search_client.alias_exists(alias_index_b) is True
+    assert search_client.alias_exists(alias_index_c) is True
+
+    # Other random things won't be found for either case
+    assert search_client.index_exists("test-index-a") is False
+    assert search_client.index_exists("asdasdasd") is False
+    assert search_client.index_exists(alias_index_a + "-other") is False
+
+    assert search_client.alias_exists("test-index-a") is False
+    assert search_client.alias_exists("asdasdasd") is False
+    assert search_client.alias_exists(alias_index_a + "-other") is False
+
+
 def test_scroll(search_client, generic_index):
     records = [
         {"id": 1, "title": "Green Eggs & Ham", "notes": "why are the eggs green?"},

@@ -50,7 +50,6 @@ class LoadOpportunitiesToIndex(Task):
             config = LoadOpportunitiesToIndexConfig()
         self.config = config
 
-        # TODO - determine if this is for a full refresh and set the index name based on that
         if is_full_refresh:
             current_timestamp = get_now_us_eastern_datetime().strftime("%Y-%m-%d_%H-%M-%S")
             self.index_name = f"{self.config.index_prefix}-{current_timestamp}"
@@ -60,17 +59,20 @@ class LoadOpportunitiesToIndex(Task):
 
     def run_task(self) -> None:
         if self.is_full_refresh:
+            logger.info("Running full refresh")
             self.full_refresh()
         else:
+            logger.info("Running incremental load")
             self.incremental_updates_and_deletes()
 
     def incremental_updates_and_deletes(self) -> None:
         existing_opportunity_ids = self.fetch_existing_opportunity_ids_in_index()
 
-        # load the records
-        # TODO - we should probably not load everything if what is in the search index
-        # is identical - otherwise this isn't much different from the full refresh
-        # BUT - need some sort of mechanism for determining that (timestamp?)
+        # load the records incrementally
+        # TODO - The point of this incremental load is to support upcoming work
+        #        to load only opportunities that have changes as we'll eventually be indexing
+        #        files which will take longer. However - the structure of the data isn't yet
+        #        known so I want to hold on actually setting up any change-detection logic
         loaded_opportunity_ids = set()
         for opp_batch in self.fetch_opportunities():
             loaded_opportunity_ids.update(self.load_records(opp_batch))
@@ -123,7 +125,11 @@ class LoadOpportunitiesToIndex(Task):
         )
 
     def fetch_existing_opportunity_ids_in_index(self) -> set[int]:
-        # TODO - check if the index exists already
+        if not self.search_client.alias_exists(self.index_name):
+            raise RuntimeError(
+                "Alias %s does not exist, please run the full refresh job before the incremental job"
+                % self.index_name
+            )
 
         opportunity_ids: set[int] = set()
 
@@ -133,7 +139,7 @@ class LoadOpportunitiesToIndex(Task):
             include_scores=False,
         ):
             for record in response.records:
-                opportunity_ids.add(record.get("opportunity_id"))
+                opportunity_ids.add(record["opportunity_id"])
 
         return opportunity_ids
 

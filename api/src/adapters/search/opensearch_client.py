@@ -129,6 +129,15 @@ class SearchClient:
         )
         self._client.bulk(index=index_name, body=bulk_operations, refresh=refresh)
 
+    def index_exists(self, index_name: str) -> bool:
+        # Check if an index OR alias exists by a given name
+        return self._client.indices.exists(index_name)
+
+    def alias_exists(self, alias_name: str) -> bool:
+        # Check if an alias exists
+        existing_index_mapping = self._client.cat.aliases(alias_name, format="json")
+        return len(existing_index_mapping) > 0
+
     def swap_alias_index(
         self, index_name: str, alias_name: str, *, delete_prior_indexes: bool = False
     ) -> None:

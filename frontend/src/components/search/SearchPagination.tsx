@@ -35,11 +35,9 @@ export default function SearchPagination({
   const pages = total || Number(totalPages);
 
   const updatePage = (page: number) => {
-    console.log("here");
     updateTotalPages(String(total));
     updateTotalResults(totalResults);
     updateQueryParams(String(page), "page", query, scroll);
-    console.log("here2");
   };
 
   return (

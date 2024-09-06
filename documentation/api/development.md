@@ -19,6 +19,15 @@ A very simple [docker-compose.yml](../../docker-compose.yml) has been included t
    curl -sSL https://install.python-poetry.org | python3 -
    ```
 
+   - MD- I ended up accomplishing this via
+     `pyenv local 3.12.5`
+
+   - and then
+
+     ```bash
+     curl -sSL https://install.python-poetry.org | python -
+     ```
+
 3. If you are using an M1 mac, you will need to install postgres as well: `brew install postgresql` (The psycopg2-binary is built from source on M1 macs which requires the postgres executable to be present)
 
 4. You'll also need [Docker Desktop](https://www.docker.com/products/docker-desktop/)

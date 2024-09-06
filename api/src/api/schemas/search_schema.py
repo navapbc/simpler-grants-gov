@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import Any, Type
+from typing import Any, Pattern, Type
 
 from marshmallow import ValidationError, validates_schema
 
@@ -84,9 +84,13 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
         self,
         *,
         allowed_values: Type[StrEnum] | None = None,
+        pattern: str | Pattern | None = None,
         example: str | None = None,
         minimum_length: int | None = None
     ) -> "StrSearchSchemaBuilder":
+        if pattern is not None and allowed_values is not None:
+            raise Exception("Cannot specify both a pattern and allowed_values")
+
         metadata = {}
         if example:
             metadata["example"] = example
@@ -94,8 +98,16 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
         # We assume it's just a list of strings
         if allowed_values is None:
             params: dict = {"metadata": metadata}
+
+            field_validators: list[validators.Validator] = []
             if minimum_length is not None:
-                params["validate"] = [validators.Length(min=2)]
+                field_validators.append(validators.Length(min=minimum_length))
+
+            if pattern is not None:
+                field_validators.append(validators.Regexp(regex=pattern))
+
+            if len(field_validators) > 0:
+                params["validate"] = field_validators
 
             list_type: fields.MixinField = fields.String(**params)
 
@@ -106,6 +118,52 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
         # Note that the list requires at least one value (sending us just [] will raise a validation error)
         self.schema_fields["one_of"] = fields.List(list_type, validate=[validators.Length(min=1)])
 
+        return self
+
+
+class IntegerSearchSchemaBuilder(BaseSearchSchemaBuilder):
+    def with_minimum_value(
+        self, example: int | None = None, positive_only: bool = True
+    ) -> "IntegerSearchSchemaBuilder":
+        metadata = {}
+        if example is not None:
+            metadata["example"] = example
+
+        field_validators = []
+        if positive_only:
+            field_validators.append(validators.Range(min=0))
+
+        self.schema_fields["min"] = fields.Integer(
+            allow_none=True, metadata=metadata, validate=field_validators
+        )
+        return self
+
+    def with_maximum_value(
+        self, example: int | None = None, positive_only: bool = True
+    ) -> "IntegerSearchSchemaBuilder":
+        metadata = {}
+        if example is not None:
+            metadata["example"] = example
+
+        field_validators = []
+        if positive_only:
+            field_validators.append(validators.Range(min=0))
+
+        self.schema_fields["max"] = fields.Integer(
+            allow_none=True, metadata=metadata, validate=field_validators
+        )
+        return self
+
+
+class BoolSearchSchemaBuilder(BaseSearchSchemaBuilder):
+    def with_one_of(self, example: bool | None = None) -> "BoolSearchSchemaBuilder":
+        metadata = {}
+        if example is not None:
+            metadata["example"] = example
+
+        self.schema_fields["one_of"] = fields.List(
+            fields.Boolean(metadata=metadata), allow_none=True
+        )
         return self
 
 

@@ -1,4 +1,5 @@
 import typing
+import datetime
 
 from src.pagination.pagination_models import SortDirection
 
@@ -148,6 +149,38 @@ class SearchQueryBuilder:
         a binary filter on the overall results.
         """
         self.filters.append({"terms": {field: terms}})
+        return self
+
+    def filter_int_range(self, field: str, min_value: int | None, max_value: int | None) -> typing.Self:
+        """
+        TODO - docs
+        """
+        if min_value is None and max_value is None:
+            raise Exception("TODO - can't filter when both are none")
+
+        range_filter = {}
+        if min_value is not None:
+            range_filter["gte"] = min_value
+        if max_value is not None:
+            range_filter["lte"] = max_value
+
+        self.filters.append({"range": {field: range_filter}})
+        return self
+
+    def filter_date_range(self, field: str, start_date: datetime.date | None, end_date: datetime.date | None) -> typing.Self:
+        """
+        TODO - docs
+        """
+        if start_date is None and end_date is None:
+            raise Exception("TODO - can't filter when both are none")
+
+        range_filter = {}
+        if start_date is not None:
+            range_filter["gte"] = start_date.isoformat()
+        if end_date is not None:
+            range_filter["lte"] = end_date.isoformat()
+
+        self.filters.append({"range": {field: range_filter}})
         return self
 
     def aggregation_terms(

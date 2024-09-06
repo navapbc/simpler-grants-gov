@@ -23,6 +23,10 @@ A very simple [docker-compose.yml](../../docker-compose.yml) has been included t
 
 4. You'll also need [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
+## Database setup: Run Migrations/Seeds
+
+1. If you haven't done local development before you'll need to execute the migrations and seed the DB with data using the steps in [database-local-usage.md](database/database-local-usage.md)
+
 ## Run the application
 
 1. Make sure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed & running.

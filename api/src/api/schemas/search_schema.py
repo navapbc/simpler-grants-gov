@@ -122,6 +122,37 @@ class StrSearchSchemaBuilder(BaseSearchSchemaBuilder):
 
 
 class IntegerSearchSchemaBuilder(BaseSearchSchemaBuilder):
+    """
+    Builder for setting up a filter in a search endpoint schema for an integer.
+
+    Our schemas are setup to look like:
+
+        {
+            "filters": {
+                "field": {
+                    "min": 1,
+                    "max": 5
+                }
+            }
+        }
+
+    This helps generate the filters for a given field. At the moment,
+    only a min and max filter are implemented, and can be used to filter
+    on a range of values.
+
+    Usage::
+
+        # In a search request schema, you would use it like so
+
+        class OpportunitySearchFilterSchema(Schema):
+            example_int_field = fields.Nested(
+                IntegerSearchSchemaBuilder("ExampleIntFieldSchema")
+                    .with_minimum_value(example=1)
+                    .with_maximum_value(example=25)
+                    .build()
+            )
+    """
+
     def with_minimum_value(
         self, example: int | None = None, positive_only: bool = True
     ) -> "IntegerSearchSchemaBuilder":
@@ -156,6 +187,38 @@ class IntegerSearchSchemaBuilder(BaseSearchSchemaBuilder):
 
 
 class BoolSearchSchemaBuilder(BaseSearchSchemaBuilder):
+    """
+    Builder for setting up a filter in a search endpoint schema.
+
+    Our schemas are setup to look like:
+
+        {
+            "filters": {
+                "field": {
+                    "one_of": ["True", "False"]
+                }
+            }
+        }
+
+    This helps generate the filters for a given field. At the moment,
+    only a one_of filter is implemented - note that any truthy value
+    as determined by Marshmallow is accepted (including "yes", "y", 1 - for true)
+
+    While it doesn't quite make sense to filter by multiple boolean values in most cases,
+    we err on the side of consistency with the structure of the query to match other types.
+
+    Usage::
+
+        # In a search request schema, you would use it like so
+
+        class OpportunitySearchFilterSchema(Schema):
+            example_bool_field = fields.Nested(
+                BoolSearchSchemaBuilder("ExampleBoolFieldSchema")
+                    .with_one_of(example=True)
+                    .build()
+            )
+    """
+
     def with_one_of(self, example: bool | None = None) -> "BoolSearchSchemaBuilder":
         metadata = {}
         if example is not None:

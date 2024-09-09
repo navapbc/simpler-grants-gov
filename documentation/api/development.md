@@ -29,6 +29,11 @@ A very simple [docker-compose.yml](../../docker-compose.yml) has been included t
 
 1. If you haven't done local development before you'll need to execute the migrations and seed the DB with data using the steps in [database-local-usage.md](database/database-local-usage.md)
 
+## OpenSearch setup
+
+1. Run `make init-opensearch` setup the OpenSearch Container
+2. Run `make populate-search-opportunities` to push data previously seeded in the DB into the search index
+
 ## Run the application
 
 1. Make sure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed & running.

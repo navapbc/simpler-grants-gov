@@ -68,6 +68,18 @@ def _get_sort_by(pagination: PaginationParams) -> list[tuple[str, SortDirection]
     return sort_by
 
 
+def _handle_min_filters(builder: search.SearchQueryBuilder, field: str, field_filters: dict):
+    # TODO docs
+    min_filter: int | None = field_filters.get("min", None)
+    max_filter: int | None = field_filters.get("max", None)
+
+    if min_filter is None and max_filter is None:
+        return
+
+    builder.filter_int_range()
+
+
+
 def _add_search_filters(builder: search.SearchQueryBuilder, filters: dict | None) -> None:
     if filters is None:
         return
@@ -78,6 +90,9 @@ def _add_search_filters(builder: search.SearchQueryBuilder, filters: dict | None
         one_of_filters = field_filters.get("one_of", None)
         if one_of_filters:
             builder.filter_terms(_adjust_field_name(field), one_of_filters)
+
+        # TODO docs
+        _handle_min_filters(builder, field, field_filters)
 
 
 def _add_aggregations(builder: search.SearchQueryBuilder) -> None:

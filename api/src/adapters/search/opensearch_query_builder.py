@@ -1,5 +1,5 @@
-import typing
 import datetime
+import typing
 
 from src.pagination.pagination_models import SortDirection
 
@@ -18,6 +18,7 @@ class SearchQueryBuilder:
         * Sorted by relevancy score descending
         * Scored on titles containing "king"
         * Where the author is one of Brandon Sanderson or J R.R. Tolkien
+        * With a page count between 300 and 1000
         * Returning aggregate counts of books by those authors in the full results
 
     This query could either be built manually and look like:
@@ -53,6 +54,12 @@ class SearchQueryBuilder:
                   "Brandon Sanderson",
                   "J R.R. Tolkien"
                 ]
+              },
+              "range": {
+                "publication_date": {
+                    "gte": 300,
+                    "lte": 1000
+                }
               }
             }
           ]
@@ -76,6 +83,7 @@ class SearchQueryBuilder:
                 .sort_by([("relevancy", SortDirection.DESCENDING)])
                 .simple_query("king", fields=["title.keyword"])
                 .filter_terms("author.keyword", terms=["Brandon Sanderson", "J R.R. Tolkien"])
+                .filter_int_range("page_count", 300, 1000)
                 .aggregation_terms(aggregation_name="author", field_name="author.keyword", minimum_count=0)
                 .build()
     """
@@ -151,12 +159,20 @@ class SearchQueryBuilder:
         self.filters.append({"terms": {field: terms}})
         return self
 
-    def filter_int_range(self, field: str, min_value: int | None, max_value: int | None) -> typing.Self:
+    def filter_int_range(
+        self, field: str, min_value: int | None, max_value: int | None
+    ) -> typing.Self:
         """
-        TODO - docs
+        For a given field, filter results to a range of integer values.
+
+        If min or max is not provided, the range is unbounded and only
+        affects the minimum or maximum possible value. At least one min or max value must be specified.
+
+        These filters do not affect the relevancy score, they are purely
+        a binary filter on the overall results.
         """
         if min_value is None and max_value is None:
-            raise Exception("TODO - can't filter when both are none")
+            raise ValueError("Cannot use int range filter if both min and max are None")
 
         range_filter = {}
         if min_value is not None:
@@ -167,12 +183,20 @@ class SearchQueryBuilder:
         self.filters.append({"range": {field: range_filter}})
         return self
 
-    def filter_date_range(self, field: str, start_date: datetime.date | None, end_date: datetime.date | None) -> typing.Self:
+    def filter_date_range(
+        self, field: str, start_date: datetime.date | None, end_date: datetime.date | None
+    ) -> typing.Self:
         """
-        TODO - docs
+        For a given field, filter results to a range of dates.
+
+        If start or end is not provided, the range is unbounded and only
+        affects the start or end date. At least one start or end date must be specified.
+
+        These filters do not affect the relevancy score, they are purely
+        a binary filter on the overall results.
         """
         if start_date is None and end_date is None:
-            raise Exception("TODO - can't filter when both are none")
+            raise ValueError("Cannot use date range filter if both start and end are None")
 
         range_filter = {}
         if start_date is not None:

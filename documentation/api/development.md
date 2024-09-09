@@ -23,7 +23,7 @@ A very simple [docker-compose.yml](../../docker-compose.yml) has been included t
 
 4. If you are using an M1 mac, you will need to install postgres as well: `brew install postgresql` (The psycopg2-binary is built from source on M1 macs which requires the postgres executable to be present)
 
-4. You'll also need [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+5. You'll also need [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 ## Database setup: Run Migrations/Seeds
 
@@ -47,6 +47,7 @@ A very simple [docker-compose.yml](../../docker-compose.yml) has been included t
 See the [Makefile](../../api/Makefile) for a full list of commands you can run.
 
 The `make console` command initializes a Python REPL environment pre-configured with database connectivity. This allows developers to perform database queries, utilize factories for data generation, and interact with the application's models directly.
+
 - Writing a query: `dbs.query(Opportunity).all()`
 - Saving some factory generated data to the db: `f.OpportunityFactory.create()`
 
@@ -57,8 +58,8 @@ Running in Docker is the default, but on some machines like the M1 Mac, running 
 
 You can switch which way many of these components are run by setting the `PY_RUN_APPROACH` env variable in your terminal.
 
-* `export PY_RUN_APPROACH=local` will run these components natively
-* `export PY_RUN_APPROACH=docker` will run these within Docker
+- `export PY_RUN_APPROACH=local` will run these components natively
+- `export PY_RUN_APPROACH=docker` will run these within Docker
 
 Note that even with the native mode, many components like the DB and API will only ever run in Docker, and you should always make sure that any implementations work within docker.
 
@@ -88,15 +89,14 @@ The API can be run in debug mode that allows for remote attach debugging (curren
 - See `./vscode/launch.json` which has the debug config. (Named `API Remote Attach`)
 
 - Start the server in debug mode via `make start-debug` or `make start-debug run-logs`.
-    - This will start the `main-app` service with port 5678 exposed.
+
+  - This will start the `main-app` service with port 5678 exposed.
 
 - The server will start in waiting mode, waiting for you to attach the debugger (see `/src/app.py`) before continuing to run.
 
 - Go to your VSCode debugger window and run the `API Remote Attach` option
 
 - You should now be able to hit set breakpoints throughout the API
-
-
 
 ## Next steps
 

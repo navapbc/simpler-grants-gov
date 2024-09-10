@@ -1,6 +1,7 @@
 import logging
 import math
 from typing import Sequence, Tuple
+from datetime import date
 
 from pydantic import BaseModel, Field
 
@@ -45,11 +46,47 @@ SEARCH_FIELDS = [
 SCHEMA = OpportunityV1Schema()
 
 
+# TODO - these should live in some generic place
+class StrSearchFilter(BaseModel):
+    one_of: list[str] | None = Field(default=None)
+
+class BoolSearchFilter(BaseModel):
+    one_of: list[bool] | None = Field(default=None)
+
+class IntSearchFilter(BaseModel):
+    min: int | None = None
+    max: int | None = None
+
+class DateSearchFilter(BaseModel):
+    start_date: date | None = None
+    end_date: date | None = None
+
+class OpportunityFilters(BaseModel):
+    applicant_type: StrSearchFilter | None = None
+    funding_instrument: StrSearchFilter | None = None
+    funding_category: StrSearchFilter | None = None
+    funding_applicant_type: StrSearchFilter | None = None
+    opportunity_status: StrSearchFilter | None = None
+    agency: StrSearchFilter | None = None
+    assistance_listing_number: StrSearchFilter | None = None
+
+    is_cost_sharing: BoolSearchFilter | None = None
+
+    expected_number_of_awards: IntSearchFilter | None = None
+    award_floor: IntSearchFilter | None = None
+    award_ceiling: IntSearchFilter | None = None
+    estimated_total_program_funding: IntSearchFilter | None = None
+
+    post_date: DateSearchFilter | None = None
+    close_date: DateSearchFilter | None = None
+
+
+
 class SearchOpportunityParams(BaseModel):
     pagination: PaginationParams
 
     query: str | None = Field(default=None)
-    filters: dict | None = Field(default=None)
+    filters: OpportunityFilters | None = Field(default=None)
 
 
 def _adjust_field_name(field: str) -> str:
@@ -80,19 +117,31 @@ def _handle_min_filters(builder: search.SearchQueryBuilder, field: str, field_fi
 
 
 
-def _add_search_filters(builder: search.SearchQueryBuilder, filters: dict | None) -> None:
+def _add_search_filters(builder: search.SearchQueryBuilder, filters: OpportunityFilters | None) -> None:
     if filters is None:
         return
 
-    for field, field_filters in filters.items():
+    filters.model_fields_set
+
+    for field in filters.model_fields_set:
+        field_filters = getattr(filters, field)
+
         # one_of filters translate to an opensearch term filter
         # see: https://opensearch.org/docs/latest/query-dsl/term/terms/
-        one_of_filters = field_filters.get("one_of", None)
-        if one_of_filters:
-            builder.filter_terms(_adjust_field_name(field), one_of_filters)
+        if isinstance(field_filters, StrSearchFilter):
+            builder.filter_terms(_adjust_field_name(field), field_filters.one_of)
 
-        # TODO docs
-        _handle_min_filters(builder, field, field_filters)
+        # TODO - docs / combine with the above?
+        elif isinstance(field_filters, BoolSearchFilter):
+            builder.filter_terms(_adjust_field_name(field), field_filters.one_of)
+
+        # TODO - docs
+        elif isinstance(field_filters, IntSearchFilter):
+            builder.filter_int_range(_adjust_field_name(field), field_filters.min, field_filters.max)
+
+        elif isinstance(field_filters, DateSearchFilter):
+            builder.filter_date_range(_adjust_field_name(field), field_filters.start_date, field_filters.end_date)
+
 
 
 def _add_aggregations(builder: search.SearchQueryBuilder) -> None:

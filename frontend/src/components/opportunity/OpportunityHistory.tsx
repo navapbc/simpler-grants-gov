@@ -1,38 +1,40 @@
 import { Opportunity } from "src/types/opportunity/opportunityResponseTypes";
 import { formatDate } from "src/utils/dateUtil";
+import { useTranslations } from "next-intl";
 
 type Props = {
   opportunityData: Opportunity;
 };
 
-const formatHistorySubContent = (content: string | null, title: string) => {
-  if (title.toLowerCase().includes("date")) {
-    formatDate(content);
-  }
-  return content === null ? "--" : content;
+type TranslationKeys =
+  | "version"
+  | "posted_date"
+  | "closing_date"
+  | "archive_date";
+
+const formatHistorySubContent = (content: string | null) => {
+  return content === null ? "--" : formatDate(content);
 };
 
 const OpportunityHistory = ({ opportunityData }: Props) => {
+  const t = useTranslations("OpportunityListing.history");
   const versionInfo = {
-    Version: "--",
-    "Posted date": opportunityData.summary.post_date,
-    "Original closing date for applications":
-      opportunityData.summary.close_date,
-    "Archive date": opportunityData.summary.archive_date,
+    version: "--",
+    posted_date: opportunityData.summary.post_date,
+    closing_date: opportunityData.summary.close_date,
+    archive_date: opportunityData.summary.archive_date,
   };
   return (
     <div className="usa-prose margin-top-4">
       <h3>History</h3>
-      {Object.entries(versionInfo).map(([title, content]) => (
-        <>
+      {Object.entries(versionInfo).map(([title, content], index) => (
+        <div key={`historyInfo-${index}`}>
           <p className={"text-bold"}>
-            {title}
+            {t(`${title as TranslationKeys}`)}
             {":"}
           </p>
-          <p className={"margin-top-0"}>
-            {formatHistorySubContent(content, title)}
-          </p>
-        </>
+          <p className={"margin-top-0"}>{formatHistorySubContent(content)}</p>
+        </div>
       ))}
     </div>
   );

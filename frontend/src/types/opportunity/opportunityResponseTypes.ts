@@ -4,8 +4,8 @@ export interface OpportunityAssistanceListing {
 }
 
 export interface Summary {
-  additional_info_url: string;
-  additional_info_url_description: string;
+  additional_info_url: string | null;
+  additional_info_url_description: string | null;
   agency_code: string;
   agency_contact_description: string;
   agency_email_address: string;

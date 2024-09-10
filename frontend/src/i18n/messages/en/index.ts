@@ -19,6 +19,37 @@ export const messages = {
       additional_info: "Additional Information on eligibility",
       contact_info: "Grantor contact information",
     },
+    award_info: {
+      yes: "Yes",
+      no: "No",
+      program_funding: "Program Funding",
+      expected_awards: "Expected awards",
+      award_ceiling: "Award Ceiling",
+      award_floor: "Award Floor",
+      cost_sharing: "Cost sharing or matching requirement",
+      funding_instrument: "Funding instrument type",
+      opportunity_category: "Opportunity Category",
+      opportunity_category_explanation: "Opportunity Category Explanation",
+      funding_activity: "Category of Funding Activity",
+      category_explanation: "Category Explanation",
+    },
+    history: {
+      posted_date: "Posted date",
+      closing_date: "Original closing date for applications",
+      archive_date: "Archive date",
+      version: "Version",
+    },
+    link: {
+      title: "Link to additonal information",
+    },
+    status_widget: {
+      archived: "Archived: ",
+      closed: "Closed: ",
+      closing: "Closing: ",
+      forecasted: "Forecasted",
+      closing_warn:
+        "Electronically submitted applications must be submitted no later than 5:00 p.m., ET, on the listed application due date.",
+    },
   },
   Index: {
     page_title: "Simpler.Grants.gov",

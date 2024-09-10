@@ -14,7 +14,7 @@ const OpportunityIntro = ({ opportunityData }: Props) => {
   const t = useTranslations("OpportunityListing.intro");
 
   const agencyName =
-    opportunityData.summary.agency_name === null
+    opportunityData.summary.agency_name === ""
       ? "--"
       : opportunityData.summary.agency_name;
 
@@ -23,7 +23,10 @@ const OpportunityIntro = ({ opportunityData }: Props) => {
   }: {
     opportunity_assistance_listings: OpportunityAssistanceListing[];
   }) => {
-    if (opportunity_assistance_listings === null) return "--";
+    if (opportunity_assistance_listings.length === 0)
+      return (
+        <p className="tablet-lg:font-sans-2xs">{`${t("assistanceListings")} --`}</p>
+      );
 
     return opportunity_assistance_listings.map((listing, index) => (
       <p className="tablet-lg:font-sans-2xs" key={index}>
@@ -36,7 +39,7 @@ const OpportunityIntro = ({ opportunityData }: Props) => {
   };
 
   const lastUpdated = (updated_at: string) => {
-    if (updated_at === null) return `${t("lastUpdated")} --`;
+    if (updated_at === "") return `${t("lastUpdated")} --`;
     else {
       const date = new Date(updated_at);
       const formattedDate = new Intl.DateTimeFormat("en-US", {

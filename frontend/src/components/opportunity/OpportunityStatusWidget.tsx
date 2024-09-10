@@ -46,7 +46,7 @@ const OpportunityStatusWidget = ({ opportunityData }: Props) => {
                 <span>{formatDate(closeDate)}</span>
               </p>
             </div>
-            <div className="border radius-md border-base-lighter padding-x-2">
+            <div className="border radius-md border-base-lighter padding-x-2 margin-top-0">
               <p className="line-height-sans-5">{t("closing_warn")}</p>
             </div>
           </>

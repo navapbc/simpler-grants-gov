@@ -33,6 +33,7 @@ export default async function OpportunityListing({
   params: { id: string };
 }) {
   const id = Number(params.id);
+  const breadcrumbs = Object.assign([], OPPORTUNITY_CRUMBS);
   // Opportunity id needs to be a number greater than 1
   if (isNaN(id) || id < 0) {
     return <NotFound />;
@@ -53,7 +54,7 @@ export default async function OpportunityListing({
 
   const opportunityData: Opportunity = opportunity.data;
 
-  OPPORTUNITY_CRUMBS.push({
+  breadcrumbs.push({
     title: opportunityData.opportunity_title,
     path: `/opportunity/${opportunityData.opportunity_id}/`,
   });
@@ -61,7 +62,7 @@ export default async function OpportunityListing({
   return (
     <div>
       <BetaAlert />
-      <Breadcrumbs breadcrumbList={OPPORTUNITY_CRUMBS} />
+      <Breadcrumbs breadcrumbList={breadcrumbs} />
       <OpportunityIntro opportunityData={opportunityData} />
       <GridContainer>
         <div className="grid-row">

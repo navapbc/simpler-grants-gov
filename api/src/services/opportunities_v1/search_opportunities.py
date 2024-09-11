@@ -107,26 +107,22 @@ def _add_search_filters(
 
     for field in filters.model_fields_set:
         field_filters = getattr(filters, field)
+        field_name = _adjust_field_name(field)
 
-        # one_of filters translate to an opensearch term filter
-        # see: https://opensearch.org/docs/latest/query-dsl/term/terms/
+        # We use the type of the search filter to determine what methods
+        # we call on the builder. This way we can make sure we have the proper
+        # type mappings.
         if isinstance(field_filters, StrSearchFilter) and field_filters.one_of:
-            builder.filter_terms(_adjust_field_name(field), field_filters.one_of)
+            builder.filter_terms(field_name, field_filters.one_of)
 
-        # TODO - docs / combine with the above?
         elif isinstance(field_filters, BoolSearchFilter) and field_filters.one_of:
-            builder.filter_terms(_adjust_field_name(field), field_filters.one_of)
+            builder.filter_terms(field_name, field_filters.one_of)
 
-        # TODO - docs
         elif isinstance(field_filters, IntSearchFilter):
-            builder.filter_int_range(
-                _adjust_field_name(field), field_filters.min, field_filters.max
-            )
+            builder.filter_int_range(field_name, field_filters.min, field_filters.max)
 
         elif isinstance(field_filters, DateSearchFilter):
-            builder.filter_date_range(
-                _adjust_field_name(field), field_filters.start_date, field_filters.end_date
-            )
+            builder.filter_date_range(field_name, field_filters.start_date, field_filters.end_date)
 
 
 def _add_aggregations(builder: search.SearchQueryBuilder) -> None:

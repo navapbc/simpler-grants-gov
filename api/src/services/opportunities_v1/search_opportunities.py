@@ -1,7 +1,6 @@
 import logging
 import math
 from typing import Sequence, Tuple
-from datetime import date
 
 from pydantic import BaseModel, Field
 
@@ -9,6 +8,12 @@ import src.adapters.search as search
 from src.api.opportunities_v1.opportunity_schemas import OpportunityV1Schema
 from src.pagination.pagination_models import PaginationInfo, PaginationParams, SortDirection
 from src.search.search_config import get_search_config
+from src.search.search_models import (
+    BoolSearchFilter,
+    DateSearchFilter,
+    IntSearchFilter,
+    StrSearchFilter,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +34,11 @@ REQUEST_FIELD_NAME_MAPPING = {
     "funding_instrument": "summary.funding_instruments.keyword",
     "funding_category": "summary.funding_categories.keyword",
     "applicant_type": "summary.applicant_types.keyword",
+    "is_cost_sharing": "summary.is_cost_sharing",
+    "expected_number_of_awards": "summary.expected_number_of_awards",
+    "award_floor": "summary.award_floor",
+    "award_ceiling": "summary.award_ceiling",
+    "estimated_total_program_funding": "summary.estimated_total_program_funding",
 }
 
 SEARCH_FIELDS = [
@@ -45,21 +55,6 @@ SEARCH_FIELDS = [
 
 SCHEMA = OpportunityV1Schema()
 
-
-# TODO - these should live in some generic place
-class StrSearchFilter(BaseModel):
-    one_of: list[str] | None = Field(default=None)
-
-class BoolSearchFilter(BaseModel):
-    one_of: list[bool] | None = Field(default=None)
-
-class IntSearchFilter(BaseModel):
-    min: int | None = None
-    max: int | None = None
-
-class DateSearchFilter(BaseModel):
-    start_date: date | None = None
-    end_date: date | None = None
 
 class OpportunityFilters(BaseModel):
     applicant_type: StrSearchFilter | None = None
@@ -79,7 +74,6 @@ class OpportunityFilters(BaseModel):
 
     post_date: DateSearchFilter | None = None
     close_date: DateSearchFilter | None = None
-
 
 
 class SearchOpportunityParams(BaseModel):
@@ -105,43 +99,34 @@ def _get_sort_by(pagination: PaginationParams) -> list[tuple[str, SortDirection]
     return sort_by
 
 
-def _handle_min_filters(builder: search.SearchQueryBuilder, field: str, field_filters: dict):
-    # TODO docs
-    min_filter: int | None = field_filters.get("min", None)
-    max_filter: int | None = field_filters.get("max", None)
-
-    if min_filter is None and max_filter is None:
-        return
-
-    builder.filter_int_range()
-
-
-
-def _add_search_filters(builder: search.SearchQueryBuilder, filters: OpportunityFilters | None) -> None:
+def _add_search_filters(
+    builder: search.SearchQueryBuilder, filters: OpportunityFilters | None
+) -> None:
     if filters is None:
         return
-
-    filters.model_fields_set
 
     for field in filters.model_fields_set:
         field_filters = getattr(filters, field)
 
         # one_of filters translate to an opensearch term filter
         # see: https://opensearch.org/docs/latest/query-dsl/term/terms/
-        if isinstance(field_filters, StrSearchFilter):
+        if isinstance(field_filters, StrSearchFilter) and field_filters.one_of:
             builder.filter_terms(_adjust_field_name(field), field_filters.one_of)
 
         # TODO - docs / combine with the above?
-        elif isinstance(field_filters, BoolSearchFilter):
+        elif isinstance(field_filters, BoolSearchFilter) and field_filters.one_of:
             builder.filter_terms(_adjust_field_name(field), field_filters.one_of)
 
         # TODO - docs
         elif isinstance(field_filters, IntSearchFilter):
-            builder.filter_int_range(_adjust_field_name(field), field_filters.min, field_filters.max)
+            builder.filter_int_range(
+                _adjust_field_name(field), field_filters.min, field_filters.max
+            )
 
         elif isinstance(field_filters, DateSearchFilter):
-            builder.filter_date_range(_adjust_field_name(field), field_filters.start_date, field_filters.end_date)
-
+            builder.filter_date_range(
+                _adjust_field_name(field), field_filters.start_date, field_filters.end_date
+            )
 
 
 def _add_aggregations(builder: search.SearchQueryBuilder) -> None:

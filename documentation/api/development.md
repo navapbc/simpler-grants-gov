@@ -21,9 +21,7 @@ A very simple [docker-compose.yml](../../docker-compose.yml) has been included t
    curl -sSL https://install.python-poetry.org | python3 -
    ```
 
-4. If you are using an M1 mac, you will need to install postgres as well: `brew install postgresql` (The psycopg2-binary is built from source on M1 macs which requires the postgres executable to be present)
-
-5. You'll also need [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+4. You'll also need [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 ## Database setup: Run Migrations/Seeds
 
@@ -33,6 +31,8 @@ A very simple [docker-compose.yml](../../docker-compose.yml) has been included t
 
 1. Run `make init-opensearch` setup the OpenSearch Container
 2. Run `make populate-search-opportunities` to push data previously seeded in the DB into the search index
+
+If your DB or OpenSearch end up in an odd place, you can reset all the persistent storage using `make volume-recreate`
 
 ## Run the application
 
@@ -47,7 +47,9 @@ A very simple [docker-compose.yml](../../docker-compose.yml) has been included t
 
 `make test` will run all of the tests. Additional arguments can be passed to this command which will be passed to pytest like so: `make test args="tests/api/route -v"` which would run all tests in the route folder with verbosity increased. See the [Pytest Docs](https://docs.pytest.org/en/7.1.x/reference/reference.html#command-line-flags) for more details on CLI flags you can set.
 
-`make clean-volumes` will spin down the docker containers + delete the volumes. This can be useful to reset your DB, or fix any bad states your local environment may have gotten into.
+`make clean-volumes` will spin down the docker containers + delete the volumes.
+
+`make volume-recreate` Deletes the volumes and then re-initializes the persistant portions of the stack. This can be useful to reset your DB, or fix any bad states your local environment may have gotten into.
 
 See the [Makefile](../../api/Makefile) for a full list of commands you can run.
 

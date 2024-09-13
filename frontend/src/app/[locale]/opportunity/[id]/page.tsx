@@ -17,6 +17,7 @@ import OpportunityLink from "src/components/opportunity/OpportunityLink";
 import OpportunityListingAPI from "../../../api/OpportunityListingAPI";
 import OpportunityStatusWidget from "src/components/opportunity/OpportunityStatusWidget";
 import { getTranslations } from "next-intl/server";
+import withFeatureFlag from "src/hoc/search/withFeatureFlag";
 
 export async function generateMetadata() {
   const t = await getTranslations({ locale: "en" });
@@ -27,7 +28,7 @@ export async function generateMetadata() {
   return meta;
 }
 
-export default async function OpportunityListing({
+async function OpportunityListing({
   params,
 }: {
   params: { id: string };
@@ -81,3 +82,5 @@ export default async function OpportunityListing({
     </div>
   );
 }
+
+export default withFeatureFlag(OpportunityListing, "showSearchV0");

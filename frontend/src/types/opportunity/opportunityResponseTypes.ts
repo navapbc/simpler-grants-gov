@@ -50,7 +50,7 @@ export interface Opportunity {
   updated_at: string;
 }
 
-export interface ApiResponse {
+export interface OpportunityApiResponse {
   data: Opportunity;
   message: string;
   status_code: number;

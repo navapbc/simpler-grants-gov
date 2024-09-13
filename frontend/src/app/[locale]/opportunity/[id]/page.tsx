@@ -1,7 +1,7 @@
 import {
-  ApiResponse,
+  OpportunityApiResponse,
   Opportunity,
-} from "../../../../types/opportunity/opportunityResponseTypes";
+} from "src/types/opportunity/opportunityResponseTypes";
 
 import BetaAlert from "src/components/BetaAlert";
 import Breadcrumbs from "src/components/Breadcrumbs";
@@ -40,7 +40,7 @@ export default async function OpportunityListing({
   }
 
   const api = new OpportunityListingAPI();
-  let opportunity: ApiResponse;
+  let opportunity: OpportunityApiResponse;
   try {
     opportunity = await api.getOpportunityById(id);
   } catch (error) {

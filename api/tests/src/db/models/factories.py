@@ -1657,6 +1657,7 @@ class StagingTgroupsAgencyFactory(factory.DictFactory):
     description = factory.LazyAttribute(lambda g: g.AgencyName)
     label = factory.LazyAttribute(lambda g: g.AgencyName)
     multilevel = sometimes_none("TRUE", none_chance=0.8)
+
     HasS2SCert = sometimes_none(factory.Faker("yn_boolean"), none_chance=0.8)
     ViewPkgsInGracePeriod = sometimes_none(factory.Faker("yn_boolean"), none_chance=0.8)
     multiproject = sometimes_none(factory.Faker("yn_boolean"), none_chance=0.8)

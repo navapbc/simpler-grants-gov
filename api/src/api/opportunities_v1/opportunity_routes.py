@@ -1,3 +1,4 @@
+import io
 import logging
 
 from flask import Response
@@ -13,7 +14,7 @@ from src.api.opportunities_v1.opportunity_blueprint import opportunity_blueprint
 from src.auth.api_key_auth import api_key_auth
 from src.logging.flask_logger import add_extra_data_to_current_request_logs
 from src.services.opportunities_v1.get_opportunity import get_opportunity, get_opportunity_versions
-from src.services.opportunities_v1.opportunity_to_csv import opportunity_to_csv
+from src.services.opportunities_v1.opportunity_to_csv import opportunities_to_csv
 from src.services.opportunities_v1.search_opportunities import search_opportunities
 from src.util.dict_util import flatten_dict
 
@@ -54,6 +55,10 @@ examples = {
                 "funding_category": {"one_of": ["recovery_act", "arts", "natural_resources"]},
                 "funding_instrument": {"one_of": ["cooperative_agreement", "grant"]},
                 "opportunity_status": {"one_of": ["forecasted", "posted"]},
+                "post_date": {"start_date": "2024-01-01", "end_date": "2024-02-01"},
+                "close_date": {
+                    "start_date": "2024-01-01",
+                },
             },
             "pagination": {
                 "order_by": "opportunity_id",
@@ -90,6 +95,37 @@ examples = {
                 "page_offset": 1,
                 "page_size": 100,
                 "sort_direction": "ascending",
+            },
+        },
+    },
+    "example5": {
+        "summary": "Filter by award fields",
+        "value": {
+            "filters": {
+                "expected_number_of_awards": {"min": 5},
+                "award_floor": {"min": 10000},
+                "award_ceiling": {"max": 1000000},
+                "estimated_total_program_funding": {"min": 100000, "max": 250000},
+            },
+            "pagination": {
+                "order_by": "opportunity_id",
+                "page_offset": 1,
+                "page_size": 25,
+                "sort_direction": "descending",
+            },
+        },
+    },
+    "example6": {
+        "summary": "FIlter by assistance listing numbers",
+        "value": {
+            "filters": {
+                "assistance_listing_number": {"one_of": ["43.001", "47.049"]},
+            },
+            "pagination": {
+                "order_by": "opportunity_id",
+                "page_offset": 1,
+                "page_size": 25,
+                "sort_direction": "descending",
             },
         },
     },
@@ -131,7 +167,8 @@ def opportunity_search(
 
     if search_params.get("format") == opportunity_schemas.SearchResponseFormat.CSV:
         # Convert the response into a CSV and return the contents
-        output = opportunity_to_csv(opportunities)
+        output = io.StringIO()
+        opportunities_to_csv(opportunities, output)
         timestamp = datetime_util.utcnow().strftime("%Y%m%d-%H%M%S")
         return Response(
             output.getvalue().encode("utf-8"),

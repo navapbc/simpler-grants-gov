@@ -33,7 +33,7 @@ const mockOpportunityData: Opportunity = {
       program_title: "Test Program 2",
     },
   ],
-  updated_at: "2024-08-10T00:00:00Z",
+  updated_at: "2024-08-10T10:00:00Z",
 } as Opportunity;
 
 describe("OpportunityIntro", () => {
@@ -57,7 +57,7 @@ describe("OpportunityIntro", () => {
     render(<OpportunityIntro opportunityData={mockOpportunityData} />);
 
     expect(
-      screen.getByText("Last updated: August 9, 2024"),
+      screen.getByText("Last updated: August 10, 2024"),
     ).toBeInTheDocument();
   });
 

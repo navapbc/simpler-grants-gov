@@ -43,7 +43,10 @@ const eligibleApplicantsFormatter = (applicant_types: string[]) => {
 
 const OpportunityDescription = ({ opportunityData }: Props) => {
   const t = useTranslations("OpportunityListing.description");
-  const agency_phone_number_stripped = opportunityData.summary.agency_phone_number ? opportunityData.summary.agency_phone_number.replace(/-/g, "") : "";
+  const agency_phone_number_stripped = opportunityData.summary
+    .agency_phone_number
+    ? opportunityData.summary.agency_phone_number.replace(/-/g, "")
+    : "";
 
   const additionalInformationOnEligibility = opportunityData.summary
     .applicant_eligibility_description
@@ -83,9 +86,7 @@ const OpportunityDescription = ({ opportunityData }: Props) => {
           </a>
         </p>
         <p>
-          <a
-            href={`tel:${agency_phone_number_stripped}`}
-          >
+          <a href={`tel:${agency_phone_number_stripped}`}>
             {opportunityData.summary.agency_phone_number}
           </a>
         </p>

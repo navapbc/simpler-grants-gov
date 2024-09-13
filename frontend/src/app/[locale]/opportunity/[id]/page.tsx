@@ -28,11 +28,7 @@ export async function generateMetadata() {
   return meta;
 }
 
-async function OpportunityListing({
-  params,
-}: {
-  params: { id: string };
-}) {
+async function OpportunityListing({ params }: { params: { id: string } }) {
   const id = Number(params.id);
   const breadcrumbs = Object.assign([], OPPORTUNITY_CRUMBS);
   // Opportunity id needs to be a number greater than 1

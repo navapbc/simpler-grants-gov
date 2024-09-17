@@ -17,7 +17,7 @@ jest.mock("next-intl", () => ({
   useTranslations: jest.fn(),
 }));
 
-// Mock "useTranslations" 
+// Mock "useTranslations"
 jest.mock("next-intl", () => ({
   useTranslations: jest.fn().mockReturnValue((key: string) => {
     const translations: { [key: string]: string } = {
